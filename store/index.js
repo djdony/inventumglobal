@@ -1,3 +1,11 @@
+
+import get from 'lodash/get'
+import set from 'lodash/set'
+import en from 'element-ui/lib/locale/lang/en'
+import ru from 'element-ui/lib/locale/lang/ru-RU'
+import tr from 'element-ui/lib/locale/lang/tr-TR'
+import locale from 'element-ui/lib/locale'
+
 export const state = () => ({
   logged: true,
   notifications: [],
@@ -10,6 +18,11 @@ export const state = () => ({
   currencies: [],
   languages: [],
   users: [],
+  auth: {
+    loggedIn: false,
+    strategy: 'local',
+    user: null
+  },
   user: {
     name: '',
     defaults: {
@@ -70,32 +83,19 @@ export const actions = {
     state.logged = val
     return true
   },
-  async setUser({ commit, dispatch }, data){
-    try{
-      var user = data.user
-      commit('fill', ['user', user])
-      Vue.prototype.can = function(name){
-        return (user.permissions.includes(name) && user.active === true) || user.root === true
+  async setLang({ state }){
+    let userLang = get(state.user, 'defaults.systemLanguage')
+    if(userLang){
+      let activeLang = en
+      if(userLang == 'en'){
+        activeLang = en
+      }else if(userLang == 'tr'){
+        activeLang = tr
+      }else if(userLang == 'ru'){
+        activeLang = ru
       }
-      Vue.prototype.hasRole = function(role){
-        return (user.roles.includes(role) && user.active === true) || user.root === true
-      }
-      let userLang = get(user, 'defaults.systemLanguage')
-      if(userLang){
-        let activeLang = en
-        if(userLang == 'en'){
-          activeLang = en
-        }else if(userLang == 'tr'){
-          activeLang = tr
-        }else if(userLang == 'ru'){
-          activeLang = ru
-        }
-        locale.use(activeLang)
-        moment.locale(userLang)
-      }
-      return Promise.resolve(user)
-    }catch(e){
-      return Promise.reject(e)
+      locale.use(activeLang)
+      moment.locale(userLang)
     }
   },
   async logout({ state }) {

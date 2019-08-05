@@ -38,11 +38,10 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/axios',
     '~/plugins/i18n',
     '~/plugins/vue-api-query',
-    '~plugins/mixins/user',
-    '~plugins/element'
+    //'~/plugins/mixins/user',
+    '~/plugins/element'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -63,7 +62,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: process.env.MIX_API_URL
+    baseURL: 'http://inventum'
   },
 
   auth: {
@@ -71,7 +70,7 @@ export default {
       local: {
         endpoints: {
           login: { url: 'login', method: 'post', propertyName: 'access_token' },
-          user: { url: 'user', method: 'get', propertyName: 'user' },
+          user: { url: 'user', method: 'get', propertyName: '' },
           logout: { url: 'logout', method: 'post' }
         }
       }

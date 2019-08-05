@@ -75,7 +75,7 @@ import {
     //TimelineItem
 } from 'element-ui'
 
-import 'element-ui/lib/theme-chalk/index.css'
+//import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.prototype.$ELEMENT = { size: 'mini' }
 
@@ -149,6 +149,11 @@ Vue.use(Container)
 //Vue.use(TimelineItem)
 
 Vue.use(Loading.directive)
+
+import en from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+
+locale.use(en)
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$msgbox = MessageBox

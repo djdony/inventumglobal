@@ -20,7 +20,7 @@
                 v-model='userForm.password'
                 ).text-input
               v-checkbox(label='Remember Me' outlined dark)
-              v-btn(color='primary'  type="submit").form__submit-btn Login
+              v-btn(color='primary' type="submit" @click.prevent="login").form__submit-btn Login
 
           v-flex(login-page__welcome lg6 md7 sm12 offset-md1 order-xs1 order-md2 :class='{smAndDown}')
             .welcome__text
@@ -78,17 +78,10 @@ export default {
   },
   methods: {
     async login() {
-    /*  try {
-        await this.$auth.loginWith('laravel.passport', {
-          data: this.userForm
-        })
-        this.$router.push('/system/Dashboard')
-      } catch (e) {
-        this.error = e.response.data.message
-      }*/
       await this.$auth.login({
         data: this.userForm
       })
+      this.$router.push({ path: '/' })
     }
   }
 }

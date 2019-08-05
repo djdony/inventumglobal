@@ -40,6 +40,7 @@ import Location from '@/models/Location'
 import Hotel from '@/models/Hotel'
 export default {
   name: 'hotels',
+  layout: 'element',
   data(){
     return {
       fetching: false,
@@ -53,21 +54,19 @@ export default {
     await this.fetch()
     this.cities = await Location.where('type', 'city').get()
   },
-
   methods: {
     async fetch(){
       try {
-        this.fetching = true
+        //this.fetching = true
         let hotels = await Hotel.include('location').select({
           hotels: ['id', 'name', 'details', 'location_id', 'email', 'www', 'telephone'],
           location: ['id', 'name']
-        })
-        .whereIn('location_id', this.filters.locations)
-        .get()
+        }).whereIn('location_id', this.filters.locations).get()
         await this.$store.dispatch('change', ['hotels', hotels])
-        this.fetching = false
-        }catch (e) {
-        this.$message.error(response.data.message)
+        //this.fetching = false
+      } catch (e) {
+        console.log(e)
+        //this.$message.error(response.data.message)
         this.fetching = false
       }
     },

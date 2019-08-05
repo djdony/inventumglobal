@@ -1,0 +1,46 @@
+.header
+  .v-toolbar
+    .logo
+      width: 268px
+      max-width: 100%
+      vertical-align: bottom
+    .menu
+      margin: 0 -12px
+      .theme--light.v-btn
+        margin: 0 12px
+        font-size: 16px
+        text-transform: unset
+        letter-spacing: 0
+        color: #fff
+        background-color: unset
+        &--active
+          background-color: $primary-color
+          &:before
+            content: unset
+
+    .icons
+      margin: 0 -12px
+      .v-btn
+        margin: 0 12px
+        .v-icon
+          color: #fff
+        &.red
+          &:before
+            opacity: 1
+            background-color: $primary-color
+
+@include respond-to(sm)
+  .header
+    .v-toolbar
+      .icons
+        margin: 0 -6px
+        .v-btn
+          margin: 0 6px
+
+@include respond-to(xs)
+  .header
+    .v-toolbar
+      .logo
+        width: 200px
+        max-width: 100%
+        vertical-align: bottom

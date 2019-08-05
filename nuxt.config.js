@@ -30,14 +30,19 @@ export default {
   /*
   ** Global CSS
   */
-  css: ['~/assets/styles/base.sass'],
+  css: [
+    '~/assets/styles/base.sass',
+    'element-ui/lib/theme-chalk/index.css',
+  ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/i18n.js',
+    '~/plugins/axios',
+    '~/plugins/i18n',
     '~/plugins/vue-api-query',
-    '~plugins/mixins/user.js'
+    '~plugins/mixins/user',
+    '~plugins/element'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -61,19 +66,19 @@ export default {
     baseURL: process.env.MIX_API_URL
   },
 
-/*  auth: {
+  auth: {
     strategies: {
       local: {
         endpoints: {
           login: { url: 'login', method: 'post', propertyName: 'access_token' },
-          user: { url: 'user', method: 'get', propertyName: 'data' },
+          user: { url: 'user', method: 'get', propertyName: 'user' },
           logout: { url: 'logout', method: 'post' }
         }
       }
     }
-  },*/
+  },
 
-  auth: {
+ /* auth: {
     strategies: {
       'laravel.passport': {
         url: 'http://inventum/login',
@@ -81,7 +86,7 @@ export default {
         client_secret: 'lJ1nJNGzdvXWKZ5r8lxHKQMOaIorlzUEodhCGP5Z'
       },
     }
-  },
+  },*/
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module

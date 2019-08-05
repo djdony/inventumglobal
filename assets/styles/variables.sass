@@ -1,5 +1,32 @@
 $primary-color: #F91C3D
 $secondary-color: #112D6F
-$pale-blue: #709be7
-$dark-blue: #0056b3
+$blue-lighten-1: #709be7
+$blue-darken-1: #0056b3
 
+$elevation-24: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)
+
+$xs: 600px
+$sm: 960px
+$md: 1264px
+$lg: 1904px
+
+@mixin respond-to($media)
+  @if $media == xs
+    @media only screen and (max-width: $xs)
+      @content
+
+  @else if $media == sm
+    @media only screen and (max-width: $sm)
+      @content
+      
+  @else if $media == md
+    @media only screen and (max-width: $md)
+      @content
+
+  @else if $media == lg
+    @media only screen and (max-width: $lg)
+      @content
+
+  @else if $media == xl
+    @media only screen and (min-width: $lg+1)
+      @content

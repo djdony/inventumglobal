@@ -1,0 +1,273 @@
+.theme--light.v-application
+  background: url(/img/home/hat-bg.png), #F6F8FB
+  background-position: top right
+  background-repeat: no-repeat
+  background-size: 60% auto
+  color: $secondary-color
+
+// SEARCH PART
+
+.search-part
+  min-height: calc(100vh - 184px)
+  margin-top: 0px
+  align-items: center
+  align-content: center
+  padding: 100px 20px 300px 20px
+  .search-panel
+    margin-top: 56px
+    padding: 15px 15px
+    background-color: #fff
+    color: #222
+    display: flex
+    box-shadow: $elevation-24
+    .search-group
+      display: flex
+      flex: 1 1 100%
+      min-width: 0
+    .search-item
+      display: flex
+      align-items: center
+      justify-content: center
+      border: 1px solid $secondary-color
+      border-radius: 5px
+      padding: 15px 10px
+      margin: 0 6px
+      .v-icon
+        font-size: 32px
+
+      &.button
+        max-width: 300px
+        background-color: $secondary-color
+        box-shadow: $elevation-24
+        cursor: pointer
+        transition: .25s ease
+        &:hover
+          opacity: .85
+        .v-icon
+          color: #99A5B4
+        .label
+          width: max-content
+          font-weight: 500
+          color: #fff
+          font-size: 20px
+          padding: 0 10px
+        &.submit
+          padding: 15px 10px
+          background-color: $primary-color
+          border-color: $primary-color
+          flex: 1 1 100%
+          
+      &.text
+        flex: 1 1 100%
+        min-width: 0
+        .v-icon
+          color: $secondary-color
+        .input
+          font-size: 24px
+          padding: 0 10px
+          flex: 1 1 auto
+          min-width: 0
+          &:focus
+            outline: none
+
+// ECOMMERCE PART
+
+.ecommerce-part
+  padding: 50px 20px
+  .stars-wrapper
+    margin-bottom: 50px
+    .v-icon
+      color: #BFC3CE
+  .display-2
+    line-height: 120%
+  .buttons-wrapper
+    margin-top: 40px
+
+// STEPS PART
+
+.steps-part
+  background-image: url(/img/home/steps-bg.png)
+  background-size: cover
+  color: #fff
+  margin: 50px 0 20px 0
+  padding: 120px 20px
+  .part-icon
+    margin-bottom: 50px
+  .steps-wrapper
+    display: flex
+    flex-wrap: wrap
+    align-items: flex-start
+    margin-top: 45px
+    margin-left: -15px
+    margin-right: -15px
+    .step
+      padding: 15px 15px
+      &__number
+        height: 60px
+        width: 60px
+        background-color: $primary-color
+        box-shadow: $elevation-24
+        font-weight: bold
+        font-size: 24px
+        border-radius: 50%
+        text-align: center
+        line-height: 60px
+      &__title
+        font-size: 36px
+        font-weight: 400
+        margin-top: 25px
+      &__desc
+        margin-top: 5px
+        font-size: 14px
+        color: $blue-lighten-1
+
+// MOBILE APP PART
+
+.mobile-app-part
+  padding: 120px 20px
+  .mobile-app
+    &__image
+      align-items: center
+      display: flex
+      position: relative
+      img
+        position: absolute
+        width: 100%
+        right: 50px
+
+    &__desc
+      padding: 120px 0
+      .desc
+        &__icon
+          margin-bottom: 50px
+          margin-left: -12.5px
+        &__title
+          font-size: 36px
+          font-weight: 300
+          line-height: 1.2
+          margin: 0 0 15px 0
+          color: $blue-darken-1
+        &__text
+          font-size: 20px
+          color: #595F6F
+          font-weight: 400
+          margin: 0
+        &__buttons-wrapper
+          margin-top: 40px
+        
+  
+
+@include respond-to(md)
+  .theme--light.v-application
+    background-position: calc(300px + 50%) top
+    background-size: unset
+
+  .search-panel
+    padding: 15px 15px
+    .search-item
+      padding: 12.5px 7.5px
+      margin: 0 6px
+      .v-icon
+        font-size: 26px
+      &.button
+        .label
+          font-size: 18px
+      &.text
+        .input
+          font-size: 20px
+
+@include respond-to(sm)
+  .theme--light.v-application
+    background-position: calc(530px + 50%) top
+
+  .search-part
+    max-width: 600px
+    margin: auto
+    min-height: calc(100vh - 172px)
+    margin-top: 0px
+    align-items: center
+    align-content: center
+    padding: 40px 20px 100px 20px
+    .search-panel
+      padding: 15px 15px
+      flex-wrap: wrap
+      margin-left: auto
+      margin-right: auto
+      .search-group
+        margin: 6px 0
+        width: 100%
+
+  .ecommerce-part
+    max-width: 600px
+    margin: auto
+    .ecommerce-carousel
+      margin-top: 75px
+
+  .steps-part
+    .part-title br
+      display: none
+    .layout
+      max-width: 600px
+      margin-left: auto
+      margin-right: auto
+
+  .mobile-app-part
+    padding: 100px 20px
+    .mobile-app
+      &__image
+        img
+          height: 700px
+          width: auto
+          right: 70px
+
+@include respond-to(xs)
+  .search-part, .ecommerce-part, .steps-part .mobile-app-part
+    padding-left: 0
+    padding-right: 0
+    .display-2
+      font-size: 2.25rem !important
+      line-height: 2.5rem
+
+  .search-part
+    .search-panel
+      .search-group
+        flex-wrap: wrap
+        margin: 0 -6px
+      .search-item
+        margin: 6px 6px
+        &.button
+          max-width: unset
+          flex: 1
+          &.submit
+            width: 100%
+
+  .steps-part
+    .layout
+      justify-content: center
+    .part-title
+      text-align: center
+    .steps-wrapper
+      justify-content: center
+      .step
+        max-width: 300px
+        text-align: center
+        &__number
+          margin: auto
+        &__title
+          margin-top: 15px
+
+  .mobile-app-part
+    padding: 50px 0px
+    .mobile-app
+      &__desc
+        padding: 50px 0
+      &__image
+        justify-content: center
+        img
+          position: relative
+          height: auto
+          width: 400px
+          max-width: 100%
+          right: 15%
+
+

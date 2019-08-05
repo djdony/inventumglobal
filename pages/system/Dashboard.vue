@@ -9,6 +9,7 @@
 <script>
 import SearchForm from '@/components/agency/SearchForm'
 export default {
+  layout: 'element',
   name: 'dashboard',
   components: { SearchForm }
 }

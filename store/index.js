@@ -1,5 +1,5 @@
 export const state = () => ({
-  logged: false,
+  logged: true,
   notifications: [],
   companies: [],
   locations: [],

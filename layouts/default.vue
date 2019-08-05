@@ -1,25 +1,25 @@
 <template lang='pug'>
-  v-app(class='v-app' align-start)
-    v-content
-      nuxt
+  nuxt
 
 </template>
 
 <script>
-  import Navbar from '~/components/Navbar'
-  import Footer from '~/components/Footer'
-export default {
-  components: {
-    Navbar,
-    Footer
-  },
-  data() {
-    return {}
+  import HeaderComponent from '@/components/Header'
+
+  export default {
+    data() {
+      return {}
+    },
+    computed: {},
+    created() {},
+    components: {
+      HeaderComponent
+    }
   }
-}
 </script>
-<style lang="sass" scoped>
-@import '@/assets/styles/layouts/default.sass'
+
+<style lang="sass">
+  @import '@/assets/styles/layouts/default.sass'
 
 </style>
 

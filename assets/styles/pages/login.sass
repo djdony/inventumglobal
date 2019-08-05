@@ -11,30 +11,12 @@
   background: url(/img/login/bg.png), linear-gradient(135deg, rgba(18, 48, 116, 1) 0%, rgba(9, 32, 86, 1) 100%)
   background-position: top right
   background-repeat: no-repeat
-  height: 100%
-  position: fixed
-  width: 100%
   color: #fff
-
-.container.fill-height
-  flex-direction: column
-  align-items: initial
-  &.xl
-    max-width: 1440px
 
 .layout.main-part
-  padding: 48px 0px
+  padding: 140px 0px 100px 0px
   margin-top: 0px
   align-items: center
-  
-.theme--light.v-sheet
-  background: none
-  border: none
-  color: #fff
-  box-shadow: none
-  .logo
-    width: 268px
-    max-width: 100%
 
 .login-page
   &__form
@@ -81,7 +63,9 @@
     &.smAndDown
       margin-bottom: 80px
       
-      
+@include respond-to(sm)
+  .layout.main-part
+    padding: 48px 0
   
 
     

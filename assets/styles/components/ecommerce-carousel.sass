@@ -1,0 +1,38 @@
+.ecommerce-carousel
+  position: relative
+  .v-carousel
+    box-shadow: $elevation-24
+    .v-window
+      &__prev, &__next
+        display: none
+
+  .navigation
+    position: absolute
+    height: 100%
+    width: 100%
+    top: 0
+    left: 0
+    .v-btn
+      olor: #fff
+      &.prev
+        position: absolute
+        top: -30px
+        left: 50px
+        background-color: $secondary-color
+        height: 60px
+        width: 60px
+      &.next
+        position: absolute
+        bottom: -30px
+        right: 50px
+        background-color: $primary-color
+        box-shadow: $elevation-24
+        height: 60px
+        width: 60px
+      .v-icon
+        color: #fff
+
+@include respond-to(xs)
+  .ecommerce-carousel
+    .navigation
+      display: none

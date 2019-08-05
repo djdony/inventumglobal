@@ -1,0 +1,21 @@
+{
+  "home": {
+    "title": "Главная страница"
+  },
+  "footer": {
+    "navigation": {
+      "homepage": "Главная",
+      "about": "О нас"
+    }
+  },
+  "login": {
+    "fields": {
+      "email": "Email",
+      "password": "Пароль",
+      "rememberMe": "Запомнить меня"
+    },
+    "welcome": {
+      "st2": "Легче, чем когда-либо!"
+    }
+  }
+}

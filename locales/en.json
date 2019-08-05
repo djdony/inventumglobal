@@ -1,0 +1,21 @@
+{
+  "home": {
+    "title": "Home page"
+  },
+  "footer": {
+    "navigation": {
+      "homepage": "Homepage",
+      "about": "About"
+    }
+  },
+  "login": {
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember Me"
+    },
+    "welcome": {
+      "st2": "Easier than ever!"
+    }
+  }
+}

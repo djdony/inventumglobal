@@ -1,0 +1,30 @@
+{
+  "name": "nuxt",
+  "version": "1.0.0",
+  "description": "Inventum Global",
+  "author": "dony",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.8.1",
+    "@nuxtjs/axios": "^5.5.4",
+    "cookieparser": "^0.1.0",
+    "dayjs": "^1.8.15",
+    "js-cookie": "^2.2.0",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0",
+    "element-ui": "^2.11.1",
+    "nodemon": "^1.19.1",
+    "pug": "^2.0.4",
+    "pug-plain-loader": "^1.0.0",
+    "vue-api-query": "^1.5.1",
+    "vue-i18n": "^8.12.0"
+  }
+}

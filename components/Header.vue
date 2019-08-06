@@ -1,7 +1,7 @@
 <template lang="pug">
 .header
   v-container(pa-0)
-    v-toolbar(flat max-height='160').py-12
+    v-toolbar(flat max-height='160' :class='{darkText}').py-12
       v-toolbar-title
         nuxt-link(to='/')
           img.logo(:src='`/img/logo-${logoStyle}.png`')
@@ -9,7 +9,7 @@
 
       .menu(v-if='!smAndDown')
         v-btn(to='/' rounded text) Home  
-        v-btn(to='/login' rounded text) Discover  
+        v-btn(to='/search' rounded text) Discover  
 
       v-spacer
 
@@ -29,14 +29,14 @@
 
 </template>
 <script>
+import { mapGetters } from "vuex"
+
 export default {
-  props: {
-    logoStyle: {
-      type: String,
-      default: "dark"
-    }
-  },
   computed: {
+    ...mapGetters({
+      logoStyle: "styles/headerLogoStyle",
+      darkText: "styles/headerDarkText"
+    }),
     smAndDown() {
       return this.$vuetify.breakpoint.smAndDown
     },

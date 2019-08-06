@@ -1,5 +1,5 @@
 <template lang="pug">
-  .footer(:class='{"enable-bg": bg}')
+  .footer(:class='{"enable-bg": footerBg}')
     v-container
       v-footer.align-start.px-0
         v-layout(row)
@@ -36,11 +36,16 @@
 
 </template>
 <script>
+import { mapGetters } from "vuex"
+
 export default {
   props: {
     bg: Boolean
   },
   computed: {
+    ...mapGetters({
+      footerBg: "styles/footerBg"
+    }),
     smAndDown() {
       return this.$vuetify.breakpoint.smAndDown
     }

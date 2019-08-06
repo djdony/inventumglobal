@@ -1,0 +1,31 @@
+.v-card.search-filters
+  padding: 10px 20px
+  .filter-item
+    border-bottom: 1px solid #DDDFE7
+    padding: 12px 0
+    &__row
+      align-items: center
+      width: 100%
+      display: flex
+      justify-content: space-between
+      font-size: 14px
+      &.slider
+        margin-top: -2px
+      &.values
+        .values__item
+          font-size: 13px
+          font-weight: 500
+          color: #BEC3CB
+          .v-icon
+            vertical-align: text-bottom
+            color: #BEC3CB
+          &.active
+            color: #0056b3
+            .v-icon
+              color: #0056b3
+    &__title
+      font-size: 14px
+      color: $secondary-color
+      font-weight: 600
+    &__more
+      cursor: pointer

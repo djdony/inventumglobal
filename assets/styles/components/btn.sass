@@ -1,8 +1,15 @@
 .v-btn.custom
   text-transform: initial
+  &.full-width
+    width: 100%
   &:not(.v-btn--round).v-size--default
+    letter-spacing: normal
     padding: 0 20px
     height: 50px
+    &.fluid
+      padding: 0 5px
+      justify-content: space-between
+      width: 100%
 
 @include respond-to(xs)
   .v-btn.custom

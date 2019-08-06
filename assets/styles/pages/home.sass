@@ -1,10 +1,3 @@
-.theme--light.v-application
-  background: url(/img/home/hat-bg.png), #F6F8FB
-  background-position: top right
-  background-repeat: no-repeat
-  background-size: 60% auto
-  color: $secondary-color
-
 // SEARCH PART
 
 .search-part
@@ -13,62 +6,6 @@
   align-items: center
   align-content: center
   padding: 100px 20px 300px 20px
-  .search-panel
-    margin-top: 56px
-    padding: 15px 15px
-    background-color: #fff
-    color: #222
-    display: flex
-    box-shadow: $elevation-24
-    .search-group
-      display: flex
-      flex: 1 1 100%
-      min-width: 0
-    .search-item
-      display: flex
-      align-items: center
-      justify-content: center
-      border: 1px solid $secondary-color
-      border-radius: 5px
-      padding: 15px 10px
-      margin: 0 6px
-      .v-icon
-        font-size: 32px
-
-      &.button
-        max-width: 300px
-        background-color: $secondary-color
-        box-shadow: $elevation-24
-        cursor: pointer
-        transition: .25s ease
-        &:hover
-          opacity: .85
-        .v-icon
-          color: #99A5B4
-        .label
-          width: max-content
-          font-weight: 500
-          color: #fff
-          font-size: 20px
-          padding: 0 10px
-        &.submit
-          padding: 15px 10px
-          background-color: $primary-color
-          border-color: $primary-color
-          flex: 1 1 100%
-          
-      &.text
-        flex: 1 1 100%
-        min-width: 0
-        .v-icon
-          color: $secondary-color
-        .input
-          font-size: 24px
-          padding: 0 10px
-          flex: 1 1 auto
-          min-width: 0
-          &:focus
-            outline: none
 
 // ECOMMERCE PART
 
@@ -162,20 +99,6 @@
     background-position: calc(300px + 50%) top
     background-size: unset
 
-  .search-panel
-    padding: 15px 15px
-    .search-item
-      padding: 12.5px 7.5px
-      margin: 0 6px
-      .v-icon
-        font-size: 26px
-      &.button
-        .label
-          font-size: 18px
-      &.text
-        .input
-          font-size: 20px
-
 @include respond-to(sm)
   .theme--light.v-application
     background-position: calc(530px + 50%) top
@@ -188,14 +111,6 @@
     align-items: center
     align-content: center
     padding: 40px 20px 100px 20px
-    .search-panel
-      padding: 15px 15px
-      flex-wrap: wrap
-      margin-left: auto
-      margin-right: auto
-      .search-group
-        margin: 6px 0
-        width: 100%
 
   .ecommerce-part
     max-width: 600px
@@ -227,19 +142,6 @@
     .display-2
       font-size: 2.25rem !important
       line-height: 2.5rem
-
-  .search-part
-    .search-panel
-      .search-group
-        flex-wrap: wrap
-        margin: 0 -6px
-      .search-item
-        margin: 6px 6px
-        &.button
-          max-width: unset
-          flex: 1
-          &.submit
-            width: 100%
 
   .steps-part
     .layout

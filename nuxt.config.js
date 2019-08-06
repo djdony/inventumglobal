@@ -92,6 +92,9 @@ export default {
   */
   vuetify: {
     customVariables: ['~/assets/styles/variables.sass'],
+    icons: {
+      iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'
+    },
     theme: {
       themes: {
         light: {

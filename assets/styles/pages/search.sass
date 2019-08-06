@@ -1,0 +1,59 @@
+.search-page
+  .search-form-part
+    .search-params
+      display: flex
+      padding: 10px 5px 
+      font-size: 16px
+      &__amount
+        color: #9AA5C0
+      &__sort, .v-icon
+        color: $secondary-color
+        .select
+          cursor: pointer
+          font-weight: bold
+        .v-list
+          background-color: #fff
+  
+  .main-part
+    margin: 70px 0 50px 0
+    .v-card
+      color: $secondary-color
+    &__filters
+      flex: 0 0 250px
+      
+    &__hotels
+      flex: 1 1 100%
+      padding: 0 20px
+            
+
+    &__side-hotels
+      flex: 0 0 250px
+
+
+@include respond-to(md)
+  .search-page
+    .search-part
+      .search-params
+        display: flex
+        padding: 15px 
+        font-size: 14px
+
+@include respond-to(sm)
+  .search-page
+    .main-part
+      &__filters
+        display: none
+      &__side-hotels
+        display: none
+      &__hotels
+        padding-left: 0
+        padding-right: 0
+        flex-wrap: wrap
+        display: flex
+        .spacer
+          flex: 1 1 320px
+          margin: 0 10px
+
+  
+
+@include respond-to(xs)

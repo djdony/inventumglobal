@@ -125,15 +125,11 @@
   import EcommerceCarousel from "@/components/EcommerceCarousel"
 
   export default {
-    auth: true,
     data() {
       return {
         menu: null,
         date: null
       }
-    },
-    created(){
-      this.$store.dispatch('setLang')
     },
     components: {
       HeaderComponent,
@@ -143,6 +139,6 @@
   }
 </script>
 <style lang="sass" scoped>
-//  @import '@/assets/styles/pages/home.sass'
+  @import '@/assets/styles/pages/home.sass'
 
 </style>

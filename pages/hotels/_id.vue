@@ -107,6 +107,7 @@
   import Media from '@/components/hotel/Media'
   export default {
     name: 'hotel',
+    layout: 'element',
     components: {
       RoomTypes,
       MeetingRooms,

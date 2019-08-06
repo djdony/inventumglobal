@@ -21,6 +21,7 @@ export default {
     middleware: [
       'auth',
       'i18n',
+      "cleanStyles",
     ]
   },
   /*
@@ -40,7 +41,6 @@ export default {
   plugins: [
     '~/plugins/i18n',
     '~/plugins/vue-api-query',
-    //'~/plugins/mixins/user',
     '~/plugins/element'
   ],
   /*

@@ -1,42 +1,29 @@
 <template lang="pug">
   div
-    el-breadcrumb(separator-class="el-icon-arrow-right")
-      el-breadcrumb-item(:to="{ name: 'dashboard' }")
-        i.icon-display
-      el-breadcrumb-item(:to="{ name: 'definitions' }") SETTINGS
-      el-breadcrumb-item(:to="{ name: 'hotels' }") HOTELS
-      el-breadcrumb-item {{ hotel.name }}
-    el-card(body-style="padding:0")
+    v-card(body-style="padding:0")
       div(slot="header")
-        el-form.pt-10(:inline="true")
-          el-form-item
-            el-button.ml-10(type="primary" @click="save" :loading="saving") SAVE
-          el-form-item(label="Selected hotel")
-            el-select(:value="hotel.id" filterable @change="changeHotel")
-              el-option(v-for="h in $store.state.hotels" :key="h.id" :value="h.id" :label="h.name")
-      el-tabs(:value="tab" type="border-card" tab-position="top" @tab-click="changeTab")
-        el-tab-pane(name="main" label="General")
-          el-form.pt-10.pr-10(v-model="hotel" label-width="150px")
-            el-row
-              el-col(:xs="24" :md="8")
-                el-form-item(label="Name")
-                  el-input(v-model="hotel.name" :max="100")
-                el-form-item(label="Chain Group") 
-                  el-select(v-model="hotel.group_id" filterable clearable style="width: 100%")
-                    el-option(v-for="g in hotelgroups" :key="g.id" :value="g.id" :label="g.name")
-                el-form-item(label="Type of Hotel")
-                  el-select(v-model="hotel.types_ids" multiple filterable clearable style="width: 100%")
-                    el-option(v-for="t in types" :key="t.id" :value="t.id" :label="t.name")
-                el-form-item(label="Location")
-                  el-select(v-model="hotel.location_id" filterable style="width: 100%")
-                    el-option-group(v-for="l in locations" :key="l.id" :label="l.name")
-                      el-option(v-for="c in l.children" :key="c.id" :value="c.id" :label="c.name")
-              el-col(:xs="24" :md="5")
-                el-form-item(label="Star")
-                  el-select(v-model="hotel.star_id" filterable  style="width: 100%")
-                    el-option(v-for="s in stars" :key="s.id" :value="s.id" :label="s.name")
-                el-form-item(label="Built year")
-                  el-date-picker(
+        v-form.pt-10(:inline="true")
+            v-button.ml-10(type="primary" @click="save" :loading="saving") SAVE
+            v-select(label="Selected hotel" :items="hotel.id" filterable @change="changeHotel")
+              //v-option(v-for="h in $store.state.hotels" :key="h.id" :items="h.id" :label="h.name")
+      v-tabs(:items="tab" type="border-card" tab-position="top" @tab-click="changeTab")
+        v-tab(name="main") GENERAL
+          v-form.pt-10.pr-10(v-model="hotel" width="150px")
+            v-row
+              v-col(:xs="24" :md="8")
+                  v-text-field(label="Name" v-model="hotel.name" :max="100")
+                  v-select(label="Chain Group" v-model="hotel.group_id" filterable clearable style="width: 100%")
+                    //v-option(v-for="g in hotelgroups" :key="g.id" :items="g.id" :label="g.name")
+                  v-select(label="Type of Hotel" v-model="hotel.types_ids" multiple filterable clearable style="width: 100%")
+                    //v-option(v-for="t in types" :key="t.id" :items="t.id" :label="t.name")
+                  v-select(label="Location" v-model="hotel.location_id" filterable style="width: 100%")
+                    //v-option-group(v-for="l in locations" :key="l.id" :label="l.name")
+                      v-option(v-for="c in l.children" :key="c.id" :items="c.id" :label="c.name")
+              v-col(:xs="24" :md="5")
+                  v-select(label="Star" v-model="hotel.star_id" filterable  style="width: 100%")
+                    //v-option(v-for="s in stars" :key="s.id" :items="s.id" :label="s.name")
+                  v-date-picker(
+                    label="Built year"
                     v-model="hotel.built"
                     type="year"
                     placeholder="Year"
@@ -44,8 +31,8 @@
                     format="yyyy"
                     value-format="yyyy"
                   )
-                el-form-item(label="Renovation year")
-                  el-date-picker(
+                  v-date-picker(
+                    label="Renovation year"
                     v-model="hotel.renovated"
                     type="year"
                     placeholder="Year"
@@ -53,45 +40,38 @@
                     format="yyyy"
                     value-format="yyyy"
                   )
-                el-form-item(label="Total area, m2")
-                  el-input(v-model="hotel.area" type="number" :min="0")
-              el-col(:xs="24" :md="11")
-                el-form-item(label="Telephone")
-                  el-input(v-model="hotel.telephone")
-                el-form-item(label="Email")
-                  el-input(v-model="hotel.email")
-                el-form-item(label="Website")
-                  el-input(v-model="hotel.www")
-                el-form-item(label="Facebook")
-                  el-input(v-model="hotel.details.facebook")
-            el-row
-              el-col(:xs="24" :md="13")
-                el-tabs(v-model="lang" tab-position="left")
-                  el-tab-pane(v-for="l in langs" :key="l.id" :label="l.name" :name="l.id")
-                    el-input(
+                  v-text-field(label="Total area, m2" v-model="hotel.area" type="number" :min="0")
+              v-col(:xs="24" :md="11")
+                  v-text-field(label="Telephone" v-model="hotel.telephone")
+                  v-text-field(v-model="hotel.email")
+                  v-text-field(v-model="hotel.www")
+                  v-text-field(v-model="hotel.details.facebook")
+            v-row
+              v-col(:xs="24" :md="13")
+                v-tabs(v-model="lang" tab-position="left")
+                  v-tab(v-for="l in langs" :key="l.id" :label="l.name" :name="l.id")
+                    v-text-field(
                       v-if="hotel.description_trans"
                       type="textarea"
                       :autosize="{ minRows: 8 }"
                       placeholder="Please input"
                       v-model="hotel.description_trans[l.id]"
                     )
-              el-col(:xs="24" :md="11")
-                el-form-item(label="Instagram")
-                  el-input(v-model="hotel.details.instagram")
-                el-form-item(label="Address")
-                  el-input(
-                    type="textarea"
-                    :autosize="{ minRows: 6}"
-                    placeholder="Adress"
-                    v-model="hotel.address"
-                  )
-        el-tab-pane(name="rooms" label="Rooms" :disabled="!hotel.hasOwnProperty('id')" lazy)
+                v-col(:xs="24" :md="11")
+                    v-text-field(v-model="hotel.details.instagram")
+                    v-text-field(
+                      type="textarea"
+                      :autosize="{ minRows: 6}"
+                      placeholder="Adress"
+                      v-model="hotel.address"
+                    )
+        v-tab(name="rooms" label="Rooms" :disabled="!hotel.hasOwnProperty('id')" lazy)
           room-types(v-model="hotel.id")
-        el-tab-pane(name="meetingrooms" label="Meting rooms" :disabled="!hotel.hasOwnProperty('id')"  lazy)
+        v-tab(name="meetingrooms" label="Meting rooms" :disabled="!hotel.hasOwnProperty('id')"  lazy)
           meeting-rooms(v-model="hotel.id")
-        el-tab-pane(name="amenities" label="Amenities" :disabled="!hotel.hasOwnProperty('id')" lazy)
+        v-tab(name="amenities" label="Amenities" :disabled="!hotel.hasOwnProperty('id')" lazy)
           amenities(:hotel="hotel" ref="amenities")
-        el-tab-pane(name="media" label="Media" :disabled="!hotel.hasOwnProperty('id')" lazy)
+        v-tab(name="media" label="Media" :disabled="!hotel.hasOwnProperty('id')" lazy)
           media(v-model="hotel.id")
 </template>
 <script type="text/javascript">
@@ -107,7 +87,6 @@
   import Media from '@/components/hotel/Media'
   export default {
     name: 'hotel',
-    layout: 'element',
     components: {
       RoomTypes,
       MeetingRooms,

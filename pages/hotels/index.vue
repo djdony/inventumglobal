@@ -15,7 +15,7 @@
           th #
           th( v-for="h in datatable" :width="h.width") {{h.text}}
       tbody
-        tr(v-for="hotel in $store.state.hotels" :key="hotel.id" @click="edit(hotel.id)")
+        tr(v-for="hotel in $store.state.hotels" :key="hotel.id" @click="edit(id)")
           td {{hotel.id}}
           td {{hotel.name}}
           td {{hotel.location.name}}
@@ -30,6 +30,7 @@
 
   export default {
     name: 'hotels',
+    layout: 'element',
     data() {
       return {
         datatable: [

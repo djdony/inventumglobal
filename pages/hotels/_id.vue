@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  v-content
     v-card(body-style="padding:0")
       div(slot="header")
         v-form.pt-10(:inline="true")
@@ -8,7 +8,11 @@
               //v-option(v-for="h in $store.state.hotels" :key="h.id" :items="h.id" :label="h.name")
       v-tabs(:items="tab" type="border-card" tab-position="top" @tab-click="changeTab")
         v-tab(name="main") GENERAL
-          v-form.pt-10.pr-10(v-model="hotel" width="150px")
+          //- v-model should be BOOLEAN, representing the validity of the form
+          //- (previously was OBJECT `hotel`)
+          //- If validation is needed, v-model should be added here
+          //- Currently it is always "valid"
+          v-form.pt-10.pr-10(:value="true" width="150px")
             v-row
               v-col(:xs="24" :md="8")
                   v-text-field(label="Name" v-model="hotel.name" :max="100")
@@ -75,131 +79,131 @@
           media(v-model="hotel.id")
 </template>
 <script type="text/javascript">
-  import set from 'lodash/set'
-  import Hotel from '@/models/Hotel'
-  import HotelGroup from '@/models/HotelGroup'
-  import Star from '@/models/Star'
-  import Type from '@/models/Type'
-  import Location from '@/models/Location'
-  import RoomTypes from '@/components/hotel/RoomTypes'
-  import MeetingRooms from '@/components/hotel/MeetingRooms'
-  import Amenities from '@/components/hotel/Amenities'
-  import Media from '@/components/hotel/Media'
-  export default {
-    name: 'hotel',
-    components: {
-      RoomTypes,
-      MeetingRooms,
-      Amenities,
-      Media
+import set from "lodash/set";
+import Hotel from "@/models/Hotel";
+import HotelGroup from "@/models/HotelGroup";
+import Star from "@/models/Star";
+import Type from "@/models/Type";
+import Location from "@/models/Location";
+import RoomTypes from "@/components/hotel/RoomTypes";
+import MeetingRooms from "@/components/hotel/MeetingRooms";
+import Amenities from "@/components/hotel/Amenities";
+import Media from "@/components/hotel/Media";
+export default {
+  name: "hotel",
+  components: {
+    RoomTypes,
+    MeetingRooms,
+    Amenities,
+    Media
+  },
+  data() {
+    return {
+      langs: [{ id: "en", name: "English" }, { id: "ru", name: "Russian" }],
+      lang: "en",
+      types: [],
+      selected: null,
+      locations: [],
+      hotelgroups: [],
+      stars: [],
+      hotel: new Hotel({ name: "", details: { star: 5 } }),
+      tab: "main",
+      saving: false
+    };
+  },
+  async created() {
+    if (this.$store.state.hotels.length === 0) {
+      this.fetchHotels();
+    }
+    this.locations = await Location.select({
+      locations: ["id", "name", "type"],
+      children: ["id", "name", "parent_id"]
+    })
+      .include("children")
+      .where("type", "region")
+      .get();
+    this.hotelgroups = await HotelGroup.get();
+    this.stars = await Star.get();
+    this.types = await Type.where("category", "hotelpurpose").get();
+  },
+  methods: {
+    async fetchHotels() {
+      let hotels = await Hotel.select("id", "name").get();
+      await this.$store.dispatch("change", ["hotels", hotels]);
     },
-    data(){
-      return {
-        langs: [{ id: 'en', name: "English"}, { id: 'ru', name: "Russian"}],
-        lang: 'en',
-        types: [],
-        selected: null,
-        locations: [],
-        hotelgroups: [],
-        stars: [],
-        hotel: new Hotel({ name: '', details: { star: 5 } }),
-        tab: 'main',
-        saving: false
+    async fetchHotel(id) {
+      try {
+        this.loading = true;
+        this.hotel = await Hotel.include("types").find(id);
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        this.$message.error("SORRY WE COULDN'T GET HOTEL");
       }
     },
-    async created(){
-      if(this.$store.state.hotels.length === 0){
-        this.fetchHotels()
-      }
-      this.locations = await Location.select({
-        locations: ['id', 'name', 'type'],
-        children: ['id', 'name', 'parent_id']
-      })
-      .include('children')
-      .where('type', 'region')
-      .get()
-      this.hotelgroups = await HotelGroup.get()
-      this.stars = await Star.get()
-      this.types = await Type.where('category', 'hotelpurpose').get()
-    },
-    methods: {
-      async fetchHotels(){
-        let hotels = await Hotel.select('id', 'name').get()
-        await this.$store.dispatch('change', ['hotels', hotels])
-      },
-      async fetchHotel(id){
-        try{
-          this.loading = true
-          this.hotel = await Hotel.include('types').find(id)
-          this.loading = false
-        }catch(e){
-          this.loading = false
-          this.$message.error('SORRY WE COULDN\'T GET HOTEL')
+    async save() {
+      try {
+        this.saving = true;
+        await this.hotel.save();
+        if (this.tab === "amenities") {
+          await this.$refs.amenities.save();
         }
-      },
-      async save(){
-        try{
-          this.saving = true
-          await this.hotel.save()
-          if(this.tab === 'amenities'){
-            await this.$refs.amenities.save()
+        this.saving = false;
+      } catch (e) {
+        this.saving = false;
+        this.$message.error("UNABLE TO SAVE THE HOTEL");
+      }
+    },
+    changeHotel(id) {
+      this.$router.push({
+        name: "hotel",
+        params: { id, tab: this.tab }
+      });
+    },
+    changeTab({ name }) {
+      this.$router.push({
+        name: "hotel",
+        params: { id: this.hotel.id, tab: name }
+      });
+    }
+  },
+  watch: {
+    "$route.params.id": {
+      immediate: true,
+      handler: async function(id, oldId) {
+        if (id != oldId) {
+          if (id !== "new") {
+            await this.fetchHotel(id);
+          } else {
+            this.hotel = new Hotel({
+              name: "",
+              location_id: null,
+              star_id: null,
+              group_id: null,
+              types_ids: [],
+              details: { facebook: null, instagram: null },
+              description_trans: {
+                en: "",
+                ru: ""
+              },
+              www: "",
+              telephone: "",
+              email: "",
+              build: "",
+              renovated: "",
+              area: "",
+              address: ""
+            });
           }
-          this.saving = false
-        }catch(e){
-          this.saving = false
-          this.$message.error('UNABLE TO SAVE THE HOTEL')
         }
-      },
-      changeHotel(id){
-        this.$router.push({ 
-          name: 'hotel', 
-          params: { id, tab: this.tab }
-        })
-      },
-      changeTab({ name }){
-        this.$router.push({ 
-          name: 'hotel', 
-          params: { id: this.hotel.id, tab: name }
-        })
       }
     },
-    watch: {
-      '$route.params.id': {
-        immediate: true,
-        handler: async function(id, oldId){
-          if(id != oldId){
-            if(id !== 'new'){
-              await this.fetchHotel(id)
-            }else{
-              this.hotel = new Hotel({
-                name: '',
-                location_id: null,
-                star_id: null,
-                group_id: null,
-                types_ids: [],
-                details: {facebook: null, instagram: null },
-                description_trans: {
-                  en: '',
-                  ru: ''
-                },
-                www: '',
-                telephone: '',
-                email: '',
-                build: '',
-                renovated: '',
-                area: '',
-                address: ''
-              })
-            }
-          }
-        }
-      },
-      '$route.params.tab': {
-        immediate: true,
-        handler: function(tab){
-          this.tab = tab || 'main'
-        }
+    "$route.params.tab": {
+      immediate: true,
+      handler: function(tab) {
+        this.tab = tab || "main";
       }
     }
   }
+};
 </script>

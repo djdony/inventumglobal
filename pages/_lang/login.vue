@@ -5,11 +5,11 @@
         v-flex(md4 sm12 order-xs2 order-md1)
           v-form.login-page__form
             .form-group.mb-4
-            input(
-            type='text'
-            placeholder='username'
-            v-model='userForm.username'
-            ).text-input
+              input(
+              type='text'
+              placeholder='username'
+              v-model='userForm.username'
+              ).text-input
             .form-group.mb-4
               input(
               type='password'
@@ -40,45 +40,45 @@
 </template>
 
 <script>
-  import HeaderComponent from "@/components/Header"
-  import FooterComponent from "@/components/Footer"
+import HeaderComponent from "@/components/Header";
+import FooterComponent from "@/components/Footer";
 
-  export default {
-    created() {
-      this.$store.commit("styles/setHeaderLogoStyle", "light")
-      this.$store.commit("styles/setFooterBg", false)
-      this.$store.commit("styles/setAppClassName", "login-page")
-    },
-    data() {
-      return {
-        userForm: {
-          username: '',
-          password: '',
-        },
-        error: null
-      }
-    },
-    computed: {
-      xs() {
-        return this.$vuetify.breakpoint.xs
+export default {
+  created() {
+    this.$store.commit("styles/setHeaderLogoStyle", "light");
+    this.$store.commit("styles/setFooterBg", false);
+    this.$store.commit("styles/setAppClassName", "login-page");
+  },
+  data() {
+    return {
+      userForm: {
+        username: "",
+        password: ""
       },
-      smAndDown() {
-        return this.$vuetify.breakpoint.smAndDown
-      }
+      error: null
+    };
+  },
+  computed: {
+    xs() {
+      return this.$vuetify.breakpoint.xs;
     },
-    components: {
-      HeaderComponent,
-      FooterComponent
-    },
-    methods: {
-      async login() {
-        await this.$auth.login({
-          data: this.userForm
-        })
-        this.$router.push({ path: '/' })
-      }
+    smAndDown() {
+      return this.$vuetify.breakpoint.smAndDown;
+    }
+  },
+  components: {
+    HeaderComponent,
+    FooterComponent
+  },
+  methods: {
+    async login() {
+      await this.$auth.login({
+        data: this.userForm
+      });
+      this.$router.push({ path: "/" });
     }
   }
+};
 </script>
 <style lang="sass" scoped>
   @import '@/assets/styles/pages/login.sass'

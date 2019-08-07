@@ -18,14 +18,24 @@
     border-radius: 5px
     padding: 15px 10px
     margin: 0 6px
+    .v-autocomplete
+      input
+        font-size: 20px
     .v-icon
       font-size: 32px
-    &.button
+    &.button.theme--light:not(.v-btn--flat)
+      text-transform: initial
+      font-size: 20px
+      letter-spacing: 0
       max-width: 300px
       background-color: $secondary-color
       box-shadow: $elevation-24-lighten
+      border: none
       cursor: pointer
       transition: .25s ease
+      height: auto
+      min-width: unset
+      padding: 15px 10px
       &:hover
         opacity: .85
       .v-icon
@@ -55,6 +65,36 @@
         &:focus
           outline: none
 
+.v-card.event-size
+  width: 250px
+  padding: 25px 20px 15px 20px
+  .event-size
+    &__title
+      font-size: 20px
+      font-weight: bold
+      margin: 0 0 10px 0
+    &__field-group
+      padding: 10px 0
+      font-size: 14px
+      display: flex
+      align-items: center
+      align-content: flex-start
+
+      .group__name
+        flex: 1 1 100%
+        margin-right: 15px
+      .group__input
+        flex: 0 0 60px
+        .v-input__control
+          min-height: 24px
+          .v-input__slot
+            padding: 0
+            input
+              text-align: center
+              font-size: 16px
+              padding: 0 0
+
+
 @include respond-to(md)
   .search-panel
     padding: 15px 15px
@@ -63,7 +103,7 @@
       margin: 0 6px
       .v-icon
         font-size: 26px
-      &.button
+      &.button.theme--light
         .label
           font-size: 18px
       &.text
@@ -80,16 +120,19 @@
     .search-group
       margin: 6px 0
       width: 100%
+      .search-item
+        margin: 10px 6px
 
 @include respond-to(xs)
   .search-panel
     .search-group
       flex-wrap: wrap
       margin: 0 -6px
-    .search-item
-      margin: 10px 6px
-      &.button
-        max-width: unset
-        flex: 1
-        &.submit
-          width: 100%
+      .search-item
+        padding: 6px 6px
+        margin: 10px 6px
+        &.button.theme--light
+          max-width: unset
+          flex: 1
+          &.submit
+            width: 100%

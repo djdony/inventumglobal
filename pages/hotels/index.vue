@@ -15,7 +15,7 @@
           th #
           th( v-for="h in datatable" :width="h.width") {{h.text}}
       tbody
-        tr(v-for="hotel in $store.state.hotels" :key="hotel.id" @click="edit(id)")
+        tr(v-for="hotel in $store.state.hotels" :key="hotel.id" @click="edit(hotel)")
           td {{hotel.id}}
           td {{hotel.name}}
           td {{hotel.location.name}}
@@ -25,64 +25,75 @@
           td {{hotel.phone}}
 </template>
 <script type="text/javascript">
-  import Location from '@/models/Location'
-  import Hotel from '@/models/Hotel'
+import Location from "@/models/Location";
+import Hotel from "@/models/Hotel";
 
-  export default {
-    name: 'hotels',
-    layout: 'element',
-    data() {
-      return {
-        datatable: [
-          {text: 'Hotel Name', width: '20%'},
-          {text: 'Region', width: ''},
-          {text: 'Star', width: ''},
-          {text: 'Email', width: ''},
-          {text: 'WWW', width: ''},
-          {text: 'Telephone', width: ''},
-        ],
-        fetching: false,
-        search: '',
-        filters: {
-          locations: []
-        },
-        cities: []
+export default {
+  name: "hotels",
+  layout: "element",
+  data() {
+    return {
+      datatable: [
+        { text: "Hotel Name", width: "20%" },
+        { text: "Region", width: "" },
+        { text: "Star", width: "" },
+        { text: "Email", width: "" },
+        { text: "WWW", width: "" },
+        { text: "Telephone", width: "" }
+      ],
+      fetching: false,
+      search: "",
+      filters: {
+        locations: []
+      },
+      cities: []
+    };
+  },
+  async created() {
+    await this.fetch();
+    this.cities = await Location.where("type", "city").get();
+  },
+  methods: {
+    async fetch() {
+      try {
+        let hotels = await Hotel.include("location")
+          .select({
+            hotels: [
+              "id",
+              "name",
+              "details",
+              "location_id",
+              "email",
+              "www",
+              "telephone"
+            ],
+            location: ["id", "name"]
+          })
+          .whereIn("location_id", this.filters.locations)
+          .get();
+        await this.$store.dispatch("change", ["hotels", hotels]);
+      } catch (e) {
+        console.log(e);
+        this.fetching = false;
       }
     },
-    async created() {
-      await this.fetch()
-      this.cities = await Location.where('type', 'city').get()
+    create() {
+      this.$router.push({
+        name: "hotels-id",
+        params: { id: "new" }
+      });
     },
-    methods: {
-      async fetch() {
-        try {
-          let hotels = await Hotel.include('location').select({
-            hotels: ['id', 'name', 'details', 'location_id', 'email', 'www', 'telephone'],
-            location: ['id', 'name']
-          }).whereIn('location_id', this.filters.locations).get()
-          await this.$store.dispatch('change', ['hotels', hotels])
-        } catch (e) {
-          console.log(e)
-          this.fetching = false
-        }
-      },
-      create() {
-        this.$router.push({
-          name: 'hotels-id',
-          params: {id: 'new'}
-        })
-      },
-      edit({id}) {
-        this.$router.push({
-          name: 'hotels-id',
-          params: {id}
-        })
-      }
+    edit({ id }) {
+      this.$router.push({
+        name: "hotels-id",
+        params: { id }
+      });
     }
   }
+};
 </script>
 <style>
-  th {
-    text-align: left;
-  }
+th {
+  text-align: left;
+}
 </style>

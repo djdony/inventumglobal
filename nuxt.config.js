@@ -27,11 +27,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/styles/base.sass', 'element-ui/lib/theme-chalk/index.css'],
+  css: ['~/assets/styles/base.sass'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/i18n', '~/plugins/vue-api-query', '~/plugins/element'],
+  plugins: ['~/plugins/i18n', '~/plugins/vue-api-query'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -64,15 +64,6 @@ export default {
     }
   },
 
-  /* auth: {
-    strategies: {
-      'laravel.passport': {
-        url: 'http://inventum/login',
-        client_id: 1,
-        client_secret: 'lJ1nJNGzdvXWKZ5r8lxHKQMOaIorlzUEodhCGP5Z'
-      },
-    }
-  },*/
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module

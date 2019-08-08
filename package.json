@@ -13,16 +13,13 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.8.1",
     "@nuxtjs/axios": "^5.5.4",
-    "cookieparser": "^0.1.0",
     "dayjs": "^1.8.15",
-    "js-cookie": "^2.2.0",
     "lodash": "^4.17.15",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "@mdi/font": "^3.9.95",
     "@nuxtjs/vuetify": "^1.0.0",
-    "element-ui": "^2.11.1",
     "nodemon": "^1.19.1",
     "pug": "^2.0.4",
     "pug-plain-loader": "^1.0.0",

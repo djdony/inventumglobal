@@ -6,7 +6,7 @@ import Amenity from './Amenity'
 export default class Hotel extends Model {
     resource(){ return 'hotels' }
 
-	media(){
+	medias(){
 		return this.hasMany(Media)
 	}
 

@@ -35,22 +35,37 @@
       transition: .25s ease
       height: auto
       min-width: unset
-      padding: 15px 10px
+      padding: 15px 10px 15px 20px
       &:hover
         opacity: .85
+      .v-btn__content
+        justify-content: space-between
       .v-icon
         color: #99A5B4
+        margin-left: 10px
+      .text
+        display: flex
+        flex-direction: column
       .label
         width: max-content
         font-weight: 500
         color: #fff
         font-size: 20px
-        padding: 0 10px
+      .value
+        color: #fff
+        opacity: .75
+        font-size: 14px
+        margin-top: 2px
+        width: 80px
+        text-align: left
       &.submit
+        text-align: center
         padding: 15px 10px
         background-color: $primary-color
         border-color: $primary-color
         flex: 1 1 100%
+        .label
+          width: 100%
         
     &.text
       flex: 1 1 100%
@@ -65,34 +80,43 @@
         &:focus
           outline: none
 
-.v-card.event-size
+.v-card.datepicker-menu
+  .v-picker.v-card
+    box-shadow: none
+  .search-menu__field-group
+    width: 256px
+    padding: 16px
+    margin: auto
+
+.v-card.search-menu
   width: 250px
   padding: 25px 20px 15px 20px
-  .event-size
-    &__title
-      font-size: 20px
-      font-weight: bold
-      margin: 0 0 10px 0
-    &__field-group
-      padding: 10px 0
-      font-size: 14px
-      display: flex
-      align-items: center
-      align-content: flex-start
 
-      .group__name
-        flex: 1 1 100%
-        margin-right: 15px
-      .group__input
-        flex: 0 0 60px
-        .v-input__control
-          min-height: 24px
-          .v-input__slot
-            padding: 0
-            input
-              text-align: center
-              font-size: 16px
-              padding: 0 0
+.search-menu
+  &__title
+    font-size: 20px
+    font-weight: bold
+    margin: 0 0 10px 0
+  &__field-group
+    padding: 10px 0
+    font-size: 14px
+    display: flex
+    align-items: center
+    align-content: flex-start
+
+    .group__name
+      flex: 1 1 100%
+      margin-right: 15px
+    .group__input
+      flex: 0 0 60px
+      .v-input__control
+        min-height: 24px
+        .v-input__slot
+          padding: 0
+          input
+            text-align: center
+            font-size: 16px
+            padding: 0 0
 
 
 @include respond-to(md)

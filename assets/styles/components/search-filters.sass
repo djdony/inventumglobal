@@ -9,13 +9,45 @@
       display: flex
       justify-content: space-between
       font-size: 14px
+      &.checkboxes
+        display: flex
+        flex-direction: column
+        align-content: flex-start
+        align-items: flex-start
+        .v-input 
+          margin-top: 5px
+          .v-label
+            font-size: 14px
+
+      &.radios
+        .v-input 
+          margin-top: 5px
+
       &.slider
         margin-top: -2px
+
+      &.select
+        margin-top: 10px
+        margin-bottom: 5px
+        .v-input__append-inner
+          margin-top: 9px
+        .v-select__selections
+          padding: 5px 0
+        .v-input__slot
+          min-height: 42px
+
+      &.text-input
+        margin-top: 10px
+        margin-bottom: 5px
+        .v-input__slot
+          min-height: 42px
+          
       &.values
         .values__item
           font-size: 13px
           font-weight: 500
-          color: #BEC3CB
+          color: $secondary-color
+          opacity: .5
           .v-icon
             vertical-align: text-bottom
             color: #BEC3CB
@@ -29,3 +61,4 @@
       font-weight: 600
     &__more
       cursor: pointer
+      display: none

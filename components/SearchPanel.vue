@@ -16,33 +16,42 @@
       v-menu(offset-y v-model="dateMenu" transition="scale-transition"  :close-on-content-click="false")
           template(v-slot:activator="{ on }")
             v-btn.search-item.button(v-on='on')
-              span.label Dates
+              .text
+                span.label Dates
+                span(v-text='datesValue').value
               v-icon mdi-calendar-multiple
-          v-card
-            v-date-picker(v-model="dates" no-title width='256' multiple :allowed-dates="allowedDates" first-day-of-week='1')
+          v-card(color='white secondary--text').datepicker-menu
+            v-date-picker(v-model="date" no-title width='256' first-day-of-week='1')
+              span(v-text='dateMessage[0]' v-if='date.length == 0').primary--text.caption.px-2.pb-1
+            v-divider
+            .search-menu__field-group
+              span.group__name Nights:
+              v-text-field(v-model='nights' placeholder="0" solo hide-details flat).group__input
+            .layout.px-4.py-2
               v-spacer
-              span(v-text='dateMessage[dates.length]' v-if='dates.length < 2').px-2.primary--text.body-2
-              v-btn(v-else text color="primary" @click="dateMenu = false") OK
+              v-btn(text color="primary" @click="dateMenu = false") OK
       
       
       v-menu(offset-y v-model="eventSizeMenu" transition="scale-transition"  :close-on-content-click="false")
         template(v-slot:activator="{ on }")
           v-btn.search-item.button(v-on='on')
-            span.label Event size
+            .text
+              span.label Event size
+              span(v-text='rooms.pax').value
             v-icon mdi-human-male
-        v-card.event-size.white.secondary--text
-          p.event-size__title Event size
-          .event-size__field-group
-            span.group__name Single rooms
+        v-card.search-menu.white.secondary--text
+          p.search-menu__title Event size
+          .search-menu__field-group
+            span.group__name Single rooms:
             v-text-field(v-model='rooms.single' placeholder="0" solo hide-details flat @input="recalc").group__input
-          .event-size__field-group
-            span.group__name Double rooms
+          .search-menu__field-group
+            span.group__name Double rooms:
             v-text-field(v-model='rooms.double' placeholder="0" solo hide-details flat @input="recalc").group__input
-          .event-size__field-group
-            span.group__name Triple rooms
+          .search-menu__field-group
+            span.group__name Triple rooms:
             v-text-field(v-model='rooms.triple' placeholder="0" solo hide-details flat @input="recalc").group__input
-          .event-size__field-group
-            span.group__name Total Pax
+          .search-menu__field-group
+            span.group__name Total Pax:
             v-text-field(v-model='rooms.pax' placeholder="0" solo hide-details flat @input="recalc('pax')").group__input
           
           .layout.mt-3
@@ -54,7 +63,7 @@
 </template>
 
 <script>
-import Location from "@/models/Location";
+import Location from '@/models/Location'
 
 export default {
   data() {
@@ -64,8 +73,10 @@ export default {
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,
-      dates: [],
-      dateMessage: ["Choose departure day", "Choose arrival day", ""],
+      date: '',
+      nights: 1,
+      // dates: [],
+      dateMessage: ['Choose departure day', '', ''],
       rooms: {
         single: null,
         double: null,
@@ -75,80 +86,118 @@ export default {
 
       fromLocations: [],
       toLocations: []
-    };
+    }
   },
   async created() {
-    this.fromLocations = await Location.custom("user/airports").get();
-    this.toLocations = await Location.custom("user/destinations").get();
-    console.log(this.toLocations);
+    this.fromLocations = await Location.custom('user/airports').get()
+    this.toLocations = await Location.custom('user/destinations').get()
+    console.log(this.toLocations)
   },
   computed: {
+    arrivalDate() {
+      if (this.date == '') return
+
+      let takeoffDate = new Date(this.date)
+      let arrivalDate = new Date(takeoffDate)
+
+      arrivalDate.setDate(arrivalDate.getDate() + Number(this.nights))
+
+      let arrivalYear = arrivalDate.getFullYear()
+      let arrivalMonth = this.getMonth(arrivalDate)
+      let arrivalDay = this.getDay(arrivalDate)
+
+      return `${arrivalYear}-${arrivalMonth}-${arrivalDay}`
+    },
+    datesValue() {
+      if (this.date == '') return
+
+      let takeoffDate = new Date(this.date)
+      let arrivalDate = new Date(this.arrivalDate)
+
+      let takeoffMonth = this.getMonth(takeoffDate)
+      let takeoffDay = this.getDay(takeoffDate)
+
+      let arrivalMonth = this.getMonth(arrivalDate)
+      let arrivalDay = this.getDay(arrivalDate)
+
+      return `${takeoffDay}.${takeoffMonth}-${arrivalDay}.${arrivalMonth}`
+    },
     fromLocationsList() {
-      let list = [];
+      let list = []
 
       for (let location of this.fromLocations) {
         for (let descendant of location.descendants) {
           list.push({
-            text: location.name + ", " + descendant.name,
+            text: location.name + ', ' + descendant.name,
             value: descendant.id
-          });
+          })
         }
       }
 
-      return list;
+      return list
     },
     toLocationsList() {
-      let list = [];
+      let list = []
 
       for (let location of this.toLocations) {
         for (let descendant of location.descendants) {
           list.push({
-            text: location.name + ", " + descendant.name,
+            text: location.name + ', ' + descendant.name,
             value: descendant.id
-          });
+          })
         }
       }
 
-      return list;
+      return list
     }
   },
   methods: {
+    // DEPRECATED
     allowedDates(val) {
-      let date = new Date(val);
-      let range = 4;
+      let date = new Date(val)
+      let range = 4
 
-      if (this.dates.length == 0) return true;
+      if (this.dates.length == 0) return true
 
       if (this.dates.length == 1) {
-        let selectedDate = new Date(this.dates[0]);
-        let maxDate = new Date(selectedDate);
-        let minDate = new Date(selectedDate);
+        let selectedDate = new Date(this.dates[0])
+        let maxDate = new Date(selectedDate)
+        let minDate = new Date(selectedDate)
 
-        minDate.setDate(minDate.getDate() - range);
-        maxDate.setDate(maxDate.getDate() + range);
+        minDate.setDate(minDate.getDate() - range)
+        maxDate.setDate(maxDate.getDate() + range)
 
-        return maxDate > date && date > minDate;
+        return maxDate > date && date > minDate
       }
 
       if (this.dates.length == 2) {
-        return val == this.dates[0] || val == this.dates[1];
+        return val == this.dates[0] || val == this.dates[1]
       }
     },
     recalc(e) {
-      if (e == "pax") {
-        this.rooms.single = 0;
+      if (e == 'pax') {
+        this.rooms.single = 0
         this.rooms.double =
-          this.rooms.pax > 0 ? Math.ceil(this.rooms.pax / 2) : 0;
-        this.rooms.triple = 0;
+          this.rooms.pax > 0 ? Math.ceil(this.rooms.pax / 2) : 0
+        this.rooms.triple = 0
       } else {
         this.rooms.pax =
           Number(this.rooms.single) +
           Number(this.rooms.double * 2) +
-          Number(this.rooms.triple * 3);
+          Number(this.rooms.triple * 3)
       }
+    },
+
+    getDay(date) {
+      return date.getDate() > 9 ? date.getDate() : '0' + date.getDate()
+    },
+    getMonth(date) {
+      return date.getMonth() > 8
+        ? date.getMonth() + 1
+        : '0' + (date.getMonth() + 1)
     }
   }
-};
+}
 </script>
 <style lang="sass">
 @import '@/assets/styles/components/search-panel.sass'

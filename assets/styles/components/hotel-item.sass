@@ -1,105 +1,177 @@
+.hotelInfoFade-enter-active
+  transition: opacity .5s
+
+.hotelInfoFade-enter, .hotelInfoFade-leave-to
+  opacity: 0
+
 .hotels__item
   display: flex
   margin-bottom: 20px
-  .hotel__image
-    flex: 1 1 auto
-    position: relative
-    img
-      position: absolute
-      height: 100%
-      width: 100%
-      object-fit: cover
-      object-position: center
-  .hotel__info
-    flex: 0 0 450px
-    padding: 15px 25px
-    .info
-      &__title
-        line-height: 1
-        margin: 5px 0 2.5px 0
-        font-size: 20px
-        text-transform: uppercase
-        color: $blue-darken-1
-
-      &__reviews
+  width: 1px
+  flex: 1 1 100%
+  flex-direction: column
+  .hotel__more-info
+    margin-top: 10px
+    box-shadow: 0px -10px 5px -5px rgba(0,0,0,0.03)
+    .v-tabs
+      .v-tabs-bar
+        padding-left: 8px
+        &.v-tabs-bar--is-mobile:not(.v-tabs-bar--show-arrows) > .v-slide-group__wrapper > .v-tabs-bar__content > .v-tabs-slider-wrapper + .v-tab
+          margin-left: 0
+        .v-tab
+          text-transform: initial
+    .v-tabs-items
+      overflow: hidden
+      .tab-item
+        color: $secondary-color
+        padding: 20px 16px
         display: flex
-        align-items: center
-        flex-wrap: wrap
-        .reviews__stars
-          margin-right: 10px
-          .v-icon
-            font-size: 22px
-        .reviews__regions
-          font-size: 13px
-          color: #BFC4CE
-          text-transform: uppercase
+        align-items: flex-start
+        &.table
+          padding: 8px 16px 20px 16px
+          .v-data-table
+            width: 100%
+            .v-data-table__wrapper
+              max-height: 300px
+              max-width: 100%
+              overflow-y: auto
+              overflow-x: auto
+        &.general-tab
+          padding: 20px 4px
+          flex-wrap: wrap
+          .images-wrapper
+            margin: 0 12px 12px 12px
+            flex: 1 1 270px
+            display: flex
+            flex-wrap: wrap
+            .v-image
+              margin: 4px
+              max-height: 150px
+              min-width: 65px
+          .general-info
+            margin: 4px 16px
+            flex: 1 1 50%
+            p
+              font-size: 14px
+              margin-bottom: 8px
 
-      &__props
-        margin-top: 10px
-        font-size: 14px 
-        .props__item
-          color: #595F6F
-      
-      &__price
-        font-weight: bold
-        text-align: right
-        margin-top: -10px
-        .price__title
-          font-size: 14px
-          color: $blue-lighten-1
-          text-transform: uppercase
-          margin-right: 5px
-        .price__value
-          font-size: 32px
-          color: $primary-color
-
-  &.compact
-    padding: 20px 20px
-    flex-direction: column
+  .hotel__quick-info
+    cursor: pointer
+    width: 100%
+    display: flex
     .hotel__image
-      height: 210.5px
-      width: 100%
-      flex: auto
+      flex: 0 1 215px
+      position: relative
+      img
+        position: absolute
+        height: 100%
+        width: 100%
+        object-fit: cover
+        object-position: center
     .hotel__info
-      flex: auto
-      padding: 15px 0 0 0
+      flex: 1 1 auto
+      padding: 15px 25px
       .info
         &__title
-          font-size: 14px
+          line-height: 1
+          margin: 5px 0 2.5px 0
+          font-size: 20px
+          text-transform: uppercase
+          color: $blue-darken-1
+
         &__reviews
-          flex-direction: column
-          align-items: flex-start
+          display: flex
+          align-items: center
+          flex-wrap: wrap
           .reviews__stars
-            font-size: 18px
+            margin-right: 10px
+            .v-icon
+              font-size: 22px
+          .reviews__regions
+            font-size: 13px
+            color: #BFC4CE
+            text-transform: uppercase
+
+        &__props
+          margin-top: 10px
+          font-size: 14px 
+          .props__item
+            color: #595F6F
+        
+        &__price
+          font-weight: bold
+          text-align: right
+          margin-top: -10px
+          .price__title
+            font-size: 14px
+            color: $blue-lighten-1
+            text-transform: uppercase
+            margin-right: 5px
+          .price__value
+            font-size: 32px
+            color: $primary-color
+
+  &.compact
+    width: auto
+    .hotel__quick-info
+      padding: 20px 20px
+      flex-direction: column
+      .hotel__image
+        height: 210.5px
+        width: 100%
+        flex: auto
+      .hotel__info
+        flex: auto
+        padding: 15px 0 0 0
+        .info
+          &__title
+            font-size: 14px
+          &__reviews
+            flex-direction: column
+            align-items: flex-start
+            .reviews__stars
+              font-size: 18px
 
 @include respond-to(md)
   .hotels__item
-    flex-direction: column
-    .hotel__image
-      height: 170px
-    .hotel__info
-      flex: auto
+    .hotel__more-info
+      .v-tabs
+        .v-tabs-bar
+          .v-tab
+            font-size: 12px
+            min-width: 50px
+            padding: 0 10px
+            text-transform: initial
+      
+    .hotel__quick-info
+      flex-direction: column
+      .hotel__image
+        height: 170px
+      .hotel__info
+        flex: auto
 
 @include respond-to(sm)
   .hotels__item
-    flex: 1 1 320px
     margin: 10px
-    .hotel__info
-      .info
-        &__price
-          margin-top: 5px
+    flex: 1 1 400px
+    .hotel__quick-info
+      .hotel__info
+        .info
+          &__price
+            margin-top: 5px
 
 @include respond-to(xs)
   .hotels__item
     margin: 10px 0
-    .hotel__info
-      padding: 15px 
-      .info
-        &__title
-          font-size: 18px
-        &__price
-          margin-top: 5px
-          .price__title
-            font-size: 13px
-          .price__value
-            font-size: 26pxs
+    .hotel__quick-info
+      .hotel__info
+        padding: 15px 
+        .info
+          &__title
+            font-size: 18px
+          &__price
+            margin-top: 5px
+            .price__title
+              font-size: 13px
+            .price__value
+              font-size: 26px

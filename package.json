@@ -15,7 +15,9 @@
     "@nuxtjs/axios": "^5.5.4",
     "dayjs": "^1.8.15",
     "lodash": "^4.17.15",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "vue-fancybox": "^1.0.3",
+    "vue-owl-carousel": "^2.0.3"
   },
   "devDependencies": {
     "@mdi/font": "^3.9.95",

@@ -40,45 +40,40 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header";
-import FooterComponent from "@/components/Footer";
-
 export default {
   created() {
-    this.$store.commit("styles/setHeaderLogoStyle", "light");
-    this.$store.commit("styles/setFooterBg", false);
-    this.$store.commit("styles/setAppClassName", "login-page");
+    this.$store.commit('styles/setHeaderDarkText', false)
+    this.$store.commit('styles/setHeaderLogoStyle', 'light')
+    this.$store.commit('styles/setFooterBg', false)
+    this.$store.commit('styles/setAppClassName', 'login-page')
   },
   data() {
     return {
       userForm: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
       error: null
-    };
+    }
   },
   computed: {
     xs() {
-      return this.$vuetify.breakpoint.xs;
+      return this.$vuetify.breakpoint.xs
     },
     smAndDown() {
-      return this.$vuetify.breakpoint.smAndDown;
+      return this.$vuetify.breakpoint.smAndDown
     }
   },
-  components: {
-    HeaderComponent,
-    FooterComponent
-  },
+  components: {},
   methods: {
     async login() {
       await this.$auth.login({
         data: this.userForm
-      });
-      this.$router.push({ path: "/" });
+      })
+      this.$router.push({ path: '/' })
     }
   }
-};
+}
 </script>
 <style lang="sass" scoped>
   @import '@/assets/styles/pages/login.sass'

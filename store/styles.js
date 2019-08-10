@@ -1,7 +1,7 @@
 const defaultValues = {
-  headerLogoStyle: "dark",
-  headerDarkText: false,
-  appClassName: "",
+  headerLogoStyle: 'dark',
+  headerDarkText: true,
+  appClassName: '',
   footerBg: true
 }
 

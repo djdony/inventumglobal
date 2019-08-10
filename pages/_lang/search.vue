@@ -47,11 +47,9 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header"
-import FooterComponent from "@/components/Footer"
-import SearchPanel from "@/components/SearchPanel"
-import HotelItem from "@/components/search/HotelItem"
-import SearchFilters from "@/components/search/SearchFilters"
+import SearchPanel from '@/components/SearchPanel'
+import HotelItem from '@/components/search/HotelItem'
+import SearchFilters from '@/components/search/SearchFilters'
 
 export default {
   data() {
@@ -62,93 +60,93 @@ export default {
       },
       hotels: [
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 5,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Meeting rooms", "25"],
-            ["Total meeting space", "2,323 sq. m"],
-            ["Largest room", "618 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Meeting rooms', '25'],
+            ['Total meeting space', '2,323 sq. m'],
+            ['Largest room', '618 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         },
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 5,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Meeting rooms", "25"],
-            ["Total meeting space", "2,323 sq. m"],
-            ["Largest room", "618 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Meeting rooms', '25'],
+            ['Total meeting space', '2,323 sq. m'],
+            ['Largest room', '618 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         },
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 5,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Meeting rooms", "25"],
-            ["Total meeting space", "2,323 sq. m"],
-            ["Largest room", "618 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Meeting rooms', '25'],
+            ['Total meeting space', '2,323 sq. m'],
+            ['Largest room', '618 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         },
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 5,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Meeting rooms", "25"],
-            ["Total meeting space", "2,323 sq. m"],
-            ["Largest room", "618 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Meeting rooms', '25'],
+            ['Total meeting space', '2,323 sq. m'],
+            ['Largest room', '618 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         },
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 5,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Meeting rooms", "25"],
-            ["Total meeting space", "2,323 sq. m"],
-            ["Largest room", "618 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Meeting rooms', '25'],
+            ['Total meeting space', '2,323 sq. m'],
+            ['Largest room', '618 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         }
       ],
       sideHotels: [
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 4,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Total meeting space", "2,323 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Total meeting space', '2,323 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         },
         {
-          title: "TITANIC MARDAN PALACE",
-          image: "/img/home/ecommerce.png",
+          title: 'TITANIC MARDAN PALACE',
+          image: '/img/home/ecommerce.png',
           stars: 4,
-          regions: ["Turkey", "Antalya", "Aksu"],
+          regions: ['Turkey', 'Antalya', 'Aksu'],
           props: [
-            ["Guest rooms", "1,025"],
-            ["Total meeting space", "2,323 sq. m"]
+            ['Guest rooms', '1,025'],
+            ['Total meeting space', '2,323 sq. m']
           ],
-          price: "1,999"
+          price: '1,999'
         }
       ],
       menu: null,
@@ -156,9 +154,7 @@ export default {
       filters: {}
     }
   },
-  created() {
-    this.$store.commit("styles/setHeaderDarkText", true)
-  },
+  created() {},
   methods: {
     updateFilters(newFilters) {
       console.log(newFilters)
@@ -166,8 +162,6 @@ export default {
     }
   },
   components: {
-    HeaderComponent,
-    FooterComponent,
     SearchPanel,
     HotelItem,
     SearchFilters

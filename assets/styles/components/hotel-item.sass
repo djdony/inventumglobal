@@ -73,43 +73,72 @@
       padding: 15px 25px
       .info
         &__title
-          line-height: 1
+          display: flex
+          line-height: 1.2
           margin: 5px 0 2.5px 0
           font-size: 20px
           text-transform: uppercase
           color: $blue-darken-1
-
-        &__reviews
-          display: flex
           align-items: center
-          flex-wrap: wrap
-          .reviews__stars
-            margin-right: 10px
-            .v-icon
-              font-size: 22px
-          .reviews__regions
-            font-size: 13px
-            color: #BFC4CE
-            text-transform: uppercase
+        
+        &__stars
+          background-color: $primary-color
+          display: inline-block
+          color: #fff
+          height: 28.5px
+          min-width: 28.5px
+          padding: 0 2.5px
+          display: inline-flex
+          align-items: center
+          justify-items: center
+          margin-right: 7.5px
+          .stars__value
+            font-size: 20px
+          .v-icon
+            font-size: 12px
+            color: #fff
+
+        &__regions
+          font-size: 13px
+          color: #BFC4CE
+          text-transform: uppercase
 
         &__props
-          margin-top: 10px
+          margin: 0 -10px 0 -10px
           font-size: 14px 
-          .props__item
-            color: #595F6F
+          display: flex
+          flex-wrap: wrap
+          &>div
+            margin: 10px 10px 0 10px
+          .props__room-chars
+            .props__item
+              color: #595F6F
+
+          .props__price
+            .props__title
+              font-size: 14px
+              color: $blue-darken-1
+              text-transform: uppercase
+              font-weight: bold
+            .props__item
+              color: #595F6F
+              span
+                font-weight: bold
+                color: $primary-color
+          
         
-        &__price
-          font-weight: bold
-          text-align: right
-          margin-top: -10px
-          .price__title
-            font-size: 14px
-            color: $blue-lighten-1
-            text-transform: uppercase
-            margin-right: 5px
-          .price__value
-            font-size: 32px
-            color: $primary-color
+        &__actions
+          display: flex
+          margin: 15px -5px 0 -5px
+          flex-wrap: wrap
+          max-width: 300px
+          .v-btn
+            margin: 5px
+            padding: 0 20px
+            min-width: 140px
+            flex: 1 0 calc(50% - 10px)
+
+
 
   &.compact
     width: auto

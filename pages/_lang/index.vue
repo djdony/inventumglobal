@@ -90,15 +90,16 @@
 </template>
 
 <script>
-import EcommerceCarousel from "@/components/EcommerceCarousel"
-import SearchPanel from "@/components/SearchPanel"
+import EcommerceCarousel from '@/components/EcommerceCarousel'
+import SearchPanel from '@/components/SearchPanel'
 
 export default {
   data() {
     return {}
   },
   created() {
-    this.$store.commit("styles/setAppClassName", "home-page")
+    this.$store.commit('styles/setHeaderDarkText', false)
+    this.$store.commit('styles/setAppClassName', 'home-page')
   },
   components: {
     EcommerceCarousel,

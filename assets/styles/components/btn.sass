@@ -11,9 +11,29 @@
       justify-content: space-between
       width: 100%
 
+  &:not(.v-btn--round).v-size--small
+    letter-spacing: normal
+    padding: 0 16px
+    height: 40px
+    &.fluid
+      padding: 0 5px
+      justify-content: space-between
+      width: 100%
+
+  &:not(.v-btn--round).v-size--x-large
+    letter-spacing: normal
+    padding: 0 32px
+    font-size: 18px
+      
+
 @include respond-to(xs)
   .v-btn.custom
     &:not(.v-btn--round).v-size--default
       padding: 0 12px
       height: 50px
-    
+
+    &:not(.v-btn--round).v-size--x-large
+      letter-spacing: normal
+      padding: 0 28px
+      height: 50px
+      font-size: 16px

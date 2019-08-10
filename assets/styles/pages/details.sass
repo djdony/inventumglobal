@@ -1,0 +1,250 @@
+.details-page
+  .v-card.details__section
+    background-color: #fff
+    margin-bottom: 30px
+    padding: 20px 25px 30px 25px
+    color: #595F6F
+    box-shadow: $elevation-24-lighten
+    .section__title
+      font-size: 16px
+      color: $secondary-color
+      text-transform: uppercase
+      margin: 0 0 10px 0
+
+    // GENERAL INFO PART
+
+    &.general-info
+      padding: 0
+      .general-info__banner
+        .v-responsive
+          border-radius: 4px 4px 0 0
+      .general-info__content
+        background-color: $secondary-color
+        padding: 20px 25px 30px 25px
+        .content__row
+          display: flex
+          justify-content: space-between
+          .basic-info
+            .info
+              &__title
+                display: flex
+                line-height: 1.2
+                margin: 5px 0 2.5px 0
+                font-size: 24px
+                text-transform: uppercase
+                color: #fff
+                align-items: center
+              
+              &__stars
+                background-color: $primary-color
+                display: inline-block
+                color: #fff
+                height: 28.5px
+                min-width: 28.5px
+                padding: 0 2.5px
+                display: inline-flex
+                align-items: center
+                justify-items: center
+                margin-right: 7.5px
+                .stars__value
+                  font-size: 20px
+                .v-icon
+                  font-size: 12px
+                  color: #fff
+
+              &__regions
+                font-size: 13px
+                color: #BFC4CE
+                text-transform: uppercase
+
+          .details
+            margin: 0 -10px
+            display: flex
+            width: 100%
+            flex-wrap: wrap
+            .details__block
+              min-width: 140px
+              max-width: 180px
+              flex: 1 0
+              margin: 20px 10px 0 10px
+              .block
+                &__title
+                  font-size: 14px
+                  color: $blue-lighten-1
+                  text-transform: uppercase
+                  font-weight: bold
+                &__list
+                  margin-top: 2.5px
+                  .block-list__item
+                    font-size: 13px
+                    .item__param
+                      color: #CACDD8
+                    .item__value
+                      color: #7A81A2
+
+    // OVERVIEW PART
+
+    &.overview
+      .overview__content
+        font-size: 14px
+        p
+          margin-bottom: 10px
+
+    // GALLERY PART
+
+    &.gallery
+      .images-wrapper
+        display: flex
+        flex-wrap: wrap
+        margin: 0 -10px -10px -10px
+        .v-image
+          margin: 10px
+          min-width: 300px
+          max-height: 250px
+
+    // ROOMS PART
+
+    &.rooms
+      .rooms__count
+        .count__item
+          font-size: 14px
+      .rooms__table
+        margin-top: 20px
+        .v-data-table
+          text-align: center
+          table
+            thead
+              background-color: $secondary-color
+              color: #fff
+              th
+                text-align: center
+                font-size: 14px
+                font-weight: 500
+            tbody
+              background-color: #ECEDEF
+
+      .rooms__carousel
+        margin: 30px 0 0px 0
+        position: relative
+        img
+          max-height: 250px
+        .v-btn
+          z-index: 2
+          color: #fff
+          &.prev
+            position: absolute
+            bottom: calc(50% - 25px)
+            left: 25px
+            background-color: $secondary-color
+            height: 50px
+            width: 50px
+          &.next
+            position: absolute
+            bottom: calc(50% - 25px)
+            right: 25px
+            background-color: $primary-color
+            box-shadow: $elevation-24
+            height: 50px
+            width: 50px
+          .v-icon
+            color: #fff
+
+    // ROOMS PART
+
+    &.meeting-space
+      .meeting-space__count
+        .count__item
+          font-size: 14px
+      .meeting-space__table
+        margin-top: 20px
+        .v-data-table
+          text-align: center
+          table
+            thead
+              background-color: $secondary-color
+              color: #fff
+              th
+                text-align: center
+                font-size: 14px
+                font-weight: 500
+              &.icons
+                background-color: transparent
+                .v-icon
+                  color: #595F6F
+            tbody
+              background-color: #ECEDEF
+
+    // LOCATION PART
+
+    &.location
+      .location
+        &__name
+          font-size: 14px
+          font-weight: 400
+        &__map-wrapper
+          width: 100%
+          iframe
+            width: 100%
+            height: 500px
+
+@iclude respond-to(lg)
+  // .details-page
+  //   .v-card.details__section
+
+@iclude respond-to(md)
+  // .details-page
+  //   .v-card.details__section
+
+@include respond-to(sm)
+  .details-page
+    .v-card.details__section
+      &.rooms
+        .rooms__carousel
+          .v-btn
+            &.prev
+              bottom: calc(50% - 20px)
+              left: 10px
+              height: 40px
+              width: 40px
+            &.next
+              bottom: calc(50% - 20px)
+              right: 10px
+              height: 40px
+              width: 40px
+
+@include respond-to(xs)
+  .details-page
+    .v-card.details__section
+      padding: 20px 15px 30px 15px
+      &.general-info
+        .general-info__content
+          padding: 20px 15px 30px 15px
+          .content__row
+            flex-direction: column
+            .v-btn
+              margin-top: 15px
+            .basic-info
+              .info
+                &__title
+                  font-size: 18px
+            .details
+              .details__block
+                max-width: 100%
+
+      &.gallery
+        .images-wrapper
+          .v-image
+            width: 100%
+            min-width: auto
+            margin: 10px 0
+
+            
+
+
+
+
+
+
+
+
+        

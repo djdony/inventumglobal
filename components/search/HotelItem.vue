@@ -4,23 +4,36 @@
       .hotel__image
         img(src='/img/home/ecommerce.png' alt='Hotel Image')
       .hotel__info
-        h3(v-text='title').info__title
+        h3.info__title
+          .info__stars
+            span.stars__value 5
+            v-icon mdi-star
+          span(v-text='title')
 
-        .info__reviews
-          .reviews__stars
-            v-icon(color='primary' v-for='i in stars' :key='i') mdi-star
-          span(v-text='regions.join(" / ")').reviews__regions
+        .info__regions(v-text='regions.join(" / ")')
 
         .info__props
-          .props__item(v-for='(prop, index) in props' :key='index')
-            b(v-text='prop[0] + ": "')
-            span(v-text='prop[1]')
+          .props__room-chars
+            .props__item(v-for='(prop, index) in props' :key='index')
+              b(v-text='prop[0] + ": "')
+              span(v-text='prop[1]')
+          .props__price
+            .props__title PP in DBL sharing room
+            .props__item
+              b Air + Land Package: 
+              span 1,999 €
+            .props__item
+              b Land Package: 
+              span 1,999 €
+            .props__item
+              b Pre Post: 
+              span 1,999 €
 
-        .info__price(v-if='!compact')
-          span.price__title Starting from: 
-          span(v-text='price + " €"').price__value
+        .info__actions(:class='{compact}')
+          v-btn(color='secondary' small).custom Quick View
+          v-btn(color='primary' small).custom Select Hotel
 
-        v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
+        //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
 
     transition(name='hotelInfoFade')
       .hotel__more-info(v-if='!compact && showMenu')

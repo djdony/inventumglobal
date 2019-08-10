@@ -14,7 +14,7 @@
                 .info__stars
                   span.stars__value 5
                   v-icon mdi-star
-                span TITANIC MARDAN PALCE
+                span(v-text='hotel.name')
 
               .info__regions Turkey / Antalya / Aksu 
 
@@ -243,15 +243,28 @@
 
 <script>
 import OwlCarousel from 'vue-owl-carousel'
+import Hotel from '@/models/Hotel'
 
 export default {
   data() {
     return {}
   },
-  created() {},
-  methods: {
-    openImage(e) {}
+  async asyncData(context) {
+    try {
+      let hotel = await Hotel.where('id', context.route.params.id)
+        .include('seasons', 'periods', 'rooms', 'location', 'types')
+        .get()
+
+      console.log(hotel)
+
+      return { hotel: hotel[0] }
+    } catch ({ response }) {
+      // this.$message.error(response.data.message)
+      console.log(response)
+    }
   },
+  created() {},
+  methods: {},
   computed: {
     roomsCarouselItems() {
       let { breakpoint } = this.$vuetify

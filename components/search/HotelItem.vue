@@ -30,7 +30,7 @@
               span 1,999 €
 
         .info__actions(:class='{compact}')
-          v-btn(color='secondary' small).custom Quick View
+          v-btn(color='secondary' small @click.prevent="$router.push('/hotel/1')").custom Quick View
           v-btn(color='primary' small).custom Select Hotel
 
         //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel

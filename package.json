@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@ax2/dayjs-module": "^0.1.2",
     "@nuxtjs/auth": "^4.8.1",
     "@nuxtjs/axios": "^5.5.4",
     "dayjs": "^1.8.15",

@@ -12,11 +12,11 @@
         span.filter-item__title Hotel class
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.checkboxes
-        v-checkbox(v-model='filters.stars.five' label="5 Stars" hide-details)
-        v-checkbox(v-model='filters.stars.four' label="4 Stars" hide-details)
-        v-checkbox(v-model='filters.stars.three' label="3 Stars" hide-details)
-        v-checkbox(v-model='filters.stars.two' label="2 Stars" hide-details)
-        v-checkbox(v-model='filters.stars.one' label="1 Stars" hide-details)
+        v-checkbox(v-model='filters.fiveStars' label="5 Stars" hide-details)
+        v-checkbox(v-model='filters.fourStars' label="4 Stars" hide-details)
+        v-checkbox(v-model='filters.threeStars' label="3 Stars" hide-details)
+        v-checkbox(v-model='filters.twoStars' label="2 Stars" hide-details)
+        v-checkbox(v-model='filters.oneStars' label="1 Stars" hide-details)
 
     .filter-item
       .filter-item__row.mb-2
@@ -44,17 +44,17 @@
         span.filter-item__title Room type
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.select
-        v-select(:items="filters.roomType.items" v-model='filters.roomType.value' outlined hide-details)
+        v-select(:items="roomTypeItems" v-model='filters.room_type' outlined hide-details)
 
     .filter-item
       .filter-item__row.mb-2
         span.filter-item__title Amenities
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.checkboxes
-        v-checkbox(v-model='filters.amenities.airConditioned' label="Air-conditioned" hide-details)
-        v-checkbox(v-model='filters.amenities.airportShuttle' label="Airport Shuttle" hide-details)
-        v-checkbox(v-model='filters.amenities.fitness' label="Fitness" hide-details)
-        v-checkbox(v-model='filters.amenities.wifi' label="Wi-Fi" hide-details)
+        v-checkbox(v-model='filters.airConditioned' label="Air-conditioned" hide-details)
+        v-checkbox(v-model='filters.airportShuttle' label="Airport Shuttle" hide-details)
+        v-checkbox(v-model='filters.fitness' label="Fitness" hide-details)
+        v-checkbox(v-model='filters.wifi' label="Wi-Fi" hide-details)
 
     .filter-item
       .filter-item__row.mb-2
@@ -97,7 +97,8 @@
     //-     span Distance from airport
     //-     v-icon(size='24') mdi-chevron-right
 
-    v-btn(color='primary' text).custom.mt-5.full-width Reset all filters
+    v-btn(color='primary' @click='search').custom.mt-5.full-width Apply filters
+    v-btn(color='primary' text @click='reset').custom.mt-2.full-width Reset all filters
 
 </template>
 
@@ -107,38 +108,102 @@ export default {
     return {
       filters: {
         search: '',
-        stars: {
-          one: false,
-          two: false,
-          three: false,
-          four: false,
-          five: false
-        },
+
+        twoStars: false,
+        oneStars: false,
+        threeStars: false,
+        fourStars: false,
+        fiveStars: false,
+
         priceType: 'wedding',
         price: [100, 500],
-        roomType: {
-          items: ['SGL', 'DBL', 'TRP'],
-          value: 'DBL'
-        },
-        amenities: {
-          airConditioned: false,
-          airportShuttle: false,
-          fitness: false,
-          wifi: false
-        },
+        room_type: 'dbl',
+        airConditioned: false,
+        airportShuttle: false,
+        fitness: false,
+        wifi: false,
         meetingRooms: [0, 50],
         ceilingHeight: [0, 10],
-        distance: [0, 10]
-      }
+        distance: [0, 10],
+        // signals that there's a query from search-filters
+        searchFilters: true
+      },
+      roomTypeItems: ['sgl', 'dbl', 'trp']
     }
   },
-  watch: {
-    // filters: {
-    //   handler(newFilters) {
-    //     this.$emit("updateFilters", newFilters)
-    //   },
-    //   deep: true
-    // }
+  created() {
+    let { query } = this.$route
+
+    if (query.searchFilters) {
+      // convert 'fieldFrom' and 'fieldTo' to arrays
+      for (let index of [
+        'price',
+        'meetingRooms',
+        'ceilingHeight',
+        'distance'
+      ]) {
+        query[index] = []
+        query[index][0] = query[index + 'From']
+        query[index][1] = query[index + 'To']
+
+        delete query[index + 'From']
+        delete query[index + 'To']
+      }
+
+      this.$set(this, 'filters', query)
+    }
+  },
+  methods: {
+    search() {
+      let query = this.$route.query
+      let filters = this.filters
+
+      query = { ...query, ...filters }
+
+      // convert arrays to 'fieldFrom' and 'fieldTo'
+      for (let index of [
+        'price',
+        'meetingRooms',
+        'ceilingHeight',
+        'distance'
+      ]) {
+        query[index + 'From'] = query[index][0]
+        query[index + 'To'] = query[index][1]
+        delete query[index]
+      }
+
+      this.$router.push({ path: '/search', query })
+
+      this.$emit('search')
+    },
+    reset() {
+      this.filters = {
+        search: '',
+
+        twoStars: false,
+        oneStars: false,
+        threeStars: false,
+        fourStars: false,
+        fiveStars: false,
+
+        priceType: 'wedding',
+        price: [100, 500],
+        room_type: 'dbl',
+        airConditioned: false,
+        airportShuttle: false,
+        fitness: false,
+        wifi: false,
+        meetingRooms: [0, 50],
+        ceilingHeight: [0, 10],
+        distance: [0, 10],
+        // signals that there's a query from search-filters
+        searchFilters: true
+      }
+
+      let { query } = this.$route
+      this.$router.push({ path: '/search', query })
+      this.$emit('search')
+    }
   }
 }
 </script>

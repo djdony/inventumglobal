@@ -16,7 +16,7 @@
                   v-icon mdi-star
                 span(v-text='hotel.name')
 
-              .info__regions Turkey / Antalya / Aksu 
+              .info__regions(v-text='hotel.location.name')
 
             v-btn(color='primary' x-large).custom Select hotel
 

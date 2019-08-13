@@ -8,29 +8,35 @@
           .info__stars
             span.stars__value 5
             v-icon mdi-star
-          span(v-text='title')
+          span(v-text='hotel')
 
-        .info__regions(v-text='regions.join(" / ")')
+        .info__regions Region
 
         .info__props
           .props__room-chars
-            .props__item(v-for='(prop, index) in props' :key='index')
-              b(v-text='prop[0] + ": "')
-              span(v-text='prop[1]')
+            .props__item
+              b Prop: 
+              span Value
+            .props__item
+              b Prop: 
+              span Value
+            .props__item
+              b Prop: 
+              span Value
           .props__price
             .props__title PP in DBL sharing room
             .props__item
-              b Air + Land Package: 
-              span 1,999 €
+              b Landing: 
+              span(v-text='prices.m.landing + " " + curSymb')
             .props__item
-              b Land Package: 
-              span 1,999 €
+              b Package: 
+              span(v-text='prices.m.package + " " + curSymb')
             .props__item
               b Pre Post: 
-              span 1,999 €
+              span(v-text='prices.m.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
-          v-btn(color='secondary' small @click.prevent="$router.push('/hotel/1')").custom Quick View
+          v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Quick View
           v-btn(color='primary' small).custom Select Hotel
 
         //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
@@ -160,13 +166,33 @@ export default {
       showMenu: false
     }
   },
+  computed: {
+    curSymb() {
+      switch (this.prices.m.currency) {
+        case 'EUR':
+          return '€'
+          break
+        case 'USD':
+          return '$'
+          break
+        case 'RUB':
+          return '₽'
+          break
+        default:
+          return '€'
+          break
+      }
+    }
+  },
   props: {
+    id: Number,
     compact: {
       type: Boolean,
       default: false
     },
+    prices: Object,
     image: String,
-    title: String,
+    hotel: String,
     stars: Number,
     regions: Array,
     props: Array,

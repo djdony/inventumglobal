@@ -4,12 +4,12 @@
     .search-group
       .search-item.text 
         v-icon mdi-airplane-landing
-        v-autocomplete(v-model='from' :items="fromLocationsList" placeholder='From' solo flat hide-details)
+        v-autocomplete(v-model='filters.from' :items="fromLocationsList" placeholder='From' solo flat hide-details)
         //- v-icon mdi-chevron-right
 
       .search-item.text 
         v-icon mdi-airplane-landing
-        v-autocomplete(v-model='to' :items="toLocationsList" placeholder='To' solo flat hide-details)
+        v-autocomplete(v-model='filters.to' :items="toLocationsList" placeholder='To' solo flat hide-details)
         //- v-icon mdi-chevron-right
       
     .search-group
@@ -18,15 +18,15 @@
             v-btn.search-item.button(v-on='on')
               .text
                 span.label Dates
-                span(v-text='datesValue').value
+                span(v-text='travelRange').value
               v-icon mdi-calendar-multiple
           v-card(color='white secondary--text').datepicker-menu
-            v-date-picker(v-model="date" no-title width='256' first-day-of-week='1')
-              span(v-text='dateMessage[0]' v-if='date.length == 0').primary--text.caption.px-2.pb-1
+            v-date-picker(v-model="filters.departure_date" no-title width='256' first-day-of-week='1')
+              span(v-text='dateMessage[0]' v-if='filters.departure_date.length == 0').primary--text.caption.px-2.pb-1
             v-divider
             .search-menu__field-group
               span.group__name Nights:
-              v-text-field(v-model='nights' placeholder="0" solo hide-details flat).group__input
+              v-text-field(v-model='filters.nights' placeholder="0" solo hide-details flat).group__input
             .layout.px-4.py-2
               v-spacer
               v-btn(text color="primary" @click="dateMenu = false") OK
@@ -37,28 +37,28 @@
           v-btn.search-item.button(v-on='on')
             .text
               span.label Event size
-              span(v-text='rooms.pax').value
+              span(v-text='filters.pax').value
             v-icon mdi-human-male
         v-card.search-menu.white.secondary--text
           p.search-menu__title Event size
           .search-menu__field-group
             span.group__name Single rooms:
-            v-text-field(v-model='rooms.single' placeholder="0" solo hide-details flat @input="recalc").group__input
+            v-text-field(v-model='filters.single' placeholder="0" solo hide-details flat @input="recalc").group__input
           .search-menu__field-group
             span.group__name Double rooms:
-            v-text-field(v-model='rooms.double' placeholder="0" solo hide-details flat @input="recalc").group__input
+            v-text-field(v-model='filters.double' placeholder="0" solo hide-details flat @input="recalc").group__input
           .search-menu__field-group
             span.group__name Triple rooms:
-            v-text-field(v-model='rooms.triple' placeholder="0" solo hide-details flat @input="recalc").group__input
+            v-text-field(v-model='filters.triple' placeholder="0" solo hide-details flat @input="recalc").group__input
           .search-menu__field-group
             span.group__name Total Pax:
-            v-text-field(v-model='rooms.pax' placeholder="0" solo hide-details flat @input="recalc('pax')").group__input
+            v-text-field(v-model='filters.pax' placeholder="0" solo hide-details flat @input="recalc('pax')").group__input
           
           .layout.mt-3
             v-spacer
             v-btn(text color="primary" @click="eventSizeMenu = false") OK
 
-      v-btn.search-item.button.submit
+      v-btn.search-item.button.submit(@click="search")
         span.label Search
 </template>
 
@@ -68,59 +68,54 @@ import Location from '@/models/Location'
 export default {
   data() {
     return {
-      from: null,
-      to: null,
-      dateMenu: null,
-      eventSizeMenu: null,
-      fromMenu: null,
-      date: '',
-      nights: 1,
-      // dates: [],
-      dateMessage: ['Choose departure day', '', ''],
-      rooms: {
+      filters: {
+        from: null,
+        to: null,
+        departure_date: '',
+        arrival_date: '',
+        nights: 3,
+        // rooms
         single: null,
         double: null,
         triple: null,
-        pax: null
+        pax: null,
+        room_type: 'dbl',
+        // signals that there's a query from search-panel
+        searchPanel: true
       },
 
       fromLocations: [],
-      toLocations: []
+      toLocations: [],
+      dateMessage: ['Choose departure day', '', ''],
+      dateMenu: null,
+      eventSizeMenu: null,
+      fromMenu: null
     }
   },
   async created() {
     this.fromLocations = await Location.custom('user/airports').get()
     this.toLocations = await Location.custom('user/destinations').get()
-    console.log(this.toLocations)
+
+    let { query } = this.$route
+    if (query.searchPanel) this.$set(this, 'filters', query)
+
+    console.log(this.filters)
   },
   computed: {
-    arrivalDate() {
-      if (this.date == '') return
+    travelRange() {
+      if (!this.filters.departure_date) return
 
-      let takeoffDate = new Date(this.date)
-      let arrivalDate = new Date(takeoffDate)
+      let nights = this.filters.nights
 
-      arrivalDate.setDate(arrivalDate.getDate() + Number(this.nights))
+      let departureDate = this.$dayjs(this.filters.departure_date).format(
+        'DD.MM'
+      )
 
-      let arrivalYear = arrivalDate.getFullYear()
-      let arrivalMonth = this.getMonth(arrivalDate)
-      let arrivalDay = this.getDay(arrivalDate)
+      let arrivalDate = this.$dayjs(this.filters.departure_date)
+        .add(nights, 'day')
+        .format('DD.MM')
 
-      return `${arrivalYear}-${arrivalMonth}-${arrivalDay}`
-    },
-    datesValue() {
-      if (this.date == '') return
-
-      let takeoffDate = new Date(this.date)
-      let arrivalDate = new Date(this.arrivalDate)
-
-      let takeoffMonth = this.getMonth(takeoffDate)
-      let takeoffDay = this.getDay(takeoffDate)
-
-      let arrivalMonth = this.getMonth(arrivalDate)
-      let arrivalDay = this.getDay(arrivalDate)
-
-      return `${takeoffDay}.${takeoffMonth}-${arrivalDay}.${arrivalMonth}`
+      return departureDate + ' - ' + arrivalDate
     },
     fromLocationsList() {
       let list = []
@@ -152,49 +147,38 @@ export default {
     }
   },
   methods: {
-    // DEPRECATED
-    allowedDates(val) {
-      let date = new Date(val)
-      let range = 4
+    // TODO: add validation
+    search() {
+      let query = this.$route.query
+      let filters = this.filters
 
-      if (this.dates.length == 0) return true
+      query = { ...query, ...filters }
+      console.log(query, filters)
 
-      if (this.dates.length == 1) {
-        let selectedDate = new Date(this.dates[0])
-        let maxDate = new Date(selectedDate)
-        let minDate = new Date(selectedDate)
+      console.log(this.filters)
 
-        minDate.setDate(minDate.getDate() - range)
-        maxDate.setDate(maxDate.getDate() + range)
-
-        return maxDate > date && date > minDate
-      }
-
-      if (this.dates.length == 2) {
-        return val == this.dates[0] || val == this.dates[1]
-      }
+      this.$router.push({ path: '/search', query })
+      this.$emit('search')
     },
     recalc(e) {
       if (e == 'pax') {
-        this.rooms.single = 0
-        this.rooms.double =
-          this.rooms.pax > 0 ? Math.ceil(this.rooms.pax / 2) : 0
-        this.rooms.triple = 0
+        this.filters.single = 0
+        this.filters.double =
+          this.filters.pax > 0 ? Math.ceil(this.filters.pax / 2) : 0
+        this.filters.triple = 0
       } else {
-        this.rooms.pax =
-          Number(this.rooms.single) +
-          Number(this.rooms.double * 2) +
-          Number(this.rooms.triple * 3)
+        this.filters.pax =
+          Number(this.filters.single) +
+          Number(this.filters.double * 2) +
+          Number(this.filters.triple * 3)
       }
-    },
-
-    getDay(date) {
-      return date.getDate() > 9 ? date.getDate() : '0' + date.getDate()
-    },
-    getMonth(date) {
-      return date.getMonth() > 8
-        ? date.getMonth() + 1
-        : '0' + (date.getMonth() + 1)
+    }
+  },
+  watch: {
+    'filters.departure_date'() {
+      this.filters.arrival_date = this.$dayjs(this.filters.departure_date)
+        .add(this.filters.nights, 'day')
+        .format('YYYY-MM-DD')
     }
   }
 }

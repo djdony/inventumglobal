@@ -42,7 +42,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@ax2/dayjs-module'
   ],
   /*
    ** Axios module configuration

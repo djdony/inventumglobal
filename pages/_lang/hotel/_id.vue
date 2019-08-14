@@ -259,8 +259,9 @@ export default {
 
       return { hotel: hotel[0] }
     } catch ({ response }) {
-      // this.$message.error(response.data.message)
-      console.log(response)
+      this.$toast.error(response.data.message, {
+        duration: 3000
+      })
     }
   },
   created() {},

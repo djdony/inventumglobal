@@ -6,7 +6,7 @@
 
       v-layout(search-form-part wrap)
         v-flex(xs12)
-          search-panel(@search='searchHotels' @hotelsAmount='hotelsAmount')
+          search-panel(@search='searchHotels' @hotelsAmount='hotelsAmount' search-params)
 
       v-layout(main-part)
 
@@ -15,10 +15,12 @@
         v-flex(main-part__filters) 
           search-filters(@updateFilters='updateFilters' @search='searchHotels')
 
-        //- HOTELS
-
         v-flex(main-part__hotels)
-          p.empty(v-if='hotels.length == 0' v-text='hotelsMessage')
+          p(v-if='hotelsLoading').empty: v-progress-circular(indeterminate color="#F91C3D")
+          p.empty(v-else-if='hotels.length == 0' v-text='hotelsMessage')
+          
+          //- HOTELS
+
           hotel-item(v-else v-for='(hotel, index) in hotels' :key='index' v-bind='hotel')
           v-spacer
 
@@ -51,7 +53,8 @@ export default {
       sideHotels: [],
       menu: null,
       date: null,
-      hotelsMessage: 'Hotels will appear here'
+      hotelsMessage: 'Hotels will appear here',
+      hotelsLoading: false
     }
   },
   created() {
@@ -71,7 +74,10 @@ export default {
   methods: {
     async searchHotels() {
       // timeout is need as URL changing takes some time
-      setTimeout(async () => {
+
+      await setTimeout(async () => {
+        this.hotelsLoading = true
+
         try {
           let { query } = this.$route
           const res = await this.$axios.get('/searchpackage', { params: query })
@@ -86,9 +92,10 @@ export default {
           if (this.hotels.length == 0)
             this.hotelsMessage = 'No hotels found. Try changing the filters'
         } catch ({ response }) {
-          // this.$message.error(response.data.message)
-          console.log(response)
+          this.$toast.error(response.data.message)
         }
+
+        this.hotelsLoading = false
       }, 1)
     },
     updateFilters(newFilters) {

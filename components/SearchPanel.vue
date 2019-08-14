@@ -3,7 +3,7 @@ div
   .search-panel
     .search-group
       .search-item.text 
-        v-icon mdi-airplane-landing
+        v-icon mdi-airplane-takeoff
         v-autocomplete(v-model='filters.from' :items="fromLocationsList" placeholder='From' solo flat hide-details)
         //- v-icon mdi-chevron-right
 
@@ -21,15 +21,11 @@ div
                 span(v-text='travelRange').value
               v-icon mdi-calendar-multiple
           v-card(color='white secondary--text').datepicker-menu
-            v-date-picker(v-model="filters.departure_date" no-title width='256' first-day-of-week='1')
-              span(v-text='dateMessage[0]' v-if='filters.departure_date.length == 0').primary--text.caption.px-2.pb-1
-            v-divider
-            .search-menu__field-group
-              span.group__name Nights:
-              v-text-field(v-model='filters.nights' placeholder="0" solo hide-details flat).group__input
-            .layout.px-4.py-2
+            //- v-date-picker(v-model="filters.departure_date" no-title width='256' first-day-of-week='1')
+            v-date-picker(v-model="filters.dates" no-title width='256' first-day-of-week='1' multiple :allowed-dates='allowedDates' :show-current='false' :events='datesInRange' event-color='#3273C2').range
               v-spacer
-              v-btn(text color="primary" @click="dateMenu = false") OK
+              span(v-text='dateMessage[filters.dates.length]' v-if='filters.dates.length < 2').primary--text.caption.px-2.pb-1
+              v-btn(text color="primary" @click="dateMenu = false" v-else) OK
       
       
       v-menu(offset-y v-model="eventSizeMenu" transition="scale-transition"  :close-on-content-click="false")
@@ -43,16 +39,24 @@ div
           p.search-menu__title Event size
           .search-menu__field-group
             span.group__name Single rooms:
-            v-text-field(v-model='filters.sgl' placeholder="0" solo hide-details flat @input="recalc").group__input
+            .control.plus(@click='decr("sgl")'): v-icon mdi-minus
+            v-text-field(v-model='filters.sgl' placeholder="0" solo hide-details flat).group__input
+            .control.plus(@click='incr("sgl")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Double rooms:
-            v-text-field(v-model='filters.dbl' placeholder="0" solo hide-details flat @input="recalc").group__input
+            .control.plus(@click='decr("dbl")'): v-icon mdi-minus
+            v-text-field(v-model='filters.dbl' placeholder="0" solo hide-details flat).group__input
+            .control.plus(@click='incr("dbl")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Triple rooms:
-            v-text-field(v-model='filters.trp' placeholder="0" solo hide-details flat @input="recalc").group__input
+            .control.plus(@click='decr("trp")'): v-icon mdi-minus
+            v-text-field(v-model='filters.trp' placeholder="0" solo hide-details flat).group__input
+            .control.plus(@click='incr("trp")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Total Pax:
-            v-text-field(v-model='filters.pax' placeholder="0" solo hide-details flat @input="recalc('pax')").group__input
+            .control.plus(@click='decr("pax")'): v-icon mdi-minus
+            v-text-field(v-model='filters.pax' placeholder="0" solo hide-details flat).group__input
+            .control.plus(@click='incr("pax")'): v-icon mdi-plus
           
           .layout.mt-3
             v-spacer
@@ -63,7 +67,7 @@ div
 
   //- SEARCH PARAMS
 
-  .search-params
+  .search-params(v-if='searchParams')
     v-spacer
     span(v-text='hotelsAmount').search-params__amount 
     span.search-params__sort.ml-3 
@@ -89,8 +93,7 @@ export default {
       filters: {
         from: null,
         to: null,
-        departure_date: '',
-        arrival_date: '',
+        dates: [],
         nights: 3,
         // rooms
         sgl: null,
@@ -100,12 +103,15 @@ export default {
         rt: 'dbl',
         sortby: 'price',
         // signals that there's a query from search-panel
-        searchPanel: true
+        searchPanel: true,
+        // for GET queries
+        arrival_date: '',
+        departure_date: ''
       },
 
       fromLocations: [],
       toLocations: [],
-      dateMessage: ['Choose departure day', '', ''],
+      dateMessage: ['Choose departure day', 'Choose arrival day', ''],
       sortItems: ['price', 'stars'],
       dateMenu: null,
       eventSizeMenu: null,
@@ -125,22 +131,28 @@ export default {
         getFilters[item] = Number(getFilters[item])
       })
 
+      getFilters.dates = _.compact([
+        getFilters.departure_date,
+        getFilters.arrival_date
+      ])
+      console.log(getFilters)
+
+      delete getFilters.departure_date, getFilters.arrival_date
+
       this.$set(this, 'filters', { ...this.filters, ...getFilters })
     }
   },
   computed: {
     travelRange() {
-      if (!this.filters.departure_date) return
+      if (this.filters.dates.length < 1) return
+      let departureDate = this.filters.dates[0]
+      let arrivalDate = this.filters.dates[1]
 
-      let nights = this.filters.nights
+      departureDate = this.$dayjs(departureDate).format('DD.MM')
 
-      let departureDate = this.$dayjs(this.filters.departure_date).format(
-        'DD.MM'
-      )
-
-      let arrivalDate = this.$dayjs(this.filters.departure_date)
-        .add(nights, 'day')
-        .format('DD.MM')
+      arrivalDate = arrivalDate
+        ? this.$dayjs(arrivalDate).format('DD.MM')
+        : '...'
 
       return departureDate + ' - ' + arrivalDate
     },
@@ -174,16 +186,54 @@ export default {
     }
   },
   methods: {
-    // TODO: add validation
+    incr(index) {
+      this.filters[index]++
+      this.recalc(index)
+    },
+    decr(index) {
+      let value = this.filters[index]
+      if (value > 0) this.filters[index]--
+      this.recalc(index)
+    },
+    allowedDates(widgetDate) {
+      let { dates } = this.filters
+      let range = 3
+
+      if (dates.length == 1) {
+        let diff = this.$dayjs(widgetDate).diff(this.$dayjs(dates[0]), 'days')
+        return 0 <= diff && diff <= range
+      }
+      if (dates.length == 3) this.filters.dates = [dates[2]]
+
+      if (dates.length > 3) this.filters.dates = []
+
+      return true
+    },
+    datesInRange(widgetDate) {
+      let { dates } = this.filters
+
+      if (dates.length < 2) return false
+
+      let minDate = new Date(dates[0])
+      let maxDate = new Date(dates[1])
+      let toCompareDate = new Date(widgetDate)
+
+      return minDate < toCompareDate && toCompareDate < maxDate
+    },
     async search() {
+      if (!this.validate()) return
+
       let query = this.$route.query
       let filters = this.filters
-      console.log()
 
       query = { ...query, ...filters }
 
+      query.departure_date = query.dates[0]
+      query.arrival_date = query.dates[1]
+      delete query.dates
+
       this.$router.push({ path: '/search', query })
-      this.$emit('search')
+      await this.$emit('search')
     },
     recalc(e) {
       if (e == 'pax') {
@@ -197,6 +247,26 @@ export default {
           Number(this.filters.dbl * 2) +
           Number(this.filters.trp * 3)
       }
+    },
+    validate() {
+      let errors = 0
+
+      if (!this.filters.from) {
+        errors++
+        this.$toast.error('Departure location must be specified')
+      }
+      if (!this.filters.to) {
+        errors++
+        this.$toast.error('Arrival location must be specified')
+      }
+      if (this.filters.dates.length < 2) {
+        errors++
+        this.$toast.error('Both departure and arrival dates must be specified')
+      }
+
+      if (errors > 0) return false
+
+      return true
     }
   },
   watch: {
@@ -207,7 +277,8 @@ export default {
     }
   },
   props: {
-    hotelsAmount: String
+    hotelsAmount: String,
+    searchParams: Boolean
   }
 }
 </script>

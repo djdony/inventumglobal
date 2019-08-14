@@ -5,7 +5,7 @@
         span.filter-item__title Search hotels
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.text-input
-        v-text-field(v-model='filters.search' placeholder='Hotel name, address' outlined hide-details)
+        v-text-field(v-model='filters.search' prepend-inner-icon="mdi-magnify" placeholder='Hotel name, address' outlined hide-details)
 
     .filter-item
       .filter-item__row.mb-2
@@ -24,8 +24,8 @@
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.radios
         v-radio-group(v-model="filters.priceType" hide-details)
-          v-radio(label="Wedding" value="wedding")
           v-radio(label="Mice" value="mice")
+          v-radio(label="Wedding" value="wedding")
 
     .filter-item
       .filter-item__row.mb-2
@@ -115,7 +115,7 @@ export default {
         s4: false,
         s5: false,
 
-        priceType: 'wedding',
+        priceType: 'mice',
         price: [100, 500],
         room_type: 'dbl',
         airConditioned: false,
@@ -209,7 +209,7 @@ export default {
         s4: false,
         s5: false,
 
-        priceType: 'wedding',
+        priceType: 'mice',
         price: [100, 500],
         room_type: 'dbl',
         airConditioned: false,

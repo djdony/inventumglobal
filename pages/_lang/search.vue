@@ -18,7 +18,7 @@
         v-flex(main-part__hotels)
           p(v-if='hotelsLoading').empty: v-progress-circular(indeterminate color="#F91C3D")
           p.empty(v-else-if='hotels.length == 0' v-text='hotelsMessage')
-          
+
           //- HOTELS
 
           hotel-item(v-else v-for='(hotel, index) in hotels' :key='index' v-bind='hotel')
@@ -29,7 +29,7 @@
         v-flex(main-part__side-hotels)
           hotel-item(v-for='(hotel, index) in sideHotels' :key='index' v-bind='hotel' compact)
 
-      v-layout(pagination justify-center).mb-10
+      v-layout(pagination justify-center v-if='pagination.total_pages > 1').mb-10
         v-pagination(v-model="pagination.current_page" :length="pagination.total_pages").custom
   
 </template>

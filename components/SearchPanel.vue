@@ -86,7 +86,7 @@ div
 <script>
 import Location from '@/models/Location'
 import _ from 'lodash'
-
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -120,9 +120,6 @@ export default {
     }
   },
   async created() {
-    this.fromLocations = await Location.custom('user/airports').get()
-    this.toLocations = await Location.custom('user/destinations').get()
-
     let { query } = await this.$route
     if (query.searchPanel) {
       let getFilters = _.pick(query, Object.keys(this.filters))
@@ -143,6 +140,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      filtersData: state => state.filters
+    }),
     travelRange() {
       if (this.filters.dates.length < 1) return
       let departureDate = this.filters.dates[0]

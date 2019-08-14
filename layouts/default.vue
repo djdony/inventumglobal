@@ -18,7 +18,9 @@ export default {
   data() {
     return {}
   },
-  created() {},
+  created() {
+    this.$store.dispatch('filters/populate')
+  },
   computed: {
     ...mapGetters({
       appClassName: "styles/appClassName"

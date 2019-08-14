@@ -16,13 +16,14 @@
     "@nuxtjs/axios": "^5.5.4",
     "@nuxtjs/toast": "^3.2.1",
     "dayjs": "^1.8.15",
-    "lodash": "^4.17.15",
     "nuxt": "^2.0.0",
+    "qs": "^6.7.0",
     "vue-fancybox": "^1.0.3",
     "vue-owl-carousel": "^2.0.3"
   },
   "devDependencies": {
-    "@mdi/font": "^3.9.95",
+    "lodash": "^4.17.15",
+    "@mdi/font": "^4.0.96",
     "@nuxtjs/vuetify": "^1.0.0",
     "nodemon": "^1.19.1",
     "pug": "^2.0.4",

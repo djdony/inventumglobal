@@ -1,6 +1,6 @@
 <template lang="pug">
+div
   .search-panel
-
     .search-group
       .search-item.text 
         v-icon mdi-airplane-landing
@@ -43,13 +43,13 @@
           p.search-menu__title Event size
           .search-menu__field-group
             span.group__name Single rooms:
-            v-text-field(v-model='filters.single' placeholder="0" solo hide-details flat @input="recalc").group__input
+            v-text-field(v-model='filters.sgl' placeholder="0" solo hide-details flat @input="recalc").group__input
           .search-menu__field-group
             span.group__name Double rooms:
-            v-text-field(v-model='filters.double' placeholder="0" solo hide-details flat @input="recalc").group__input
+            v-text-field(v-model='filters.dbl' placeholder="0" solo hide-details flat @input="recalc").group__input
           .search-menu__field-group
             span.group__name Triple rooms:
-            v-text-field(v-model='filters.triple' placeholder="0" solo hide-details flat @input="recalc").group__input
+            v-text-field(v-model='filters.trp' placeholder="0" solo hide-details flat @input="recalc").group__input
           .search-menu__field-group
             span.group__name Total Pax:
             v-text-field(v-model='filters.pax' placeholder="0" solo hide-details flat @input="recalc('pax')").group__input
@@ -58,12 +58,30 @@
             v-spacer
             v-btn(text color="primary" @click="eventSizeMenu = false") OK
 
-      v-btn.search-item.button.submit(@click="search")
+      v-btn.search-item.button.submit(@click="search" color='white--text')
         span.label Search
+
+  //- SEARCH PARAMS
+
+  .search-params
+    v-spacer
+    span(v-text='hotelsAmount').search-params__amount 
+    span.search-params__sort.ml-3 
+      span.mr-1 Sort by:
+      v-menu(offset-y)
+        template(v-slot:activator="{ on }")
+          span(v-on="on").select 
+            span.name {{ filters.sortby }}
+              v-icon(size='20') mdi-chevron-down
+        v-list(color='white')
+          v-list-item(@click='filters.sortby = item' v-for='item in sortItems' :key='item')
+            v-list-item-title(v-text='item').text-capitalize
+
 </template>
 
 <script>
 import Location from '@/models/Location'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -75,11 +93,12 @@ export default {
         arrival_date: '',
         nights: 3,
         // rooms
-        single: null,
-        double: null,
-        triple: null,
+        sgl: null,
+        dbl: null,
+        trp: null,
         pax: null,
-        room_type: 'dbl',
+        rt: 'dbl',
+        sortby: 'price',
         // signals that there's a query from search-panel
         searchPanel: true
       },
@@ -87,19 +106,27 @@ export default {
       fromLocations: [],
       toLocations: [],
       dateMessage: ['Choose departure day', '', ''],
+      sortItems: ['price', 'stars'],
       dateMenu: null,
       eventSizeMenu: null,
-      fromMenu: null
+      fromMenu: null,
+      numberFields: ['from', 'to', 'nights', 'sgl', 'dbl', 'trp', 'pax']
     }
   },
   async created() {
     this.fromLocations = await Location.custom('user/airports').get()
     this.toLocations = await Location.custom('user/destinations').get()
 
-    let { query } = this.$route
-    if (query.searchPanel) this.$set(this, 'filters', query)
+    let { query } = await this.$route
+    if (query.searchPanel) {
+      let getFilters = _.pick(query, Object.keys(this.filters))
 
-    console.log(this.filters)
+      this.numberFields.forEach(item => {
+        getFilters[item] = Number(getFilters[item])
+      })
+
+      this.$set(this, 'filters', { ...this.filters, ...getFilters })
+    }
   },
   computed: {
     travelRange() {
@@ -148,29 +175,27 @@ export default {
   },
   methods: {
     // TODO: add validation
-    search() {
+    async search() {
       let query = this.$route.query
       let filters = this.filters
+      console.log()
 
       query = { ...query, ...filters }
-      console.log(query, filters)
-
-      console.log(this.filters)
 
       this.$router.push({ path: '/search', query })
       this.$emit('search')
     },
     recalc(e) {
       if (e == 'pax') {
-        this.filters.single = 0
-        this.filters.double =
+        this.filters.sgl = 0
+        this.filters.dbl =
           this.filters.pax > 0 ? Math.ceil(this.filters.pax / 2) : 0
-        this.filters.triple = 0
+        this.filters.trp = 0
       } else {
         this.filters.pax =
-          Number(this.filters.single) +
-          Number(this.filters.double * 2) +
-          Number(this.filters.triple * 3)
+          Number(this.filters.sgl) +
+          Number(this.filters.dbl * 2) +
+          Number(this.filters.trp * 3)
       }
     }
   },
@@ -180,6 +205,9 @@ export default {
         .add(this.filters.nights, 'day')
         .format('YYYY-MM-DD')
     }
+  },
+  props: {
+    hotelsAmount: String
   }
 }
 </script>

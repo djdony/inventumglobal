@@ -12,11 +12,11 @@
         span.filter-item__title Hotel class
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.checkboxes
-        v-checkbox(v-model='filters.fiveStars' label="5 Stars" hide-details)
-        v-checkbox(v-model='filters.fourStars' label="4 Stars" hide-details)
-        v-checkbox(v-model='filters.threeStars' label="3 Stars" hide-details)
-        v-checkbox(v-model='filters.twoStars' label="2 Stars" hide-details)
-        v-checkbox(v-model='filters.oneStars' label="1 Stars" hide-details)
+        v-checkbox(v-model='filters.s5' label="5 Stars" hide-details)
+        v-checkbox(v-model='filters.s4' label="4 Stars" hide-details)
+        v-checkbox(v-model='filters.s3' label="3 Stars" hide-details)
+        v-checkbox(v-model='filters.s2' label="2 Stars" hide-details)
+        v-checkbox(v-model='filters.s1' label="1 Stars" hide-details)
 
     .filter-item
       .filter-item__row.mb-2
@@ -109,11 +109,11 @@ export default {
       filters: {
         search: '',
 
-        twoStars: false,
-        oneStars: false,
-        threeStars: false,
-        fourStars: false,
-        fiveStars: false,
+        s1: false,
+        s2: false,
+        s3: false,
+        s4: false,
+        s5: false,
 
         priceType: 'wedding',
         price: [100, 500],
@@ -128,63 +128,86 @@ export default {
         // signals that there's a query from search-filters
         searchFilters: true
       },
-      roomTypeItems: ['sgl', 'dbl', 'trp']
+      roomTypeItems: ['sgl', 'dbl', 'trp'],
+      rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance'],
+      booleanFields: [
+        's1',
+        's2',
+        's3',
+        's4',
+        's5',
+        'airConditioned',
+        'airportShuttle',
+        'fitness',
+        'wifi'
+      ]
     }
   },
   created() {
     let { query } = this.$route
 
     if (query.searchFilters) {
-      // convert 'fieldFrom' and 'fieldTo' to arrays
-      for (let index of [
-        'price',
-        'meetingRooms',
-        'ceilingHeight',
-        'distance'
-      ]) {
-        query[index] = []
-        query[index][0] = query[index + 'From']
-        query[index][1] = query[index + 'To']
+      query = this.getToRangeFields(query)
 
-        delete query[index + 'From']
-        delete query[index + 'To']
-      }
+      this.booleanFields.forEach(item => {
+        query[item] = query[item] === 'true'
+      })
 
-      this.$set(this, 'filters', query)
+      let getFilters = _.pick(query, Object.keys(this.filters))
+      this.$set(this, 'filters', { ...this.filters, ...getFilters })
     }
   },
   methods: {
     search() {
       let query = this.$route.query
       let filters = this.filters
-
       query = { ...query, ...filters }
 
-      // convert arrays to 'fieldFrom' and 'fieldTo'
-      for (let index of [
-        'price',
-        'meetingRooms',
-        'ceilingHeight',
-        'distance'
-      ]) {
-        query[index + 'From'] = query[index][0]
-        query[index + 'To'] = query[index][1]
-        delete query[index]
-      }
+      this.rangeFields.forEach(item => {
+        query[item + 'Min'] = query[item][0]
+        query[item + 'Max'] = query[item][1]
+        delete query[item]
+      })
 
       this.$router.push({ path: '/search', query })
-
       this.$emit('search')
+    },
+    /**
+     * @example { price: [10, 50] } => { priceMax: 10, priceMin: 50 }
+     */
+    rangeFieldsToGet(query) {
+      this.rangeFields.forEach(item => {
+        query[item + 'Min'] = query[item][0]
+        query[item + 'Max'] = query[item][1]
+        delete query[item]
+      })
+
+      return query
+    },
+    /**
+     * @example { priceMax: 10, priceMin: 50 } => { price: [10, 50] }
+     */
+    getToRangeFields(query) {
+      this.rangeFields.forEach(item => {
+        query[item] = []
+        query[item][0] = query[item + 'Min']
+        query[item][1] = query[item + 'Max']
+
+        delete query[item + 'Min']
+        delete query[item + 'Max']
+      })
+
+      return query
     },
     reset() {
       this.filters = {
         search: '',
 
-        twoStars: false,
-        oneStars: false,
-        threeStars: false,
-        fourStars: false,
-        fiveStars: false,
+        s1: false,
+        s2: false,
+        s3: false,
+        s4: false,
+        s5: false,
 
         priceType: 'wedding',
         price: [100, 500],
@@ -201,6 +224,11 @@ export default {
       }
 
       let { query } = this.$route
+      query = { ...query, ...this.filters }
+
+      query = this.rangeFieldsToGet(query)
+      console.log(query)
+
       this.$router.push({ path: '/search', query })
       this.$emit('search')
     }

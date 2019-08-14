@@ -6,22 +6,7 @@
 
       v-layout(search-form-part wrap)
         v-flex(xs12)
-          search-panel(@search='searchHotels')
-          .search-params
-            v-spacer
-            span.search-params__amount 1-25 of 1,000 Hotels
-            span.search-params__sort.ml-3 
-              span.mr-1 Sort by:
-              v-menu(offset-y)
-                template(v-slot:activator="{ on }")
-                  span(v-on="on").select 
-                    span.name Price
-                      v-icon(size='20') mdi-chevron-down
-                v-list(color='white')
-                  v-list-item(@click='')
-                    v-list-item-title Price
-                  v-list-item(@click='')
-                    v-list-item-title Stars
+          search-panel(@search='searchHotels' @hotelsAmount='hotelsAmount')
 
       v-layout(main-part)
 
@@ -33,7 +18,7 @@
         //- HOTELS
 
         v-flex(main-part__hotels)
-          p.empty(v-if='hotels.length == 0') Hotels will appear here
+          p.empty(v-if='hotels.length == 0' v-text='hotelsMessage')
           hotel-item(v-else v-for='(hotel, index) in hotels' :key='index' v-bind='hotel')
           v-spacer
 
@@ -43,7 +28,7 @@
           hotel-item(v-for='(hotel, index) in sideHotels' :key='index' v-bind='hotel' compact)
 
       v-layout(pagination justify-center).mb-10
-        v-pagination(v-model="pagination.current" :length="pagination.total").custom
+        v-pagination(v-model="pagination.current_page" :length="pagination.total_pages").custom
   
 </template>
 
@@ -52,82 +37,74 @@ import SearchPanel from '@/components/SearchPanel'
 import HotelItem from '@/components/search/HotelItem'
 import SearchFilters from '@/components/search/SearchFilters'
 import Hotel from '@/models/Hotel'
+import _ from 'lodash'
 
 export default {
   data() {
     return {
       pagination: {
-        current: 1,
-        total: 5
+        per_page: 50,
+        current_page: 1,
+        total_pages: 1
       },
-      hotels: [
-        //   {
-        //     title: 'TITANIC MARDAN PALACE',
-        //     image: '/img/home/ecommerce.png',
-        //     stars: 5,
-        //     regions: ['Turkey', 'Antalya', 'Aksu'],
-        //     props: [
-        //       ['Guest rooms', '1,025'],
-        //       ['Meeting rooms', '25'],
-        //       ['Total meeting space', '2,323 sq. m'],
-        //       ['Largest room', '618 sq. m']
-        //     ],
-        //     price: '1,999'
-        //   },
-        //   {
-        //     title: 'TITANIC MARDAN PALACE',
-        //     image: '/img/home/ecommerce.png',
-        //     stars: 5,
-        //     regions: ['Turkey', 'Antalya', 'Aksu'],
-        //     props: [
-        //       ['Guest rooms', '1,025'],
-        //       ['Meeting rooms', '25'],
-        //       ['Total meeting space', '2,323 sq. m'],
-        //       ['Largest room', '618 sq. m']
-        //     ],
-        //     price: '1,999'
-        //   },
-      ],
-      sideHotels: [
-        // {
-        //   title: 'TITANIC MARDAN PALACE',
-        //   image: '/img/home/ecommerce.png',
-        //   stars: 4,
-        //   regions: ['Turkey', 'Antalya', 'Aksu'],
-        //   props: [
-        //     ['Guest rooms', '1,025'],
-        //     ['Total meeting space', '2,323 sq. m']
-        //   ],
-        //   price: '1,999'
-        // }
-      ],
+      hotels: [],
+      sideHotels: [],
       menu: null,
       date: null,
-      filters: {}
+      hotelsMessage: 'Hotels will appear here'
     }
   },
   created() {
     if (this.$route.query.searchPanel) this.searchHotels()
   },
+  computed: {
+    hotelsAmount() {
+      let pag = this.pagination
+
+      let from = (pag.current_page - 1) * pag.per_page + 1
+      let to = from + this.hotels.length - 1
+      let total = pag.total
+
+      return `${from} to ${to} of ${total} Hotels`
+    }
+  },
   methods: {
     async searchHotels() {
-      try {
-        let { query } = this.$route
-        const res = await this.$axios.get('/searchpackage', { params: query })
-        console.log(res)
+      // timeout is need as URL changing takes some time
+      setTimeout(async () => {
+        try {
+          let { query } = this.$route
+          const res = await this.$axios.get('/searchpackage', { params: query })
+          console.log(res)
 
-        this.pagination.total = res.data.total
-        this.pagination.current = res.data.current_page
+          this.pagination.per_page = res.data.per_page
+          this.pagination.total_pages = Math.ceil(
+            res.data.total / this.pagination.per_page
+          )
 
-        this.hotels = res.data.hotels
-      } catch ({ response }) {
-        // this.$message.error(response.data.message)
-        console.log(response)
-      }
+          this.hotels = res.data.hotels
+          if (this.hotels.length == 0)
+            this.hotelsMessage = 'No hotels found. Try changing the filters'
+        } catch ({ response }) {
+          // this.$message.error(response.data.message)
+          console.log(response)
+        }
+      }, 1)
     },
     updateFilters(newFilters) {
       console.log(newFilters)
       this.filters = newFilters
+    }
+  },
+  watch: {
+    'pagination.current_page'(newVal) {
+      let query = { ...this.$route.query }
+      query.page = newVal
+
+      this.$router.push({ path: '/search', query })
+
+      this.searchHotels()
+      window.scrollTo(0, 0)
     }
   },
   components: {

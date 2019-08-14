@@ -22,7 +22,7 @@
               span Value
             .props__item
               b Prop: 
-              span Value {{pt}}
+              span Value
           .props__price(v-if='prices[pt]')
             .props__title PP in DBL sharing room
             .props__item

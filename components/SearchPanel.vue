@@ -87,6 +87,7 @@ div
 import Location from '@/models/Location'
 import _ from 'lodash'
 import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -108,9 +109,6 @@ export default {
         arrival_date: '',
         departure_date: ''
       },
-
-      fromLocations: [],
-      toLocations: [],
       dateMessage: ['Choose departure day', 'Choose arrival day', ''],
       sortItems: ['price', 'stars'],
       dateMenu: null,
@@ -159,7 +157,7 @@ export default {
     fromLocationsList() {
       let list = []
 
-      for (let location of this.fromLocations) {
+      for (let location of this.filtersData.fromLocations) {
         for (let descendant of location.descendants) {
           list.push({
             text: location.name + ', ' + descendant.name,
@@ -173,7 +171,7 @@ export default {
     toLocationsList() {
       let list = []
 
-      for (let location of this.toLocations) {
+      for (let location of this.filtersData.toLocations) {
         for (let descendant of location.descendants) {
           list.push({
             text: location.name + ', ' + descendant.name,

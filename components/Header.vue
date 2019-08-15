@@ -17,7 +17,7 @@
         template(v-if='!xs')
           v-btn(icon)
            v-icon mdi-bell
-          v-btn(icon)
+          v-btn(icon to='/cart')
            v-icon mdi-cart
           v-btn(icon).red
             v-icon mdi-account
@@ -29,13 +29,13 @@
 
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 
 export default {
   computed: {
     ...mapGetters({
-      logoStyle: "styles/headerLogoStyle",
-      darkText: "styles/headerDarkText"
+      logoStyle: 'styles/headerLogoStyle',
+      darkText: 'styles/headerDarkText'
     }),
     smAndDown() {
       return this.$vuetify.breakpoint.smAndDown

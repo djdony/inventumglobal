@@ -40,22 +40,22 @@ div
           .search-menu__field-group
             span.group__name Single rooms:
             .control.plus(@click='decr("sgl")'): v-icon mdi-minus
-            v-text-field(v-model='filters.sgl' placeholder="0" solo hide-details flat).group__input
+            v-text-field(v-model='filters.sgl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
             .control.plus(@click='incr("sgl")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Double rooms:
             .control.plus(@click='decr("dbl")'): v-icon mdi-minus
-            v-text-field(v-model='filters.dbl' placeholder="0" solo hide-details flat).group__input
+            v-text-field(v-model='filters.dbl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
             .control.plus(@click='incr("dbl")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Triple rooms:
             .control.plus(@click='decr("trp")'): v-icon mdi-minus
-            v-text-field(v-model='filters.trp' placeholder="0" solo hide-details flat).group__input
+            v-text-field(v-model='filters.trp' @input='recalc()' placeholder="0" solo hide-details flat).group__input
             .control.plus(@click='incr("trp")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Total Pax:
             .control.plus(@click='decr("pax")'): v-icon mdi-minus
-            v-text-field(v-model='filters.pax' placeholder="0" solo hide-details flat).group__input
+            v-text-field(v-model='filters.pax' @input='recalc("pax")' placeholder="0" solo hide-details flat).group__input
             .control.plus(@click='incr("pax")'): v-icon mdi-plus
           
           .layout.mt-3

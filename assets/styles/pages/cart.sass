@@ -1,0 +1,80 @@
+.cart-page
+  &__title
+    font-size: 22px
+    font-weight: bold
+    margin: 0 0 10px 0
+  .v-card.main-card
+    padding: 40px 32px
+    color: $secondary-color
+  .event-size
+    &__field-group
+      padding: 10px 0
+      font-size: 14px
+      display: flex
+      align-items: center
+      align-content: flex-start
+
+      .group__name
+        flex: 1 1 100%
+        margin-right: 15px
+      .control
+        margin-bottom: 3px
+        cursor: pointer
+        .v-icon
+          font-size: 18px
+          color: $primary-color
+      .group__input
+        flex: 0 0 40px
+        padding: 0
+        .v-input__control
+          min-height: 24px
+          .v-input__slot
+            padding: 0
+            background-color: transparent
+            input
+              text-align: center
+              font-size: 16px
+              padding: 0 0
+
+  .hotels-list
+    .v-list
+      &-item
+        margin-right: -15px
+        margin-left: -15px
+        padding-top: 10px
+        padding-bottom: 10px
+        border-radius: 4px
+        transition: .25s ease
+        &:hover
+          background-color: #eee
+        &__title
+          p
+            margin: 0
+          .hotel-title
+            font-size: 18px
+            font-weight: 500
+            margin-bottom: 3px
+          .link
+            display: block
+            font-size: 14px
+            color: $primary-color
+
+@include respond-to(xs)
+  .cart-page
+    .v-card.main-card
+      padding: 24px 16px
+    .hotels-list
+      .v-list
+        &-item
+            .hotel-title
+              font-size: 16px
+            .link
+              font-size: 13px
+
+
+
+
+
+
+
+        

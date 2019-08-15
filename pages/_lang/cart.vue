@@ -4,58 +4,76 @@
       v-card.main-card
         h1.display-2.font-weight-bold Order: new
 
-        p.cart-page__title.mt-10 Dates
-        v-row
-          v-col(lg='3' md='4' cols='12')
-            v-menu(v-model="menu1" :close-on-content-click="false" full-width max-width="290")
-              template(v-slot:activator="{ on }")
-                v-text-field(:value="formattedDateIn" hide-details outlined clearable label="Check in" readonly v-on="on")
-              v-date-picker(v-model="form.departure_date" @change="menu1 = false" no-title :events='[form.arrival_date]' event-color='#3273C2' :show-current='false') 
-          v-col(lg='3' md='4' cols='12')
-            v-menu(v-model="menu2" :close-on-content-click="false" full-width max-width="290")
-              template(v-slot:activator="{ on }")
-                v-text-field(:value="formattedDateOut" hide-details outlined clearable label="Check out" readonly v-on="on")
-              v-date-picker(v-model="form.arrival_date" @change="menu2 = false" no-title :events='[form.departure_date]' event-color='#3273C2' :show-current='false')
-
         v-row.mt-8
-          v-col(lg='3' md='4' cols='12')
+          v-col(md='7' cols='12')
+            p.cart-page__title Dates
+            .dates-row
+              v-menu(v-model="menu1" :close-on-content-click="false" full-width max-width="290")
+                template(v-slot:activator="{ on }")
+                  v-text-field(:value="formattedDateIn" hide-details outlined clearable label="Check in" readonly v-on="on")
+                v-date-picker(v-model="form.departure_date" @change="menu1 = false" no-title :events='[form.arrival_date]' event-color='#3273C2' :show-current='false') 
+
+              v-menu(v-model="menu2" :close-on-content-click="false" full-width max-width="290")
+                template(v-slot:activator="{ on }")
+                  v-text-field(:value="formattedDateOut" hide-details outlined clearable label="Check out" readonly v-on="on")
+                v-date-picker(v-model="form.arrival_date" @change="menu2 = false" no-title :events='[form.departure_date]' event-color='#3273C2' :show-current='false')
+
+            p.cart-page__title.mt-4 Locations
+            .locations
+              .locations__item
+                v-icon.locations-item__icon mdi-airplane-takeoff
+                span.locations-item__name Russia, Moscow
+              .locations__item
+                v-icon.locations-item__icon mdi-airplane-landing
+                span.locations-item__name Russia, Moscow
+
+
+          v-col(lg='3' md='4' sm='6' cols='12' offset-md='1')
             p.cart-page__title Event size
-            .event-size__field-group
-              span.group__name Single rooms:
-              .control.plus(@click='decr("sgl")'): v-icon mdi-minus
-              v-text-field(v-model='form.sgl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("sgl")'): v-icon mdi-plus
-            .event-size__field-group
-              span.group__name Double rooms:
-              .control.plus(@click='decr("dbl")'): v-icon mdi-minus
-              v-text-field(v-model='form.dbl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("dbl")'): v-icon mdi-plus
-            .event-size__field-group
-              span.group__name Triple rooms:
-              .control.plus(@click='decr("trp")'): v-icon mdi-minus
-              v-text-field(v-model='form.trp' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("trp")'): v-icon mdi-plus
-            .event-size__field-group
-              span.group__name Total Pax:
-              .control.plus(@click='decr("pax")'): v-icon mdi-minus
-              v-text-field(v-model='form.pax' @input='recalc(`pax`)' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("pax")'): v-icon mdi-plus
-
-          v-col(lg='3' md='3' offset-md='1' cols=12)
-            p.cart-page__title Pricing
-            v-radio-group(v-model="form.priceType" hide-details)
-              v-radio(value="mice" label="M.I.C.E")
-              v-radio(value="wedding" label="Wedding")
+            .event-size
+              .event-size__field-group
+                span.group__name Single rooms:
+                .control.plus(@click='decr("sgl")'): v-icon mdi-minus
+                v-text-field(v-model='form.sgl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+                .control.plus(@click='incr("sgl")'): v-icon mdi-plus
+              .event-size__field-group
+                span.group__name Double rooms:
+                .control.plus(@click='decr("dbl")'): v-icon mdi-minus
+                v-text-field(v-model='form.dbl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+                .control.plus(@click='incr("dbl")'): v-icon mdi-plus
+              .event-size__field-group
+                span.group__name Triple rooms:
+                .control.plus(@click='decr("trp")'): v-icon mdi-minus
+                v-text-field(v-model='form.trp' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+                .control.plus(@click='incr("trp")'): v-icon mdi-plus
+              .event-size__field-group
+                span.group__name Total Pax:
+                .control.plus(@click='decr("pax")'): v-icon mdi-minus
+                v-text-field(v-model='form.pax' @input='recalc(`pax`)' placeholder="0" solo hide-details flat).group__input
+                .control.plus(@click='incr("pax")'): v-icon mdi-plus
+          
 
         v-row.mt-8
-          v-col(lg='6' md='6' cols='12').hotels-list
+          v-col(cols='12').hotels-list
             p.cart-page__title Hotels
             v-list-item(v-for='(hotel, index) in form.hotels' :key='index')
-              v-list-item-title
-                span.hotel-title(v-text='hotel.name')
-                a(:href='`/hotel/${hotel.id}`' target='_blank').link Open
-              v-btn(icon @click='removeHotel(index)')
+              span.hotel-numering(v-text='index+1')
+              img(src='/img/home/ecommerce.png').hotel-image
+              .middle-part
+                v-list-item-title
+                  .hotel-stars
+                    span.stars__value 5
+                    v-icon mdi-star
+                  a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
+                span.hotel-region ANTALYA
+              v-spacer
+              .hotel-pricing
+                v-radio-group(v-model="form.hotels[index].priceType" hide-details)
+                  v-radio(value="mice" label="M.I.C.E")
+                  v-radio(value="wedding" label="Wedding")
+              v-btn(icon @click='removeHotel(index)' v-if='!$vuetify.breakpoint.xs')
                 v-icon mdi-close
+              v-btn(@click='removeHotel(index)' v-else text color='error') Remove
 
         v-row.mt-8
           v-col(lg='6' md='6' cols='12')
@@ -80,15 +98,16 @@ export default {
     form: {
       departure_date: new Date().toISOString().substr(0, 10),
       arrival_date: new Date().toISOString().substr(0, 10),
-      priceType: 'mice',
       hotels: [
         {
           name: 'ASTERIA KREMLIN PALACE',
-          id: 1
+          id: 1,
+          priceType: 'mice'
         },
         {
           name: 'ASTERIA KREMLIN PALACE 2',
-          id: 2
+          id: 2,
+          priceType: 'mice'
         }
       ],
       sgl: 0,

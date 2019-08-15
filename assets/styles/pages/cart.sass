@@ -6,8 +6,34 @@
   .v-card.main-card
     padding: 40px 32px
     color: $secondary-color
+  .dates-row
+    display: flex
+    margin: 0 -12px
+    .v-input
+      padding: 0 12px
+  .locations
+    display: flex
+    margin: 0 -12px
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
+    &__item
+      flex: 1
+      border: 1px solid #BBBDBF
+      border-radius: 4px
+      padding: 12px
+      margin: 0 12px
+    &-item
+      &__icon
+        color: #717273
+        font-size: 30px
+        vertical-align: bottom
+        margin-right: 10px
+      &__name
+        color: #717273
+        font-size: 18px
   .event-size
-    &__field-group
+    &__field-group  
       padding: 10px 0
       font-size: 14px
       display: flex
@@ -41,23 +67,98 @@
       &-item
         margin-right: -15px
         margin-left: -15px
-        padding-top: 10px
-        padding-bottom: 10px
-        border-radius: 4px
+        padding-top: 20px
+        padding-bottom: 20px
         transition: .25s ease
+        border-top: 1px solid #ccc
+        &:last-child
+          border-bottom: 1px solid #ccc
         &:hover
           background-color: #eee
+        .hotel-image
+          height: 100px
+          width: 100px
+          border-radius: 4px
+          margin-right: 30px
+        .hotel-numering
+          padding: 0 20px 0 0
+          color: #ccc
+          font-size: 30px
+        .hotel-region
+          color: #B2B7C1
+          font-size: 13px
+        .hotel-pricing
+          margin-top: 0
+          margin-right: 25%
+          .v-input
+            margin-top: 0
+        .middle-part
+          flex: 1 1 50%
+          width: 50%
         &__title
-          p
-            margin: 0
+          .hotel-stars
+            background-color: $primary-color
+            display: inline-block
+            color: #fff
+            height: 28.5px
+            min-width: 28.5px
+            padding: 0 2.5px
+            display: inline-flex
+            align-items: center
+            justify-items: center
+            margin-right: 7.5px
+            .stars__value
+              font-size: 20px
+              font-weight: 600
+            .v-icon
+              font-size: 12px
+              color: #fff
           .hotel-title
             font-size: 18px
             font-weight: 500
             margin-bottom: 3px
-          .link
-            display: block
-            font-size: 14px
-            color: $primary-color
+            color: $blue-darken-1
+            transition: .25s ease
+            &:hover
+              color: $blue-lighten-1
+            
+
+@include respond-to(lg)
+  .cart-page
+    .hotels-list
+      .v-list
+        &-item
+          .hotel-pricing
+            margin-right: 100px
+
+@include respond-to(md)
+  .cart-page
+    .hotels-list
+      .v-list
+        &-item
+          .hotel-pricing
+            margin-right: 20px
+
+@include respond-to(sm)
+  .cart-page
+    .dates-row
+      flex-wrap: wrap
+      .v-input
+        min-width: 270px
+        margin-bottom: 20px
+    .locations
+      flex-wrap: wrap
+      &__item
+        flex: 1
+        min-width: 200px
+        margin-bottom: 20px
+    .hotels-list
+      .v-list
+        &-item
+          .hotel-image
+            display: none
+          .hotel-numering
+            display: none
 
 @include respond-to(xs)
   .cart-page
@@ -66,10 +167,16 @@
     .hotels-list
       .v-list
         &-item
-            .hotel-title
-              font-size: 16px
-            .link
-              font-size: 13px
+          flex-wrap: wrap
+          .middle-part
+            flex: 0 0 100%
+            margin-bottom: 15px
+          .hotel-title
+            font-size: 16px
+          .link
+            font-size: 13px
+          &>.v-btn
+            margin-left: auto
 
 
 

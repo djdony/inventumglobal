@@ -94,6 +94,7 @@ export default {
    ** Build configuration
    */
   build: {
+    sourceMap: true,
     /*
      ** You can extend webpack config here
      */

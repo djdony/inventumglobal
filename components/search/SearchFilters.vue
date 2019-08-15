@@ -158,12 +158,12 @@ export default {
         search: '',
         stars: [],
         priceType: 'mice',
-        price: [100, 500],
+        price: [100, 2000],
         room_type: 'dbl',
         amenities: [],
-        meetingRooms: [0, 500],
+        meetingRooms: [0, 1500],
         ceilingHeight: [0, 10],
-        distance: [0, 100],
+        distance: [0, 500],
         searchFilters: true
       },
       rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance'],
@@ -171,15 +171,20 @@ export default {
     }
   },
   async created() {
-    let query = qs.parse(location.search)
+    let query = qs.parse(location.search.slice(1))
+
     if (query.searchFilters) {
-      this.$set(this, 'filters', { ...this.filters, ...query })
+      this.watchRangesMaxValues('setGetValues', query)
+    } else {
+      this.watchRangesMaxValues('resetRangesMaxValues')
     }
   },
+  mounted() {},
   methods: {
     search() {
-      let query = qs.stringify({ ...this.$route.query, ...this.filters })
-      this.$router.push({ path: `/search?${query}` })
+      let query = qs.parse(location.search.slice(1))
+      let newQuery = qs.stringify({ ...query, ...this.filters })
+      this.$router.push({ path: `/search?${newQuery}` })
       this.$emit('search')
     },
     reset() {
@@ -192,10 +197,33 @@ export default {
         amenities: [],
         meetingRooms: [0, 500],
         ceilingHeight: [0, 10],
-        distance: [0, 10],
+        distance: [0, 100],
         searchFilters: true
       }
+      this.resetRangesMaxValues()
       this.search()
+    },
+    resetRangesMaxValues() {
+      console.log('resetting value')
+
+      this.$set(this.filters.price, 1, this.filtersData.price)
+      this.$set(this.filters.meetingRooms, 1, this.filtersData.meetingRoomCap)
+      this.$set(this.filters.ceilingHeight, 1, this.filtersData.ceilingHeight)
+      this.$set(this.filters.distance, 1, this.filtersData.distance)
+    },
+    setGetValues(query) {
+      console.log('getting values')
+
+      this.rangeFields.forEach(item => {
+        query[item] = query[item].map(value => Number(value))
+      })
+
+      this.$set(this, 'filters', { ...this.filters, ...query })
+    },
+    watchRangesMaxValues(func, query) {
+      this.$watch('filtersData.price', () => {
+        this[func](query)
+      })
     }
   },
   computed: {

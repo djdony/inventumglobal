@@ -70,6 +70,7 @@ export default {
       await this.$auth.login({
         data: this.userForm
       })
+      this.$store.dispatch('filters/populate')
       this.$router.push({ path: '/' })
     }
   }

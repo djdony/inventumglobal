@@ -49,9 +49,9 @@ div
             .control.plus(@click='incr("dbl")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Triple rooms:
-            .control.plus(@click='decr("trp")'): v-icon mdi-minus
-            v-text-field(v-model='filters.trp' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-            .control.plus(@click='incr("trp")'): v-icon mdi-plus
+            .control.plus(@click='decr("trpl")'): v-icon mdi-minus
+            v-text-field(v-model='filters.trpl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+            .control.plus(@click='incr("trpl")'): v-icon mdi-plus
           .search-menu__field-group
             span.group__name Total Pax:
             .control.plus(@click='decr("pax")'): v-icon mdi-minus
@@ -99,9 +99,8 @@ export default {
         // rooms
         sgl: null,
         dbl: null,
-        trp: null,
+        trpl: null,
         pax: null,
-        rt: 'dbl',
         sortby: 'price',
         // signals that there's a query from search-panel
         searchPanel: true,
@@ -114,7 +113,7 @@ export default {
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,
-      numberFields: ['from', 'to', 'nights', 'sgl', 'dbl', 'trp', 'pax']
+      numberFields: ['from', 'to', 'nights', 'sgl', 'dbl', 'trpl', 'pax']
     }
   },
   async created() {
@@ -238,12 +237,12 @@ export default {
         this.filters.sgl = 0
         this.filters.dbl =
           this.filters.pax > 0 ? Math.ceil(this.filters.pax / 2) : 0
-        this.filters.trp = 0
+        this.filters.trpl = 0
       } else {
         this.filters.pax =
           Number(this.filters.sgl) +
           Number(this.filters.dbl * 2) +
-          Number(this.filters.trp * 3)
+          Number(this.filters.trpl * 3)
       }
     },
     validate() {

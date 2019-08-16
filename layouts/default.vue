@@ -19,7 +19,9 @@ export default {
     return {}
   },
   created() {
-    this.$store.dispatch('filters/populate')
+    if(this.$auth.loggedIn === true){
+      this.$store.dispatch('filters/populate')
+    }
   },
   computed: {
     ...mapGetters({

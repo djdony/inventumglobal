@@ -9,7 +9,7 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Hotel class
+        span.filter-item__title Hotel category
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.checkboxes
         v-checkbox(
@@ -23,10 +23,10 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Type of price
+        span.filter-item__title Product type
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.radios
-        v-radio-group(v-model="filters.priceType" hide-details)
+        v-radio-group(v-model="filters.product_id" hide-details)
           v-radio(
             v-for="p in filtersData.products"
             :key="p.id"
@@ -157,17 +157,16 @@ export default {
       filters: {
         search: '',
         stars: [],
-        priceType: 'mice',
+        product_id: 1,
         price: [100, 2000],
-        room_type: 'dbl',
+        room_type: 'DBL',
         amenities: [],
         meetingRooms: [0, 1500],
         ceilingHeight: [0, 10],
-        distance: [0, 500],
+        distance: [0, 200],
         searchFilters: true
       },
-      rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance'],
-      arrayFields: ['stars', 'amenities']
+      rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance']
     }
   },
   async created() {
@@ -191,9 +190,9 @@ export default {
       this.filters = {
         search: '',
         stars: [],
-        priceType: 'mice',
+        product_id: 1,
         price: [100, 500],
-        room_type: 'dbl',
+        room_type: 'DBL',
         amenities: [],
         meetingRooms: [0, 500],
         ceilingHeight: [0, 10],
@@ -204,16 +203,12 @@ export default {
       this.search()
     },
     resetRangesMaxValues() {
-      console.log('resetting value')
-
       this.$set(this.filters.price, 1, this.filtersData.price)
       this.$set(this.filters.meetingRooms, 1, this.filtersData.meetingRoomCap)
       this.$set(this.filters.ceilingHeight, 1, this.filtersData.ceilingHeight)
       this.$set(this.filters.distance, 1, this.filtersData.distance)
     },
     setGetValues(query) {
-      console.log('getting values')
-
       this.rangeFields.forEach(item => {
         query[item] = query[item].map(value => Number(value))
       })

@@ -255,13 +255,10 @@ export default {
         .include('seasons', 'periods', 'rooms', 'location', 'types')
         .get()
 
-      console.log(hotel)
-
       return { hotel: hotel[0] }
     } catch ({ response }) {
-      this.$toast.error(response.data.message, {
-        duration: 3000
-      })
+      console.log(response.data.message)
+      this.$toast.error('An rror occured while loading the data')
     }
   },
   created() {},

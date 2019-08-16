@@ -14,11 +14,15 @@
       v-spacer
 
       .icons
-        template(v-if='!xs')
+        //- template(v-if='!xs')
+        template(v-if='true')
           v-btn(icon)
            v-icon mdi-bell
-          v-btn(icon to='/cart')
-           v-icon mdi-cart
+          v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1140')
+            template(v-slot:activator="{ on }")
+              v-btn(icon v-on='on')
+                v-icon mdi-cart
+            cart-modal
           v-btn(icon).red
             v-icon mdi-account
 
@@ -30,8 +34,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import CartModal from '@/components/СartModal'
 
 export default {
+  data() {
+    return {
+      dialog: false
+    }
+  },
   computed: {
     ...mapGetters({
       logoStyle: 'styles/headerLogoStyle',
@@ -43,6 +53,9 @@ export default {
     xs() {
       return this.$vuetify.breakpoint.xs
     }
+  },
+  components: {
+    CartModal
   }
 }
 </script>

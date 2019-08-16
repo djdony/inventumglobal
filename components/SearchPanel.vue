@@ -86,7 +86,7 @@ div
 <script>
 import Location from '@/models/Location'
 import _ from 'lodash'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -184,6 +184,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({ setCartData: 'cart/SET_SEARCH_PANEL_DATA' }),
     incr(index) {
       this.filters[index]++
       this.recalc(index)
@@ -229,6 +230,12 @@ export default {
       query.departure_date = query.dates[0]
       query.arrival_date = query.dates[1]
       delete query.dates
+
+      console.log('what')
+
+      this.setCartData(
+        _.pick(query, ['from', 'to', 'sgl', 'dbl', 'trp', 'pax', 'dates'])
+      )
 
       this.$router.push({ path: '/search', query })
       await this.$emit('search')

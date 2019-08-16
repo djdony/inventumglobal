@@ -68,9 +68,10 @@ export default {
             'YOUR CREDENTIALS ARE INCORRECT OR YOUR ACCOUNT MIGHT BEEN SUSPENDED'
           )
         }
-      } catch (e) {
+      } catch ({ response }) {
         this.fetching = false
-        this.$toast.error(e.response.message)
+        console.log(response.data.message)
+        this.$toast.error('An rror occured while sending the data')
       }
     }
   }

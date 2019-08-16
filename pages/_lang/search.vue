@@ -92,7 +92,8 @@ export default {
           if (this.hotels.length == 0)
             this.hotelsMessage = 'No hotels found. Try changing the filters'
         } catch ({ response }) {
-          this.$toast.error(response.data.message)
+          console.log(response.data.message)
+          this.$toast.error('An rror occured while loading the data')
         }
 
         this.hotelsLoading = false

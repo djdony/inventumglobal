@@ -5,7 +5,13 @@
         img(src='/img/home/ecommerce.png' alt='Hotel Image')
       .hotel__info
         h3.info__title
+<<<<<<< HEAD
           hotel-stars(id='9')
+=======
+          .info__stars
+            span.stars__value(v-text='stars')
+            v-icon mdi-star
+>>>>>>> 2e1742cafd6e029d1a9842b97b62fe3eac4d91ad
           span(v-text='hotel')
 
         .info__regions Region
@@ -13,14 +19,17 @@
         .info__props
           .props__room-chars
             .props__item
-              b Prop: 
-              span Value
+              b Rooms:
+              span(v-text='total_rooms')
             .props__item
-              b Prop: 
-              span Value
+              b Meeting rooms:
+            span
             .props__item
-              b Prop: 
-              span Value
+              b Total Space:
+              span(v-text='meeting_space')
+            .props__item
+              b Largest Space:
+              span(v-text='meeting_space')
           .props__price(v-if='price')
             .props__title PP in DBL sharing room
             .props__item
@@ -34,8 +43,13 @@
               span(v-text='price.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
+<<<<<<< HEAD
           v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Quick View
           v-btn(color='primary' small @click.stop='addToCart(id)').custom Select Hotel
+=======
+          v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Details
+          v-btn(color='primary' small).custom Select Hotel
+>>>>>>> 2e1742cafd6e029d1a9842b97b62fe3eac4d91ad
 
         //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
 
@@ -198,6 +212,12 @@ export default {
     image: String,
     hotel: String,
     stars: String,
+    amenities: Object,
+    total_rooms: String,
+    restaurants: String,
+    amenities: String,
+    meeting_space: String,
+    largest_space: String,
     regions: Array,
     props: Array
   },

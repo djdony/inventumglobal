@@ -23,17 +23,17 @@
             .props__item
               b Prop: 
               span Value
-          .props__price(v-if='prices[pt]')
+          .props__price(v-if='price')
             .props__title PP in DBL sharing room
             .props__item
               b Landing: 
-              span(v-text='prices[pt].landing + " " + curSymb')
+              span(v-text='price.landing + " " + curSymb')
             .props__item
               b Package: 
-              span(v-text='prices[pt].package + " " + curSymb')
+              span(v-text='price.package + " " + curSymb')
             .props__item
               b Pre Post: 
-              span(v-text='prices[pt].prepost + " " + curSymb')
+              span(v-text='price.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
           v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Quick View
@@ -167,15 +167,8 @@ export default {
     }
   },
   computed: {
-    pt() {
-      let { query } = this.$route
-      return query.priceType ? query.priceType[0] || 'm' : 'm'
-    },
     curSymb() {
-      let { pt, prices } = this
-      let currency = prices[pt] ? prices[pt].currency : 'EUR'
-
-      switch (currency) {
+      switch (this.price.currency) {
         case 'EUR':
           return '€'
           break
@@ -197,13 +190,12 @@ export default {
       type: Boolean,
       default: false
     },
-    prices: Object,
+    price: Object,
     image: String,
     hotel: String,
-    stars: Number,
+    stars: String,
     regions: Array,
-    props: Array,
-    price: String
+    props: Array
   }
 }
 </script>

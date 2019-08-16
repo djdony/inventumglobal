@@ -81,8 +81,6 @@ export default {
         try {
           let { query } = this.$route
           const res = await this.$axios.get('/searchpackage', { params: query })
-          console.log(res)
-
           this.pagination.per_page = res.data.per_page
           this.pagination.total_pages = Math.ceil(
             res.data.total / this.pagination.per_page

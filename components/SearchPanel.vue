@@ -86,7 +86,7 @@ div
 <script>
 import Location from '@/models/Location'
 import _ from 'lodash'
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -103,37 +103,54 @@ export default {
         pax: null,
         sortby: 'price',
         // signals that there's a query from search-panel
-        searchPanel: true,
-        // for GET queries
-        arrival_date: '',
-        departure_date: ''
+        searchPanel: true
       },
       dateMessage: ['Choose departure day', 'Choose arrival day', ''],
       sortItems: ['price', 'stars'],
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,
-      numberFields: ['from', 'to', 'nights', 'sgl', 'dbl', 'trpl', 'pax']
+      numberFields: [
+        'from',
+        'to',
+        'nights',
+        ['single', 'sgl'],
+        ['double', 'dbl'],
+        ['triple', 'trpl'],
+        'pax'
+      ]
     }
   },
   async created() {
     let { query } = await this.$route
     if (query.searchPanel) {
-      let getFilters = _.pick(query, Object.keys(this.filters))
+      let getFilters = _.pick(query, [
+        ...Object.keys(this.filters),
+        'single',
+        'double',
+        'triple',
+        'arrival_date',
+        'departure_date'
+      ])
 
       this.numberFields.forEach(item => {
-        getFilters[item] = Number(getFilters[item])
+        if (!Array.isArray(item)) {
+          getFilters[item] = Number(getFilters[item])
+        } else {
+          getFilters[item[1]] = Number(getFilters[item[0]])
+          delete getFilters[item[0]]
+        }
       })
 
       getFilters.dates = _.compact([
         getFilters.departure_date,
         getFilters.arrival_date
       ])
-      console.log(getFilters)
 
       delete getFilters.departure_date, getFilters.arrival_date
 
       this.$set(this, 'filters', { ...this.filters, ...getFilters })
+      this.recalc()
     }
   },
   computed: {
@@ -183,7 +200,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({ setCartData: 'cart/SET_SEARCH_PANEL_DATA' }),
     incr(index) {
       this.filters[index]++
       this.recalc(index)
@@ -229,12 +245,6 @@ export default {
       query.departure_date = query.dates[0]
       query.arrival_date = query.dates[1]
       delete query.dates
-
-      console.log('what')
-
-      this.setCartData(
-        _.pick(query, ['from', 'to', 'sgl', 'dbl', 'trp', 'pax', 'dates'])
-      )
 
       this.$router.push({ path: '/search', query })
       await this.$emit('search')

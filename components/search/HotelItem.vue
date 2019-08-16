@@ -5,9 +5,7 @@
         img(src='/img/home/ecommerce.png' alt='Hotel Image')
       .hotel__info
         h3.info__title
-          .info__stars
-            span.stars__value 5
-            v-icon mdi-star
+          hotel-stars(id='9')
           span(v-text='hotel')
 
         .info__regions Region
@@ -37,7 +35,7 @@
 
         .info__actions(:class='{compact}')
           v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Quick View
-          v-btn(color='primary' small).custom Select Hotel
+          v-btn(color='primary' small @click.stop='addToCart(id)').custom Select Hotel
 
         //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
 
@@ -160,11 +158,17 @@
                 
 </template>
 <script>
+import { mapActions } from 'vuex'
+import HotelStars from '@/components/HotelStars'
+
 export default {
   data() {
     return {
       showMenu: false
     }
+  },
+  methods: {
+    ...mapActions({ addToCart: 'cart/addHotel' })
   },
   computed: {
     curSymb() {
@@ -196,7 +200,8 @@ export default {
     stars: String,
     regions: Array,
     props: Array
-  }
+  },
+  components: { HotelStars }
 }
 </script>
 <style lang="sass">

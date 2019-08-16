@@ -22,7 +22,7 @@
             template(v-slot:activator="{ on }")
               v-btn(icon v-on='on')
                 v-icon mdi-cart
-            cart-modal
+            cart-modal(@close='dialog = false' v-if='dialog')
           v-btn(icon).red
             v-icon mdi-account
 

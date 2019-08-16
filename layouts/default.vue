@@ -10,22 +10,40 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/Header"
-import FooterComponent from "@/components/Footer"
-import { mapGetters } from "vuex"
+import HeaderComponent from '@/components/Header'
+import FooterComponent from '@/components/Footer'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {}
   },
   created() {
-    if(this.$auth.loggedIn === true){
-      this.$store.dispatch('filters/populate')
+    this.populateFilters()
+    this.initStars()
+    this.initCart()
+  },
+  methods: {
+    initCart() {
+      this.$store.commit('cart/INIT_CART')
+    },
+    populateFilters() {
+      if (this.$auth.loggedIn === true) {
+        this.$store.dispatch('filters/populate')
+      }
+    },
+    async initStars() {
+      try {
+        const res = await this.$axios.get('/stars')
+        this.$store.commit('stars/SET_STARS', res.data)
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   computed: {
     ...mapGetters({
-      appClassName: "styles/appClassName"
+      appClassName: 'styles/appClassName'
     })
   },
   components: {

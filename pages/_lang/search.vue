@@ -39,6 +39,7 @@ import SearchPanel from '@/components/SearchPanel'
 import HotelItem from '@/components/search/HotelItem'
 import SearchFilters from '@/components/search/SearchFilters'
 import Hotel from '@/models/Hotel'
+import { mapActions } from 'vuex'
 import _ from 'lodash'
 
 export default {
@@ -72,14 +73,30 @@ export default {
     }
   },
   methods: {
+    ...mapActions({ setCartData: 'cart/setSearchPanelData' }),
     async searchHotels() {
-      // timeout is need as URL changing takes some time
+      // timeout is needed as URL changing takes some time
 
       await setTimeout(async () => {
         this.hotelsLoading = true
 
         try {
           let { query } = this.$route
+
+          this.setCartData(
+            _.pick(query, [
+              'from',
+              'to',
+              'double',
+              'single',
+              'triple',
+              'pax',
+              'departure_date',
+              'arrival_date',
+              'product_id'
+            ])
+          )
+
           const res = await this.$axios.get('/searchpackage', { params: query })
           this.pagination.per_page = res.data.per_page
           this.pagination.total_pages = Math.ceil(
@@ -89,8 +106,8 @@ export default {
           this.hotels = res.data.hotels
           if (this.hotels.length == 0)
             this.hotelsMessage = 'No hotels found. Try changing the filters'
-        } catch ({ response }) {
-          console.log(response.data.message)
+        } catch (err) {
+          console.log(err)
           this.$toast.error('An rror occured while loading the data')
         }
 

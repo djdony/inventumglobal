@@ -11,14 +11,12 @@
           .content__row
             .basic-info
               h1.info__title
-                .info__stars
-                  span.stars__value 5
-                  v-icon mdi-star
+                hotel-stars(id='9')
                 span(v-text='hotel.name')
 
               .info__regions(v-text='hotel.location.name')
 
-            v-btn(color='primary' x-large).custom Select hotel
+            v-btn(color='primary' x-large @click.stop='addToCart(hotel.id)').custom Select hotel
 
           .content__row
             .details
@@ -244,6 +242,8 @@
 <script>
 import OwlCarousel from 'vue-owl-carousel'
 import Hotel from '@/models/Hotel'
+import HotelStars from '@/components/HotelStars'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -256,13 +256,15 @@ export default {
         .get()
 
       return { hotel: hotel[0] }
-    } catch ({ response }) {
-      console.log(response.data.message)
+    } catch (err) {
+      console.log(err)
       this.$toast.error('An rror occured while loading the data')
     }
   },
   created() {},
-  methods: {},
+  methods: {
+    ...mapActions({ addToCart: 'cart/addHotel' })
+  },
   computed: {
     roomsCarouselItems() {
       let { breakpoint } = this.$vuetify
@@ -274,7 +276,7 @@ export default {
       return 4
     }
   },
-  components: { OwlCarousel }
+  components: { OwlCarousel, HotelStars }
 }
 </script>
 <style lang="sass" scoped>

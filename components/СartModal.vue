@@ -32,19 +32,19 @@
           .event-size
             .event-size__field-group
               span.group__name Single rooms:
-              .control.plus(@click='decr("sgl")'): v-icon mdi-minus
-              v-text-field(v-model='form.sgl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("sgl")'): v-icon mdi-plus
+              .control.plus(@click='decr("single")'): v-icon mdi-minus
+              v-text-field(v-model='form.single' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+              .control.plus(@click='incr("single")'): v-icon mdi-plus
             .event-size__field-group
               span.group__name Double rooms:
-              .control.plus(@click='decr("dbl")'): v-icon mdi-minus
-              v-text-field(v-model='form.dbl' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("dbl")'): v-icon mdi-plus
+              .control.plus(@click='decr("double")'): v-icon mdi-minus
+              v-text-field(v-model='form.double' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+              .control.plus(@click='incr("double")'): v-icon mdi-plus
             .event-size__field-group
               span.group__name Triple rooms:
-              .control.plus(@click='decr("trp")'): v-icon mdi-minus
-              v-text-field(v-model='form.trp' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-              .control.plus(@click='incr("trp")'): v-icon mdi-plus
+              .control.plus(@click='decr("triple")'): v-icon mdi-minus
+              v-text-field(v-model='form.triple' @input='recalc()' placeholder="0" solo hide-details flat).group__input
+              .control.plus(@click='incr("triple")'): v-icon mdi-plus
             .event-size__field-group
               span.group__name Total Pax:
               .control.plus(@click='decr("pax")'): v-icon mdi-minus
@@ -55,24 +55,23 @@
       v-row.mt-8
         v-col(cols='12').hotels-list
           p.cart-page__title Hotels
+          .empty(v-if='form.hotels.length == 0') No hotels
           v-list-item(v-for='(hotel, index) in form.hotels' :key='index')
             span.hotel-numering(v-text='index+1')
             img(src='/img/home/ecommerce.png').hotel-image
             .middle-part
               v-list-item-title
-                .hotel-stars
-                  span.stars__value 5
-                  v-icon mdi-star
+                hotel-stars(:id='hotel.star_id' v-if='hotel.star_id')
                 a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
-              span.hotel-region ANTALYA
+              span(v-text='hotel.location').hotel-region
             v-spacer
             .hotel-pricing
-              v-radio-group(v-model="form.hotels[index].priceType" hide-details)
+              v-radio-group(v-model="form.hotels[index].product_id" hide-details)
                 v-radio(value="mice" label="M.I.C.E")
                 v-radio(value="wedding" label="Wedding")
-            v-btn(icon @click='removeHotel(index)' v-if='!$vuetify.breakpoint.xs')
+            v-btn(icon @click='removeHotel(index, hotel.id)' v-if='!$vuetify.breakpoint.xs')
               v-icon mdi-close
-            v-btn(@click='removeHotel(index)' v-else text color='error') Remove
+            v-btn(@click='removeHotel(index, hotel.id)' v-else text color='error') Remove
 
       v-row.mt-8
         v-col(lg='6' md='6' cols='12')
@@ -85,14 +84,17 @@
 
       v-row
         v-col
-          v-btn(color='primary' x-large).custom Send order
+          v-btn(color='primary' x-large @click='send').custom Send order
 
 
 
 </template>
 
 <script>
+import HotelStars from '@/components/HotelStars'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import Hotel from '@/models/Hotel'
+import _ from 'lodash'
 
 export default {
   data: () => ({
@@ -107,21 +109,10 @@ export default {
       },
       departure_date: new Date().toISOString().substr(0, 10),
       arrival_date: new Date().toISOString().substr(0, 10),
-      hotels: [
-        {
-          name: 'ASTERIA KREMLIN PALACE',
-          id: 1,
-          priceType: 'mice'
-        },
-        {
-          name: 'ASTERIA KREMLIN PALACE 2',
-          id: 2,
-          priceType: 'mice'
-        }
-      ],
-      sgl: 0,
-      dbl: 0,
-      trp: 0,
+      hotels: [],
+      single: 0,
+      triple: 0,
+      double: 0,
       pax: 0,
       agency_note: ''
     },
@@ -130,7 +121,24 @@ export default {
     menu2: false
   }),
   async created() {
-    console.log(await this.getHotel(1))
+    let cart = { ...this.$store.getters['cart/cart'] }
+
+    cart.from = await this.getLocation(cart.from)
+    cart.to = await this.getLocation(cart.to)
+
+    this.form = _.pick(cart, [
+      'from',
+      'to',
+      'departure_date',
+      'arrival_date',
+      'single',
+      'triple',
+      'double',
+      'hotels',
+      'pax'
+    ])
+
+    this.loadHotels()
   },
 
   computed: {
@@ -146,20 +154,49 @@ export default {
     }
   },
   methods: {
+    ...mapActions({ removeHotelFromCart: 'cart/removeHotel' }),
+    ...mapMutations({ cleanCart: 'cart/CLEAN_CART' }),
+    send() {
+      // validation, send to server
+      this.cleanCart()
+      this.$toast.success('Order has been sent')
+      this.$emit('close')
+    },
+    async loadHotels() {
+      let hotels = this.form.hotels
+
+      for (let i in hotels) {
+        const newHotel = await this.getHotel(hotels[i].id)
+
+        this.$set(this.form.hotels[i], 'name', newHotel.name)
+        this.$set(this.form.hotels[i], 'location', newHotel.location.name)
+        this.$set(this.form.hotels[i], 'star_id', newHotel.star_id)
+      }
+    },
+    async getLocation(id) {
+      try {
+        const res = await this.$axios.get(`/locations/${id}`)
+
+        return { id, name: res.data.name }
+      } catch (err) {
+        console.log(err)
+        this.$toast.error('An rror occured while loading the data')
+      }
+    },
     async getHotel(id) {
       try {
         let hotel = await Hotel.where('id', id)
           .include('location')
           .get()
 
-        return { hotel: hotel[0] }
+        return hotel[0]
       } catch ({ response }) {
         console.log(response.data.message)
         this.$toast.error('An rror occured while loading the data')
       }
     },
-    removeHotel(index) {
-      this.form.hotels.splice(index, 1)
+    removeHotel(index, id) {
+      this.removeHotelFromCart(id)
     },
     incr(index) {
       this.form[index]++
@@ -172,16 +209,19 @@ export default {
     },
     recalc(e) {
       if (e == 'pax') {
-        this.form.sgl = 0
-        this.form.dbl = this.form.pax > 0 ? Math.ceil(this.form.pax / 2) : 0
-        this.form.trp = 0
+        this.form.single = 0
+        this.form.double = this.form.pax > 0 ? Math.ceil(this.form.pax / 2) : 0
+        this.form.triple = 0
       } else {
         this.form.pax =
-          Number(this.form.sgl) +
-          Number(this.form.dbl * 2) +
-          Number(this.form.trp * 3)
+          Number(this.form.single) +
+          Number(this.form.double * 2) +
+          Number(this.form.triple * 3)
       }
     }
+  },
+  components: {
+    HotelStars
   }
 }
 </script>

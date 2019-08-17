@@ -21,10 +21,10 @@
           .locations
             .locations__item
               v-icon.locations-item__icon mdi-airplane-takeoff
-              span.locations-item__name(v-text='form.from.name')
+              //span.locations-item__name(v-text='form.from.name')
             .locations__item
               v-icon.locations-item__icon mdi-airplane-landing
-              span.locations-item__name(v-text='form.to.name')
+              //span.locations-item__name(v-text='form.to.name')
 
 
         v-col(lg='3' md='4' sm='6' cols='12' offset-md='1')
@@ -62,14 +62,13 @@
               img(src='/img/home/ecommerce.png').hotel-image
               .middle-part
                 v-list-item-title
-                  hotel-stars(:id='hotel.star_id' v-if='hotel.star_id')
                   a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
-                span(v-text='hotel.location').hotel-region
+                span(v-text='hotel.region').hotel-region
               v-spacer
               .hotel-pricing
                 v-radio-group(v-model="form.hotels[index].product_id" hide-details)
-                  v-radio(value="mice" label="M.I.C.E")
-                  v-radio(value="wedding" label="Wedding")
+                  v-radio(:value="1" label="M.I.C.E")
+                  v-radio(:value="2" label="Wedding")
               v-btn(icon @click='removeHotel(index, hotel.id)' v-if='!$vuetify.breakpoint.xs')
                 v-icon mdi-close
               v-btn(@click='removeHotel(index, hotel.id)' v-else text color='error') Remove
@@ -101,11 +100,11 @@ export default {
   data: () => ({
     form: {
       from: {
-        name: 'Russia, Town',
+        name: '',
         id: 2
       },
       to: {
-        name: 'Russia, Moscow',
+        name: '',
         id: 1
       },
       departure_date: new Date().toISOString().substr(0, 10),
@@ -125,9 +124,6 @@ export default {
   async created() {
     let cart = { ...this.$store.getters['cart/cart'] }
 
-    cart.from = await this.getLocation(cart.from)
-    cart.to = await this.getLocation(cart.to)
-
     this.form = _.pick(cart, [
       'from',
       'to',
@@ -139,8 +135,6 @@ export default {
       'hotels',
       'pax'
     ])
-
-    await this.loadHotels()
     this.loaded = true
   },
 
@@ -166,17 +160,6 @@ export default {
       this.$toast.success('Order has been sent')
       this.$emit('close')
     },
-    async loadHotels() {
-      let hotels = this.form.hotels
-
-      for (let i in hotels) {
-        const newHotel = await this.getHotel(hotels[i].id)
-
-        this.$set(this.form.hotels[i], 'name', newHotel.name)
-        this.$set(this.form.hotels[i], 'location', newHotel.location.name)
-        this.$set(this.form.hotels[i], 'star_id', newHotel.star_id)
-      }
-    },
     validate() {
       let errors = 0
 
@@ -198,28 +181,6 @@ export default {
       }
 
       return !errors
-    },
-    async getLocation(id) {
-      try {
-        const res = await this.$axios.get(`/locations/${id}`)
-
-        return { id, name: res.data.name }
-      } catch (err) {
-        console.log(err)
-        this.$toast.error('An rror occured while loading the data')
-      }
-    },
-    async getHotel(id) {
-      try {
-        let hotel = await Hotel.where('id', id)
-          .include('location')
-          .get()
-
-        return hotel[0]
-      } catch ({ response }) {
-        console.log(response.data.message)
-        this.$toast.error('An rror occured while loading the data')
-      }
     },
     removeHotel(index, id) {
       this.removeHotelFromCart(id)

@@ -1,8 +1,8 @@
 <template lang="pug">
   v-card(elevation='8' :class='{compact }').hotels__item
-    .hotel__quick-info(@click='showMenu = !showMenu')
+    .hotel__quick-info(@click='showDetails')
       .hotel__image
-        img(src='/img/home/ecommerce.png' alt='Hotel Image')
+        img(:src="photo" alt='Hotel Image')
       .hotel__info
         h3.info__title
           hotel-stars(id='9')
@@ -41,7 +41,7 @@
 
         .info__actions(:class='{compact}')
           v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Details
-          v-btn(color='primary' small @click.stop='addToCart(id)').custom Select Hotel
+          v-btn(color='primary' small @click.stop='addToCart($props)').custom Select Hotel
 
         //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
 
@@ -156,25 +156,41 @@
                     td Balkon
                     td Inlcuded
                 
-
-
-          
-           
-
-                
 </template>
 <script>
 import { mapActions } from 'vuex'
 import HotelStars from '@/components/HotelStars'
+import Hotel from '@/model/Hotel'
 
 export default {
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      hotel: new Hotel({
+        media: [],
+        meeting_rooms: [],
+        rooms: [],
+        restaurants: [],
+        amenities: []
+      })
     }
   },
   methods: {
-    ...mapActions({ addToCart: 'cart/addHotel' })
+    ...mapActions({ addToCart: 'cart/addHotel' }),
+    showDetails(){
+      this.showMenu = !this.showMenu
+      if(this.showMenu){
+        this.hotel = await Hotel.include('media', 'meeting_rooms', 'rooms', 'restaurants', 'amenities').get()
+      }else{
+        this.hotel = new Hotel({
+          media: [],
+          meeting_rooms: [],
+          rooms: [],
+          restaurants: [],
+          amenities: []
+        })
+      }
+    }
   },
   computed: {
     curSymb() {
@@ -209,9 +225,10 @@ export default {
     restaurants: Array,
     amenities: Array,
     meeting_space: Number,
-    largest_space: String,
+    largest_space: Number,
     region: String,
-    props: Array
+    props: Array,
+    photo: String 
   },
   components: { HotelStars }
 }

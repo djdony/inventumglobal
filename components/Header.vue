@@ -13,7 +13,6 @@
 
       v-spacer
 
-
       v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1140')
         template(v-slot:activator="cartModal")
           .icons
@@ -72,7 +71,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import CartModal from '@/components/СartModal'
+import CartModal from '@/components/CartModal'
 
 export default {
   data() {

@@ -3,7 +3,7 @@
     v-card(color='#fff').main-card
       h1.display-2.font-weight-bold Order: new
 
-      v-row.mt-8
+      v-row.mt-4
         v-col(md='7' cols='12')
           p.cart-page__title Dates
           .dates-row
@@ -14,7 +14,7 @@
 
             v-menu(v-model="menu2" :close-on-content-click="false" full-width max-width="290")
               template(v-slot:activator="{ on }")
-                v-text-field(:value="formattedDateOut" hide-details outlined clearable label="Check out" readonly v-on="on")
+                v-text-field(:value="formattedDateOut" hide-details outlined label="Check out" readonly v-on="on")
               v-date-picker(v-model="form.arrival_date" @change="menu2 = false" no-title :events='[form.departure_date]' event-color='#3273C2' :show-current='false')
 
           p.cart-page__title.mt-4 Locations
@@ -55,26 +55,27 @@
       v-row.mt-8
         v-col(cols='12').hotels-list
           p.cart-page__title Hotels
-          .empty(v-if='form.hotels.length == 0') No hotels
-          v-list-item(v-for='(hotel, index) in form.hotels' :key='index')
-            span.hotel-numering(v-text='index+1')
-            img(src='/img/home/ecommerce.png').hotel-image
-            .middle-part
-              v-list-item-title
-                hotel-stars(:id='hotel.star_id' v-if='hotel.star_id')
-                a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
-              span(v-text='hotel.location').hotel-region
-            v-spacer
-            .hotel-pricing
-              v-radio-group(v-model="form.hotels[index].product_id" hide-details)
-                v-radio(value="mice" label="M.I.C.E")
-                v-radio(value="wedding" label="Wedding")
-            v-btn(icon @click='removeHotel(index, hotel.id)' v-if='!$vuetify.breakpoint.xs')
-              v-icon mdi-close
-            v-btn(@click='removeHotel(index, hotel.id)' v-else text color='error') Remove
+          .empty(v-if='loaded && form.hotels.length == 0') No hotels
+          v-card(:loading='!loaded' elevation='0')
+            v-list-item(v-for='(hotel, index) in form.hotels' :key='index' )
+              span.hotel-numering(v-text='index+1')
+              img(src='/img/home/ecommerce.png').hotel-image
+              .middle-part
+                v-list-item-title
+                  hotel-stars(:id='hotel.star_id' v-if='hotel.star_id')
+                  a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
+                span(v-text='hotel.location').hotel-region
+              v-spacer
+              .hotel-pricing
+                v-radio-group(v-model="form.hotels[index].product_id" hide-details)
+                  v-radio(value="mice" label="M.I.C.E")
+                  v-radio(value="wedding" label="Wedding")
+              v-btn(icon @click='removeHotel(index, hotel.id)' v-if='!$vuetify.breakpoint.xs')
+                v-icon mdi-close
+              v-btn(@click='removeHotel(index, hotel.id)' v-else text color='error') Remove
 
       v-row.mt-8
-        v-col(lg='6' md='6' cols='12')
+        v-col(cols='12')
           p.cart-page__title Note
           v-textarea(v-model='form.agency_note' outlined placeholder='Type your note here' hide-details)
 
@@ -118,7 +119,8 @@ export default {
     },
     agree: false,
     menu1: false,
-    menu2: false
+    menu2: false,
+    loaded: false
   }),
   async created() {
     let cart = { ...this.$store.getters['cart/cart'] }
@@ -138,7 +140,8 @@ export default {
       'pax'
     ])
 
-    this.loadHotels()
+    await this.loadHotels()
+    this.loaded = true
   },
 
   computed: {
@@ -157,7 +160,8 @@ export default {
     ...mapActions({ removeHotelFromCart: 'cart/removeHotel' }),
     ...mapMutations({ cleanCart: 'cart/CLEAN_CART' }),
     send() {
-      // validation, send to server
+      if (!this.validate()) return false
+
       this.cleanCart()
       this.$toast.success('Order has been sent')
       this.$emit('close')
@@ -172,6 +176,28 @@ export default {
         this.$set(this.form.hotels[i], 'location', newHotel.location.name)
         this.$set(this.form.hotels[i], 'star_id', newHotel.star_id)
       }
+    },
+    validate() {
+      let errors = 0
+
+      let datesDiff = this.$dayjs(this.form.arrival_date).diff(
+        this.$dayjs(this.form.departure_date),
+        'days'
+      )
+
+      if (datesDiff < 1) {
+        errors++
+        this.$toast.error(`Arrival date must be later than departure date`)
+      }
+
+      if (datesDiff > 3) {
+        errors++
+        this.$toast.error(
+          `Possible trip duration: 1-3 days (now: ${datesDiff})`
+        )
+      }
+
+      return !errors
     },
     async getLocation(id) {
       try {

@@ -12,29 +12,32 @@
 
         .info__props
           .props__room-chars
-            .props__item
-              b Rooms:
-              span(v-text='total_rooms')
-            .props__item
-              b Meeting rooms:
-            span
-            .props__item
-              b Total Space:
-              span(v-text='meeting_space')
-            .props__item
-              b Largest Space:
-              span(v-text='meeting_space')
+            table
+              tr.props__item
+                td: b Rooms: 
+                td: span(v-text='total_rooms')
+              tr.props__item
+                td: b Meeting rooms: 
+                td: span (empty)
+              tr.props__item
+                td: b Total Space: 
+                td: span(v-text='meeting_space')
+              tr.props__item
+                td: b Largest Space: 
+                td: span(v-text='meeting_space')
+
           .props__price(v-if='price')
             .props__title PP in DBL sharing room
-            .props__item
-              b Landing: 
-              span(v-text='price.landing + " " + curSymb')
-            .props__item
-              b Package: 
-              span(v-text='price.package + " " + curSymb')
-            .props__item
-              b Pre Post: 
-              span(v-text='price.prepost + " " + curSymb')
+            table
+              tr.props__item
+                td: b Landing: 
+                td: span(v-text='price.landing + " " + curSymb')
+              tr.props__item
+                td: b Package: 
+                td: span(v-text='price.package + " " + curSymb')
+              tr.props__item
+                td: b Pre Post: 
+                td: span(v-text='price.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
           v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Details
@@ -201,11 +204,11 @@ export default {
     image: String,
     hotel: String,
     stars: String,
-    amenities: Object,
-    total_rooms: String,
-    restaurants: String,
-    amenities: String,
-    meeting_space: String,
+    amenities: Array,
+    total_rooms: Number,
+    restaurants: Array,
+    amenities: Array,
+    meeting_space: Number,
     largest_space: String,
     regions: Array,
     props: Array

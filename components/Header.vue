@@ -13,23 +13,61 @@
 
       v-spacer
 
-      .icons
-        //- template(v-if='!xs')
-        template(v-if='true')
-          v-btn(icon)
-           v-icon mdi-bell
-          v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1140')
-            template(v-slot:activator="{ on }")
-              v-btn(icon v-on='on')
-                v-icon mdi-cart
-            cart-modal(@close='dialog = false' v-if='dialog')
-          v-btn(icon).red
-            v-icon mdi-account
 
-        v-btn(icon v-else)
-          v-icon mdi-menu
+      v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1140')
+        template(v-slot:activator="cartModal")
+          .icons
+            template(v-if='!xs')
+              v-btn(icon)
+                v-icon mdi-bell
+              v-btn(icon v-on='cartModal.on')
+                v-badge(overlap left)
+                  template(v-slot:badge v-if='cartItems') {{ cartItems }}
+                  v-icon mdi-cart
+              
+              v-menu(offset-y)
+                template(v-slot:activator='userMenu')
+                  v-btn(icon v-on='userMenu.on').red
+                    v-icon mdi-account
+                v-list(color='white')
+                  v-list-item(@click='')
+                    v-list-item-icon.mr-4
+                      v-icon mdi-monitor-dashboard
+                    v-list-item-title Cabinet
+                  v-list-item(@click='')
+                    v-list-item-icon.mr-4
+                        v-icon mdi-account-details
+                    v-list-item-title Profile
+                  v-list-item(@click='logout')
+                    v-list-item-icon.mr-4
+                        v-icon mdi-logout
+                    v-list-item-title Logout
 
-
+            v-menu(v-else offset-y)
+              template(v-slot:activator='mobileMenu')
+                v-btn(icon v-on='mobileMenu.on')
+                  v-icon mdi-menu
+              v-list(color='white')
+                v-list-item(v-on='cartModal.on')
+                  v-list-item-icon.mr-4
+                    v-badge(overlap)
+                      template(v-slot:badge v-if='cartItems') {{ cartItems }}
+                      v-icon mdi-cart
+                  v-list-item-title Cart
+                v-list-item(@click='')
+                  v-list-item-icon.mr-4
+                    v-icon mdi-monitor-dashboard
+                  v-list-item-title Cabinet
+                v-list-item(@click='')
+                  v-list-item-icon.mr-4
+                      v-icon mdi-account-details
+                  v-list-item-title Profile
+                v-list-item(@click='logout')
+                  v-list-item-icon.mr-4
+                      v-icon mdi-logout
+                  v-list-item-title Logout
+                  
+        cart-modal(@close='dialog = false' v-if='dialog')
 
 </template>
 <script>
@@ -42,7 +80,16 @@ export default {
       dialog: false
     }
   },
+  methods: {
+    async logout() {
+      await this.$auth.logout()
+      this.$router.push('/login')
+    }
+  },
   computed: {
+    cartItems() {
+      return this.$store.state.cart.hotels.length
+    },
     ...mapGetters({
       logoStyle: 'styles/headerLogoStyle',
       darkText: 'styles/headerDarkText'

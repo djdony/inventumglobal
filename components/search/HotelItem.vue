@@ -8,7 +8,7 @@
           hotel-stars(id='9')
           span(v-text='hotel')
 
-        .info__regions Region
+        .info__regions(v-text="region")
 
         .info__props
           .props__room-chars
@@ -210,7 +210,7 @@ export default {
     amenities: Array,
     meeting_space: Number,
     largest_space: String,
-    regions: Array,
+    region: String,
     props: Array
   },
   components: { HotelStars }

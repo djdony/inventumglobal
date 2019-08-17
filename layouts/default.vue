@@ -20,7 +20,6 @@ export default {
   },
   created() {
     this.populateFilters()
-    this.initStars()
     this.initCart()
   },
   methods: {
@@ -30,14 +29,6 @@ export default {
     populateFilters() {
       if (this.$auth.loggedIn === true) {
         this.$store.dispatch('filters/populate')
-      }
-    },
-    async initStars() {
-      try {
-        const res = await this.$axios.get('/stars')
-        this.$store.commit('stars/SET_STARS', res.data)
-      } catch (err) {
-        console.log(err)
       }
     }
   },

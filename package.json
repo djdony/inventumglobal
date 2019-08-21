@@ -18,6 +18,7 @@
     "dayjs": "^1.8.15",
     "nuxt": "^2.0.0",
     "qs": "^6.7.0",
+    "terser-webpack-plugin": "^1.4.1",
     "vue-fancybox": "^1.0.3",
     "vue-owl-carousel": "^2.0.3"
   },

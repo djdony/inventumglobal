@@ -5,7 +5,7 @@
         v-layout(row)
           v-flex.md12.col
             img(src='/img/logo-light.png').logo
-        v-layout(row)
+        v-layout(row wrap)
           v-flex.md3.sm6.col
             p.col__title Turkey Expert, Easier than ever!
             p.col__content Get instant access to the best prices and products via one platform. Compact and simply professional.
@@ -36,7 +36,7 @@
 
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      footerBg: "styles/footerBg"
+      footerBg: 'styles/footerBg'
     }),
     smAndDown() {
       return this.$vuetify.breakpoint.smAndDown

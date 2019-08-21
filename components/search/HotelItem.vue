@@ -160,7 +160,7 @@
 <script>
 import { mapActions } from 'vuex'
 import HotelStars from '@/components/HotelStars'
-import Hotel from '@/model/Hotel'
+import Hotel from '@/models/Hotel'
 
 export default {
   data() {
@@ -177,7 +177,7 @@ export default {
   },
   methods: {
     ...mapActions({ addToCart: 'cart/addHotel' }),
-    showDetails(){
+    async showDetails(){
       this.showMenu = !this.showMenu
       if(this.showMenu){
         this.hotel = await Hotel.include('media', 'meeting_rooms', 'rooms', 'restaurants', 'amenities').get()

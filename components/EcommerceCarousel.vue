@@ -1,6 +1,6 @@
 <template lang="pug">
   div.ecommerce-carousel
-    v-carousel(multiple continuous ref='carousel' cycle hide-delimiters width='100%' height='100%').ecommerce
+    v-carousel(continuous ref='carousel' cycle hide-delimiters width='100%' height='100%').ecommerce
       v-carousel-item
         v-img(src='/img/home/ecommerce.png' alt='ecommerce')
       v-carousel-item

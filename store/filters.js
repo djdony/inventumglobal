@@ -23,6 +23,8 @@ export default {
       state.ceilingHeight = data.ceilingHeight
       state.meetingRoomCap = data.meetingRoomCap
       state.distance = data.distance
+      state.minDate = data.minDate
+      state.maxDate = data.maxDate
     }
   },
   actions: {

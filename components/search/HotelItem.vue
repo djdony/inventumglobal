@@ -6,7 +6,7 @@
       .hotel__info
         h3.info__title
           hotel-stars(id='9')
-          span(v-text='hotel')
+          span(v-text='name') 
 
         .info__regions(v-text="region")
 
@@ -47,7 +47,7 @@
 
     transition(name='hotelInfoFade')
       .hotel__more-info(v-if='!compact && showMenu')
-        v-tabs()
+        v-tabs
           v-tab General
           v-tab Rooms
           v-tab Meeting rooms
@@ -58,71 +58,60 @@
           v-tab-item
             v-card(elevation='0').tab-item.general-tab 
               .images-wrapper 
-                v-img(src='/img/home/ecommerce.png' alt='Hotel Image' aspect-ratio='1')
-                v-img(src='/img/home/ecommerce.png' alt='Hotel Image' aspect-ratio='1')
-                v-img(src='/img/home/ecommerce.png' alt='Hotel Image' aspect-ratio='1')
-                v-img(src='/img/home/ecommerce.png' alt='Hotel Image' aspect-ratio='1')
-                v-img(src='/img/home/ecommerce.png' alt='Hotel Image' aspect-ratio='1')
-                v-img(src='/img/home/ecommerce.png' alt='Hotel Image' aspect-ratio='1')
-              .general-info
-                p Good business hotel. Close to Starbucks. Good for sightseeing and close to the city center. Friendly atmosphere and good hotel grounds. Great valet service. Popular among families.
-                p Good business hotel.
+                v-img(
+                  v-for="m in hotel.media"
+                  :src='m.url'
+                  :key="m.id"
+                  :aspect-ratio="1"
+                  @click="showGallery = true"
+                )
+              .general-info(v-html="hotel.description")
 
           //- Rooms
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table
+              v-simple-table(fixed-header dense)
                 thead
                   tr
                     th Type
                     th Area, m²
                     th Quantity
                 tbody
-                  tr
-                    td Junior Suite
-                    td 40
-                    td 8
-                  tr
-                    td Junior Suite
-                    td 40
-                    td 8
+                  tr(v-for="r in rooms" :key="r.id")
+                    td(v-text="r.room_type.name")
+                    td(v-text="r.min_area")
+                    td(v-text="r.qty")
 
           //- Meeting rooms
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table
+              v-simple-table(fixed-header dense)
                 thead
                   tr
-                    th Type
+                    th Name
+                    th Area, m2
                     th Length, m
                     th Width, m
                     th Height, m
+                    th Gala, pax
                     th Cocktail, pax
                     th Theater, pax
                     th Classroom, pax
                     th U-shape, pax
-                    th Broadroom, pax
+                    th Boardroom, pax
                 tbody
-                  tr
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                  tr
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
-                    td Example
+                  tr(v-for="m in hotel.meeting_rooms" :key="m.id")
+                    td(v-text="m.name")
+                    td(v-text="m.area")
+                    td(v-text="m.length")
+                    td(v-text="m.width")
+                    td(v-text="m.height")
+                    td(v-text="m.banquet")
+                    td(v-text="m.cocktail")
+                    td(v-text="m.theater")
+                    td(v-text="m.classroom")
+                    td(v-text="m.ushape")
+                    td(v-text="m.boardroom")
 
           //- Restaurants
           v-tab-item
@@ -155,17 +144,22 @@
                   tr
                     td Balkon
                     td Inlcuded
-                
+    v-dialog(v-model="showGallery")
+      v-btn(dark icon @click="showGallery = false")
+        v-icon mdi-close
+      gallery(v-model="hotel.media")
 </template>
 <script>
 import { mapActions } from 'vuex'
 import HotelStars from '@/components/HotelStars'
+import Gallery from '@/components/Gallery'
 import Hotel from '@/models/Hotel'
 
 export default {
   data() {
     return {
       showMenu: false,
+      showGallery: false,
       hotel: new Hotel({
         media: [],
         meeting_rooms: [],
@@ -180,7 +174,14 @@ export default {
     async showDetails(){
       this.showMenu = !this.showMenu
       if(this.showMenu){
-        this.hotel = await Hotel.include('media', 'meeting_rooms', 'rooms', 'restaurants', 'amenities').get()
+        this.hotel = await Hotel.include(
+          'media', 
+          'meeting_rooms', 
+          'rooms', 
+          'rooms.room_type', 
+          'restaurants', 
+          'amenities'
+        ).find(this.id)
       }else{
         this.hotel = new Hotel({
           media: [],
@@ -193,6 +194,17 @@ export default {
     }
   },
   computed: {
+    rooms(){
+      return this.hotel.rooms.sort((a, b) => {
+        if (a.qty < b.qty) {
+          return 1;
+        }
+        if (a.qty > b.qty) {
+          return -1;
+        }
+        return 0;
+      })
+    },
     curSymb() {
       switch (this.price.currency) {
         case 'EUR':
@@ -218,7 +230,7 @@ export default {
     },
     price: Object,
     image: String,
-    hotel: Object,
+    name: String,
     stars: String,
     amenities: Array,
     total_rooms: Number,
@@ -229,7 +241,7 @@ export default {
     props: Array,
     photo: String 
   },
-  components: { HotelStars }
+  components: { HotelStars, Gallery }
 }
 </script>
 <style lang="sass">

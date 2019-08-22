@@ -25,7 +25,7 @@ div
               v-icon mdi-calendar-multiple
           v-card(color='white secondary--text').datepicker-menu
             //- v-date-picker(v-model="filters.departure_date" no-title width='256' first-day-of-week='1')
-            v-date-picker(v-model="filters.dates" no-title width='256' first-day-of-week='1' multiple :allowed-dates='allowedDates' :show-current='false' :events='datesInRange' event-color='#3273C2').range
+            v-date-picker(v-model="filters.dates" no-title width='256' first-day-of-week='1' multiple :allowed-dates='allowedDates' :min="filtersData.minDate" :max="filtersData.maxDate" :show-current='false' :events='datesInRange' event-color='#3273C2').range
               v-spacer
               span(v-text='dateMessage[filters.dates.length]' v-if='filters.dates.length < 2').primary--text.caption.px-2.pb-1
               v-btn(text color="primary" @click="dateMenu = false" v-else) OK
@@ -90,6 +90,7 @@ import Location from '@/models/Location'
 import pick from 'lodash.pick'
 import compact from 'lodash.compact'
 import { mapState } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data() {
@@ -105,7 +106,7 @@ export default {
         trpl: null,
         pax: null,
         sortby: 'price',
-        product_id: null,
+        product_id: 1,
 
         // signals that there's a query from search-panel
         searchPanel: true
@@ -115,7 +116,6 @@ export default {
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,
-      categories: ['M.I.C.E.', 'Wedding'],
       numberFields: [
         'product_id',
         'from',
@@ -130,6 +130,7 @@ export default {
   },
   async created() {
     let { query } = await this.$route
+
     if (query.searchPanel) {
       let getFilters = pick(query, [
         ...Object.keys(this.filters),
@@ -221,13 +222,18 @@ export default {
       let { dates } = this.filters
       let range = 3
 
+/*      if(dates.length == 0){
+        return this.$dayjs(widgetDate).unix() >= this.$dayjs(this.filtersData.minDate).unix() && this.$dayjs(widgetDate).unix() <= this.$dayjs(this.filtersData.maxDate).unix()
+      }*/
+
       if (dates.length == 1) {
         let diff = this.$dayjs(widgetDate).diff(this.$dayjs(dates[0]), 'days')
-        return 0 <= diff && diff <= range
+        return 0 <= diff && diff <= range //&& this.$dayjs(widgetDate).unix() <= this.$dayjs(this.filtersData.maxDate).unix()
       }
       if (dates.length == 3) this.filters.dates = [dates[2]]
 
       if (dates.length > 3) this.filters.dates = []
+      //if (dates.length === 2){ this.dateMenu = false }
 
       return true
     },

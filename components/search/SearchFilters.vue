@@ -21,18 +21,18 @@
           hide-details
         )
 
-    .filter-item
-      .filter-item__row.mb-2
-        span.filter-item__title Product type
-        v-icon(size='16').filter-item__more mdi-dots-horizontal
-      .filter-item__row.radios
-        v-radio-group(v-model="filters.product_id" hide-details)
-          v-radio(
-            v-for="p in filtersData.products"
-            :key="p.id"
-            :value="p.id"
-            :label="p.name"
-          )
+    //- .filter-item
+    //-   .filter-item__row.mb-2
+    //-     span.filter-item__title Product type
+    //-     v-icon(size='16').filter-item__more mdi-dots-horizontal
+    //-   .filter-item__row.radios
+    //-     v-radio-group(v-model="filters.product_id" hide-details)
+    //-       v-radio(
+    //-         v-for="p in filtersData.products"
+    //-         :key="p.id"
+    //-         :value="p.id"
+    //-         :label="p.name"
+    //-       )
 
     .filter-item
       .filter-item__row.mb-2
@@ -157,7 +157,7 @@ export default {
       filters: {
         search: '',
         stars: [],
-        product_id: null,
+        //product_id: null,
         price: [100, 2000],
         room_type: 'DBL',
         amenities: [],
@@ -190,7 +190,7 @@ export default {
       this.filters = {
         search: '',
         stars: [],
-        product_id: 1,
+        //product_id: 1,
         price: [100, 500],
         room_type: 'DBL',
         amenities: [],

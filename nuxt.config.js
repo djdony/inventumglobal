@@ -98,6 +98,8 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, { dev, isClient }) {}
+    extend(config, { dev, isClient }) {
+      // config.devtool = false
+    }
   }
 }

@@ -121,9 +121,9 @@ export default {
         'from',
         'to',
         'nights',
-        ['single', 'sgl'],
-        ['double', 'dbl'],
-        ['triple', 'trpl'],
+        'sgl',
+        'dbl',
+        'trpl',
         'pax'
       ]
     }
@@ -142,12 +142,12 @@ export default {
       ])
 
       this.numberFields.forEach(item => {
-        if (!Array.isArray(item)) {
-          getFilters[item] = Number(getFilters[item])
-        } else {
-          getFilters[item[1]] = Number(getFilters[item[0]])
-          delete getFilters[item[0]]
-        }
+        // if (!Array.isArray(item)) {
+        getFilters[item] = Number(getFilters[item])
+        // } else {
+        //   getFilters[item[1]] = Number(getFilters[item[0]])
+        //   delete getFilters[item[0]]
+        // }
       })
 
       getFilters.dates = compact([

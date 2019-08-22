@@ -40,7 +40,7 @@ import HotelItem from '@/components/search/HotelItem'
 import SearchFilters from '@/components/search/SearchFilters'
 import Hotel from '@/models/Hotel'
 import { mapActions } from 'vuex'
-import _ from 'lodash'
+import pick from 'lodash.pick'
 
 export default {
   data() {
@@ -84,7 +84,7 @@ export default {
           let { query } = this.$route
 
           this.setCartData(
-            _.pick(query, [
+            pick(query, [
               'from',
               'to',
               'double',

@@ -157,7 +157,7 @@ export default {
       filters: {
         search: '',
         stars: [],
-        product_id: 1,
+        product_id: null,
         price: [100, 2000],
         room_type: 'DBL',
         amenities: [],

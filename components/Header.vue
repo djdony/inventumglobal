@@ -13,16 +13,43 @@
 
       v-spacer
 
-      v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1140')
+      v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1264')
         template(v-slot:activator="cartModal")
-          .icons
+          .icons  
             template(v-if='!xs')
               v-btn(icon)
                 v-icon mdi-bell
-              v-btn(icon v-on='cartModal.on')
-                v-badge(overlap left)
-                  template(v-slot:badge v-if='cartItems') {{ cartItems }}
-                  v-icon mdi-cart
+              v-menu(offset-y open-on-hover max-width='600px')
+                template(v-slot:activator='cartHotelsList')
+                  v-btn(icon v-on='{...cartHotelsList.on, ...cartModal.on}')
+                    v-badge(overlap left)
+                      template(v-slot:badge v-if='cartItems') {{ cartItems }}
+                      v-icon() mdi-cart
+                v-card(color='white')
+                  v-list.header__cart-hotels-list
+                    v-list-item
+                      hotel-stars(id='9')
+                      .hotels__info
+                        .info__title Hotel lalala
+                        .info__regions Antalya
+                      v-spacer
+                      v-btn(icon): v-icon mdi-close
+                    v-list-item
+                      hotel-stars(id='9')
+                      .hotels__info
+                        .info__title Hotel lalala
+                        .info__regions Antalya
+                      v-spacer
+                      v-btn(icon): v-icon mdi-close
+                    v-list-item
+                      hotel-stars(id='9')
+                      .hotels__info
+                        .info__title Hotel lalalaasd asdas das
+                        .info__regions Antalya
+                      v-spacer
+                      v-btn(icon): v-icon mdi-close
+
+
               
               v-menu(offset-y)
                 template(v-slot:activator='userMenu')
@@ -72,6 +99,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import CartModal from '@/components/CartModal'
+import HotelStars from '@/components/HotelStars'
 
 export default {
   data() {
@@ -101,7 +129,8 @@ export default {
     }
   },
   components: {
-    CartModal
+    CartModal,
+    HotelStars
   }
 }
 </script>

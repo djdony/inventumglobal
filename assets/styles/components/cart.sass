@@ -1,17 +1,37 @@
 .cart-page
+  .v-expansion-panels.theme--light
+    .v-expansion-panel
+      &-header
+        background-color: $secondary-color
+        color: #fff
+        text-transform: uppercase
+        font-weight: bold
+        &__icon
+          .v-icon
+            color: #fff
   &__title
-    font-size: 22px
-    font-weight: bold
+    font-size: 16px
+    font-weight: 400
     margin: 16px 0 10px 0
-    color: $secondary-color
+    color: #373C48
+    text-transform: uppercase
   .v-card.main-card
     padding: 40px 32px
     color: $secondary-color
-  .dates-row
-    display: flex
-    margin: 0 -12px
-    .v-input
-      padding: 0 12px
+  .dates
+    flex-wrap: wrap
+    .cart-page__title
+      margin: 4px 8px 4px 0
+    .dates-row
+      display: flex
+      align-items: center
+      margin: 0 -10px
+      .date 
+        color: #BFC4CE
+        margin: 0 10px
+      span
+        color: $secondary-color
+        text-transform: uppercase
   .locations
     display: flex
     margin: 0 -12px
@@ -19,12 +39,19 @@
     white-space: nowrap
     overflow: hidden
     &__item
+      flex: 0 0 50%
+      display: flex
+      padding-left: 12px
+      align-items: center
+      .cart-page__title
+        margin: 4px 8px 4px 0
+    &__input
       flex: 1
       border: 1px solid #BBBDBF
       border-radius: 4px
       padding: 12px
       margin: 0 12px
-    &-item
+    &-input
       &__icon
         color: #717273
         font-size: 30px
@@ -145,8 +172,22 @@
 
 @include respond-to(xs)
   .cart-page
+    .v-expansion-panel-content__wrap
+      padding: 0 12px
     .v-card.main-card
       padding: 24px 16px
+    .locations
+      display: flex
+      margin: 0 -12px
+      text-overflow: ellipsis
+      white-space: nowrap
+      overflow: hidden
+      &__item
+        flex-wrap: wrap
+        .cart-page__title
+          width: 100%
+      &__input
+        margin-left: 0
     .hotels-list
       .v-list
         &-item

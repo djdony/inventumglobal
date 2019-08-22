@@ -11,7 +11,10 @@ div
         v-icon mdi-airplane-landing
         v-autocomplete(v-model='filters.to' :items="toLocationsList" placeholder='To' solo flat hide-details)
         //- v-icon mdi-chevron-right
-      
+        
+      v-select(outlined :items='filtersData.products' item-value='id' item-text='name' v-model='filters.product_id' hide-details placeholder='Category' :menu-props='{offsetY:true}' color='secondary').select-category
+     
+
     .search-group
       v-menu(offset-y v-model="dateMenu" transition="scale-transition"  :close-on-content-click="false")
           template(v-slot:activator="{ on }")
@@ -26,7 +29,6 @@ div
               v-spacer
               span(v-text='dateMessage[filters.dates.length]' v-if='filters.dates.length < 2').primary--text.caption.px-2.pb-1
               v-btn(text color="primary" @click="dateMenu = false" v-else) OK
-      
       
       v-menu(offset-y v-model="eventSizeMenu" transition="scale-transition"  :close-on-content-click="false")
         template(v-slot:activator="{ on }")
@@ -85,7 +87,8 @@ div
 
 <script>
 import Location from '@/models/Location'
-import _ from 'lodash'
+import pick from 'lodash.pick'
+import compact from 'lodash.compact'
 import { mapState } from 'vuex'
 
 export default {
@@ -102,6 +105,8 @@ export default {
         trpl: null,
         pax: null,
         sortby: 'price',
+        product_id: null,
+
         // signals that there's a query from search-panel
         searchPanel: true
       },
@@ -110,7 +115,9 @@ export default {
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,
+      categories: ['M.I.C.E.', 'Wedding'],
       numberFields: [
+        'product_id',
         'from',
         'to',
         'nights',
@@ -124,8 +131,9 @@ export default {
   async created() {
     let { query } = await this.$route
     if (query.searchPanel) {
-      let getFilters = _.pick(query, [
+      let getFilters = pick(query, [
         ...Object.keys(this.filters),
+        'product_id',
         'single',
         'double',
         'triple',
@@ -142,7 +150,7 @@ export default {
         }
       })
 
-      getFilters.dates = _.compact([
+      getFilters.dates = compact([
         getFilters.departure_date,
         getFilters.arrival_date
       ])

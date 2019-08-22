@@ -38,6 +38,20 @@
     display: flex
     flex: 1 1 100%
     min-width: 0
+  .select-category
+    .v-input__control
+      fieldset
+          border-color: #112D6F
+      .v-input__slot
+        .v-select__slot
+          padding: 16px 0
+          .v-select__selections
+            width: 82px
+            font-size: 20px
+    &.v-input--is-focused
+      .v-input__control
+        fieldset
+            border-width: 1px
   .search-item
     display: flex
     flex: 1
@@ -152,38 +166,43 @@
             text-align: center
             font-size: 16px
             padding: 0 0
-
-
+  
+  
 @include respond-to(md)
-  .search-panel
-    padding: 15px 15px
-    .search-item
-      padding: 12.5px 7.5px
-      margin: 0 6px
-      .v-icon
-        font-size: 26px
-      &.button.theme--light
-        .label
-          font-size: 18px
-      &.text
-        .input
-          font-size: 20px
-  
-  
-@include respond-to(sm)
   .search-panel
     padding: 25px 15px
     flex-wrap: wrap
     margin-left: auto
     margin-right: auto
+    .select-category
+      margin: 10px 6px
+      .v-input__control
+        .v-input__slot
+          .v-select__slot
+            .v-select__selections
+              width: 150px
     .search-group
       margin: 6px 0
       width: 100%
       .search-item
         margin: 10px 6px
 
+@include respond-to(sm)
+  .search-panel
+    .select-category
+      .v-input__control
+        .v-input__slot
+          .v-select__slot
+            .v-select__selections
+              width: 82px
+
 @include respond-to(xs)
   .search-panel
+    .select-category
+      .v-input__control
+        .v-input__slot
+          .v-select__slot
+            padding: 7px 0
     .search-group
       flex-wrap: wrap
       margin: 0 -6px

@@ -21,7 +21,8 @@
     "nuxt": "^2.0.0",
     "qs": "^6.7.0",
     "vue-fancybox": "^1.0.3",
-    "vue-owl-carousel": "^2.0.3"
+    "vue-owl-carousel": "^2.0.3",
+    "vue2-siema": "^0.2.2"
   },
   "devDependencies": {
     "@mdi/font": "^4.0.96",

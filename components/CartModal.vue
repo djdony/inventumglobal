@@ -1,7 +1,8 @@
 <template lang='pug'>
   v-card(color='#F6F8FB').cart-page
-
     v-card(color='#fff').main-card
+      v-btn(icon @click="dialog = $emit('close')")
+        v-icon mdi-close
       v-expansion-panels(:value='[0]' multiple)
         v-expansion-panel
           v-expansion-panel-header Order 1: Antalya
@@ -68,8 +69,8 @@
                     img(src='/img/home/ecommerce.png').hotel-image
                     .middle-part
                       v-list-item-title
-                        a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
-                      span(v-text='hotel.region').hotel-region
+                        a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.hotel.hotel').hotel-title
+                      span(v-text='hotel.hotel.region').hotel-region
                     v-spacer
                     //- .hotel-pricing
                     //-   v-radio-group(v-model="form.hotels[index].product_id" hide-details)
@@ -96,7 +97,6 @@
 <script>
 import HotelStars from '@/components/HotelStars'
 import { mapState, mapActions, mapMutations } from 'vuex'
-import Hotel from '@/models/Hotel'
 import pick from 'lodash.pick'
 
 export default {

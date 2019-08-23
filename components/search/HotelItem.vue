@@ -116,34 +116,32 @@
           //- Restaurants
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table
+              v-simple-table(fixed-header dense)
                 thead
                   tr
                     th Name
-                    th Status
+                    th Food Included
+                    th Drinks Included
+                    th Type
                 tbody
-                  tr
-                    td Restaurant
-                    td ...
+                  tr(v-for="rst in hotel.restaurants" :key="rst.id")
+                    td(v-text="rst.name")
+                    td(v-text="rst.food ? 'Included' : 'Extra'")
+                    td(v-text="rst.drinks  ? 'Included' : 'Extra'")
+                    td(v-text="rst.type_id")
 
           //- Amenities
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table
+              v-simple-table(fixed-header dense)
                 thead
                   tr
                     th Name
-                    th Status
+                    th Type
                 tbody
-                  tr
-                    td Balkon
-                    td Inlcuded
-                  tr
-                    td Balkon
-                    td Inlcuded
-                  tr
-                    td Balkon
-                    td Inlcuded
+                  tr(v-for="a in hotel.amenities" :key="a.id")
+                    td(v-text="a.name")
+                    td(v-text="a.type")
     v-dialog(v-model="showGallery")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close

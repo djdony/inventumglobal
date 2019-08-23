@@ -135,19 +135,7 @@
             b Villas: 
             span -
 
-        .rooms__table
-          v-simple-table
-            thead
-              th Room type
-              th Number
-              th Size
-              th Occupancy
-            tbody
-              tr
-                td Standart room
-                td 10
-                td 100 m²
-                td 200
+        rooms
               
         .rooms__carousel
           owl-carousel(:items='roomsCarouselItems' :margin='20' :nav='false' :dots='false')
@@ -163,78 +151,27 @@
             img(src='/img/details/banner.png')
             img(src='/img/details/banner.png')
 
-      //- MEETING SPACE PART
-
+        //- MEETING SPACE PART
       v-card.details__section.meeting-space
         h3.section__title Meeting space
         .meeting-space__count
           .count__item
-            b Number of rooms: 
+            b Number of rooms:
             span 543
           .count__item
-            b Suites: 
+            b Suites:
             span 80
           .count__item
-            b Guest Rooms: 
+            b Guest Rooms:
             span 463
           .count__item
-            b Villas: 
+            b Villas:
             span -
-            
-        .meeting-space__table
-          v-simple-table
-            thead.icons
-              th 
-              th: v-icon mdi-image-size-select-small
-              th: v-icon mdi-human-male-height-variant
-              th: v-icon mdi-tape-measure
-              th: v-icon mdi-alpha-u-circle
-              th: v-icon mdi-gamepad-circle-outline
-              th: v-icon mdi-glass-cocktail
-              th: v-icon mdi-theater
-              th: v-icon mdi-google-classroom
-              th: v-icon mdi-account-group
-              th: v-icon mdi-vector-circle
-              th: v-icon mdi-square-outline
-            thead
-              th Meeting Room
-              th Room size
-              th Ceiling  height
-              th Room dimensions
-              th U-shape
-              th Banquet rounds
-              th Cocktail rounds
-              th Theater
-              th Classroom
-              th Boardroom
-              th Crescent rounds (Cabaret)
-              th Hollow square
-            tbody
-              tr
-                td Rooms name
-                td 48 m²
-                td 2.9 m
-                td 24 m x 22.4 m
-                td 16
-                td 60
-                td 90
-                td 45
-                td 30
-                td 24
-                td 85
-                td 7
+        meeting-rooms
 
-      //- LOCATION PART
+        //- LOCATION PART
 
-      v-card.details__section.location
-        h3.section__title Location
-        p.location__name Özlü Mah. Tesisler Cad. No 450, Aksu, Antalya, 07710, Turkey
-        .location__map-wrapper
-          iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112996.20297449981!2d30.830003278360913!3d36.868956792332014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c382a28b7af6fb%3A0x49c233c8eeec9edb!2sTesisler+Cd+No%3A450!5e0!3m2!1sru!2sru!4v1565431337281!5m2!1sru!2sru" frameborder="0" style="border:0" allowfullscreen)
-
-
-
-
+      location
 
       
 </template>
@@ -244,6 +181,9 @@ import OwlCarousel from 'vue-owl-carousel'
 import Hotel from '@/models/Hotel'
 import HotelStars from '@/components/HotelStars'
 import { mapGetters, mapActions } from 'vuex'
+import MeetingRooms from "@/components/MeetingRoom";
+import Location from "@/components/Location";
+import Rooms from "@/components/Rooms";
 
 export default {
   data() {
@@ -276,7 +216,7 @@ export default {
       return 4
     }
   },
-  components: { OwlCarousel, HotelStars }
+  components: {MeetingRooms, OwlCarousel, HotelStars, Location, Rooms }
 }
 </script>
 <style lang="sass" scoped>

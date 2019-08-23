@@ -4,7 +4,7 @@ export default {
     toLocations: [],
     stars: [],
     products: [],
-    price: 500,
+    price: 2000,
     roomTypes: [],
     hotelAmenities: [],
     ceilingHeight: 10,
@@ -25,6 +25,9 @@ export default {
       state.distance = data.distance
       state.minDate = data.minDate
       state.maxDate = data.maxDate
+    },
+    SET_MAX_PRICE(state, data){
+      state.price = data
     }
   },
   actions: {

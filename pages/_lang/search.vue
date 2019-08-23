@@ -21,13 +21,25 @@
 
           //- HOTELS
 
-          hotel-item(v-else v-for='(hotel, index) in hotels' :key='index' v-bind='hotel')
+          hotel-item(
+            v-else
+            v-for='(hotel, index) in hotels'
+            :key='index'
+            v-bind='hotel'
+            :details="hotel.details || false"
+            @show-details="showDetails"
+          )
           v-spacer
 
         //- SIDE HOTELS
 
         v-flex(main-part__side-hotels)
-          hotel-item(v-for='(hotel, index) in sideHotels' :key='index' v-bind='hotel' compact)
+          hotel-item(
+            v-for='(hotel, index) in sideHotels'
+            :key='index'
+            v-bind='hotel'
+            compact
+          )
 
       v-layout(pagination justify-center v-if='pagination.total_pages > 1').mb-10
         v-pagination(v-model="pagination.current_page" :length="pagination.total_pages").custom
@@ -101,13 +113,14 @@ export default {
           const res = await this.$axios.get('/searchpackage', { params: query })
           this.pagination.per_page = res.data.per_page
           this.pagination.total_pages = Math.ceil(
-            res.data.total / this.pagination.per_page
+            res.data.total / this.pagination.per_page 
           )
 
           this.hotels = res.data.hotels
-          if (this.hotels.length == 0)
+          if (this.hotels.length === 0)
             this.hotelsMessage = 'No hotels found. Try changing the filters'
         } catch (err) {
+          this.hotelsLoading = false
           console.log(err)
           this.showSnackbar({
             message: 'An error occured while loading the data',
@@ -121,6 +134,15 @@ export default {
     updateFilters(newFilters) {
       console.log(newFilters)
       this.filters = newFilters
+    },
+    showDetails(id, show){
+      this.hotels.map(h => {
+        if(h.id === id)
+          h.details = show
+        else
+          h.details = false
+        return h
+      })
     }
   },
   watch: {

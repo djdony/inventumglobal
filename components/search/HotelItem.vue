@@ -1,6 +1,6 @@
 <template lang="pug">
   v-card(elevation='8' :class='{compact }').hotels__item
-    .hotel__quick-info(@click='showDetails')
+    .hotel__quick-info(@click="$emit('show-details', id, !showMenu)")
       .hotel__image
         img(:src="photo" alt='Hotel Image')
       .hotel__info
@@ -24,7 +24,7 @@
                 td: span(v-text='meeting_space')
               tr.props__item
                 td: b Largest Space: 
-                td: span(v-text='meeting_space')
+                td: span(v-text='largest_space')
 
           .props__price(v-if='price')
             .props__title PP in DBL sharing room
@@ -74,13 +74,13 @@
                 thead
                   tr
                     th Type
-                    th Area, m²
-                    th Quantity
+                    th.text-right Area, m²
+                    th.text-right Quantity
                 tbody
                   tr(v-for="r in rooms" :key="r.id")
                     td(v-text="r.room_type.name")
-                    td(v-text="r.min_area")
-                    td(v-text="r.qty")
+                    td.text-right(v-text="r.min_area")
+                    td.text-right(v-text="r.qty")
 
           //- Meeting rooms
           v-tab-item
@@ -89,29 +89,29 @@
                 thead
                   tr
                     th Name
-                    th Area, m2
-                    th Length, m
-                    th Width, m
-                    th Height, m
-                    th Gala, pax
-                    th Cocktail, pax
-                    th Theater, pax
-                    th Classroom, pax
-                    th U-shape, pax
-                    th Boardroom, pax
+                    th.text-right Area, m2
+                    th.text-right Length, m
+                    th.text-right Width, m
+                    th.text-right Height, m
+                    th.text-right Gala, pax
+                    th.text-right Cocktail, pax
+                    th.text-right Theater, pax
+                    th.text-right Classroom, pax
+                    th.text-right U-shape, pax
+                    th.text-right Boardroom, pax
                 tbody
                   tr(v-for="m in hotel.meeting_rooms" :key="m.id")
                     td(v-text="m.name")
-                    td(v-text="m.area")
-                    td(v-text="m.length")
-                    td(v-text="m.width")
-                    td(v-text="m.height")
-                    td(v-text="m.banquet")
-                    td(v-text="m.cocktail")
-                    td(v-text="m.theater")
-                    td(v-text="m.classroom")
-                    td(v-text="m.ushape")
-                    td(v-text="m.boardroom")
+                    td.text-right(v-text="m.area")
+                    td.text-right(v-text="m.length")
+                    td.text-right(v-text="m.width")
+                    td.text-right(v-text="m.height")
+                    td.text-right(v-text="m.banquet")
+                    td.text-right(v-text="m.cocktail")
+                    td.text-right(v-text="m.theater")
+                    td.text-right(v-text="m.classroom")
+                    td.text-right(v-text="m.ushape")
+                    td.text-right(v-text="m.boardroom")
 
           //- Restaurants
           v-tab-item
@@ -161,7 +161,7 @@ export default {
     async showDetails() {
       try {
         this.showMenu = !this.showMenu
-        if (this.showMenu) {
+        if(this.showMenu) {
           this.hotel = await Hotel.include(
             'media',
             'meeting_rooms',
@@ -230,9 +230,20 @@ export default {
     largest_space: Number,
     region: String,
     props: Array,
-    photo: String
+    photo: String,
+    details: {
+      type: Boolean,
+      default: false
+    }
   },
-  components: { HotelStars, Gallery, RestaurantTable }
+  components: { HotelStars, Gallery, RestaurantTable },
+  watch: {
+    details: {
+      handler: function(val){
+        this.showDetails()
+      }
+    }
+  }
 }
 </script>
 <style lang="sass">

@@ -191,12 +191,12 @@ export default {
         search: '',
         stars: [],
         //product_id: 1,
-        price: [100, 500],
+        price: [100, 2000],
         room_type: 'DBL',
         amenities: [],
-        meetingRooms: [0, 500],
+        meetingRooms: [0, 1500],
         ceilingHeight: [0, 10],
-        distance: [0, 100],
+        distance: [0, 200],
         searchFilters: true
       }
       this.resetRangesMaxValues()

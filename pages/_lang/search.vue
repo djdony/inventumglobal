@@ -39,7 +39,7 @@ import SearchPanel from '@/components/SearchPanel'
 import HotelItem from '@/components/search/HotelItem'
 import SearchFilters from '@/components/search/SearchFilters'
 import Hotel from '@/models/Hotel'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import pick from 'lodash.pick'
 
 export default {
@@ -73,6 +73,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
     ...mapActions({ setCartData: 'cart/setSearchPanelData' }),
     async searchHotels() {
       // timeout is needed as URL changing takes some time
@@ -108,7 +109,10 @@ export default {
             this.hotelsMessage = 'No hotels found. Try changing the filters'
         } catch (err) {
           console.log(err)
-          this.$toast.error('An rror occured while loading the data')
+          this.showSnackbar({
+            message: 'An error occured while loading the data',
+            color: 'red'
+          })
         }
 
         this.hotelsLoading = false

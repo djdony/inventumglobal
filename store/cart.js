@@ -1,5 +1,5 @@
 export default {
-  state: { 
+  state: {
     // locations
     from: null,
     to: null,
@@ -33,7 +33,7 @@ export default {
     INIT_CART(state) {
       let cart = localStorage.getItem('cart')
       cart = JSON.parse(cart)
-      if(cart && cart.length){
+      if (cart && cart.length) {
         for (let item in cart) {
           state[item] = cart[item]
         }
@@ -49,12 +49,30 @@ export default {
       let exists = !!state.hotels.find(h => h.id == hotel.id)
 
       if (state.hotels.length >= 10)
-        return this.$toast.error('You can add maximum 10 hotel')
-      if (exists) return this.$toast.error('The hotel has been already added')
+        return this.showSnackbar({
+          message: 'You can add maximum 10 hotels',
+          color: 'red'
+        })
+      if (exists)
+        commit(
+          'snackbar/showSnackbar',
+          {
+            message: 'The hotel has been already added',
+            color: 'red'
+          },
+          { root: true }
+        )
 
       commit('ADD_HOTEL', { hotel, product_id: state.product_id })
       dispatch('updateStorage')
-      this.$toast.success('The hotel has been successfully added')
+      commit(
+        'snackbar/showSnackbar',
+        {
+          message: 'The hotel has been succesfully added',
+          color: 'green'
+        },
+        { root: true }
+      )
     },
     setSearchPanelData({ commit, dispatch, state }, query) {
       let parseAsNumbers = ['from', 'to', 'double', 'single', 'triple', 'pax']

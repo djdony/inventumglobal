@@ -19,7 +19,8 @@
         ) {{ fetching ? 'WAIT' : 'ENTER' }}
 </template>
 <script>
-import Vue from 'vue'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Login',
   data() {
@@ -40,6 +41,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
     async login() {
       try {
         this.fetching = true
@@ -64,14 +66,19 @@ export default {
           window.location.reload(true)
         } else {
           this.fetching = false
-          this.$toast.error(
-            'YOUR CREDENTIALS ARE INCORRECT OR YOUR ACCOUNT MIGHT BEEN SUSPENDED'
-          )
+          this.showSnackbar({
+            message:
+              'YOUR CREDENTIALS ARE INCORRECT OR YOUR ACCOUNT MIGHT BEEN SUSPENDED',
+            color: 'red'
+          })
         }
       } catch ({ response }) {
         this.fetching = false
         console.log(response.data.message)
-        this.$toast.error('An rror occured while sending the data')
+        this.showSnackbar({
+          message: 'An error occured while loading the data',
+          color: 'red'
+        })
       }
     }
   }

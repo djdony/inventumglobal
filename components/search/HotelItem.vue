@@ -116,19 +116,7 @@
           //- Restaurants
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table(fixed-header dense)
-                thead
-                  tr
-                    th Name
-                    th Food Included
-                    th Drinks Included
-                    th Type
-                tbody
-                  tr(v-for="rst in hotel.restaurants" :key="rst.id")
-                    td(v-text="rst.name")
-                    td(v-text="rst.food ? 'Included' : 'Extra'")
-                    td(v-text="rst.drinks  ? 'Included' : 'Extra'")
-                    td(v-text="rst.type_id")
+              restaurant-table(:restaurants='hotel.restaurants')
 
           //- Amenities
           v-tab-item
@@ -152,6 +140,7 @@ import { mapActions } from 'vuex'
 import HotelStars from '@/components/HotelStars'
 import Gallery from '@/components/Gallery'
 import Hotel from '@/models/Hotel'
+import RestaurantTable from '@/components/Restaurant'
 
 export default {
   data() {
@@ -169,38 +158,42 @@ export default {
   },
   methods: {
     ...mapActions({ addToCart: 'cart/addHotel' }),
-    async showDetails(){
-      this.showMenu = !this.showMenu
-      if(this.showMenu){
-        this.hotel = await Hotel.include(
-          'media', 
-          'meeting_rooms', 
-          'rooms', 
-          'rooms.room_type', 
-          'restaurants', 
-          'amenities'
-        ).find(this.id)
-      }else{
-        this.hotel = new Hotel({
-          media: [],
-          meeting_rooms: [],
-          rooms: [],
-          restaurants: [],
-          amenities: []
-        })
+    async showDetails() {
+      try {
+        this.showMenu = !this.showMenu
+        if (this.showMenu) {
+          this.hotel = await Hotel.include(
+            'media',
+            'meeting_rooms',
+            'rooms',
+            'rooms.room_type',
+            'restaurants',
+            'amenities'
+          ).find(this.id)
+        } else {
+          this.hotel = new Hotel({
+            media: [],
+            meeting_rooms: [],
+            rooms: [],
+            restaurants: [],
+            amenities: []
+          })
+        }
+      } catch (err) {
+        console.log(err)
       }
     }
   },
   computed: {
-    rooms(){
+    rooms() {
       return this.hotel.rooms.sort((a, b) => {
         if (a.qty < b.qty) {
-          return 1;
+          return 1
         }
         if (a.qty > b.qty) {
-          return -1;
+          return -1
         }
-        return 0;
+        return 0
       })
     },
     curSymb() {
@@ -237,9 +230,9 @@ export default {
     largest_space: Number,
     region: String,
     props: Array,
-    photo: String 
+    photo: String
   },
-  components: { HotelStars, Gallery }
+  components: { HotelStars, Gallery, RestaurantTable }
 }
 </script>
 <style lang="sass">

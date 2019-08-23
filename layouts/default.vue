@@ -7,11 +7,16 @@
 
     footer-component
 
+    snackbar-component
+
+
+
 </template>
 
 <script>
 import HeaderComponent from '@/components/Header'
 import FooterComponent from '@/components/Footer'
+import SnackbarComponent from '@/components/Snackbar'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -21,6 +26,11 @@ export default {
   created() {
     this.populateFilters()
     this.initCart()
+  },
+  computed: {
+    ...mapGetters({
+      appClassName: 'styles/appClassName'
+    })
   },
   methods: {
     initCart() {
@@ -32,14 +42,10 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters({
-      appClassName: 'styles/appClassName'
-    })
-  },
   components: {
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SnackbarComponent
   }
 }
 </script>

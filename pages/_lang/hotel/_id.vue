@@ -137,19 +137,13 @@
 
         rooms
               
-        .rooms__carousel
-          owl-carousel(:items='roomsCarouselItems' :margin='20' :nav='false' :dots='false')
-            template(slot="prev")
-              v-btn(icon elevation='24').prev: v-icon mdi-chevron-left
-            template(slot="next")
-              v-btn(icon elevation='24').next: v-icon mdi-chevron-right
+        rooms-carousel(:items='[]')
 
-            img(src='/img/details/banner.png')
-            img(src='/img/details/banner.png')
-            img(src='/img/details/banner.png')
-            img(src='/img/details/banner.png')
-            img(src='/img/details/banner.png')
-            img(src='/img/details/banner.png')
+        //- MEETING SPACE PART
+
+      v-card.details__section.restaurants
+        h3.section__title Restaurants
+        //- restaurant-table(:restaurants='hotel.restaurants')
 
         //- MEETING SPACE PART
       v-card.details__section.meeting-space
@@ -177,13 +171,14 @@
 </template>
 
 <script>
-import OwlCarousel from 'vue-owl-carousel'
 import Hotel from '@/models/Hotel'
 import HotelStars from '@/components/HotelStars'
-import { mapGetters, mapActions } from 'vuex'
-import MeetingRooms from "@/components/MeetingRoom";
-import Location from "@/components/Location";
-import Rooms from "@/components/Rooms";
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import MeetingRooms from '@/components/MeetingRoom'
+import Location from '@/components/Location'
+import Rooms from '@/components/Rooms'
+import RestaurantTable from '@/components/Restaurant'
+import RoomsCarousel from '@/components/RoomsCarousel'
 
 export default {
   data() {
@@ -198,28 +193,29 @@ export default {
       return { hotel: hotel[0] }
     } catch (err) {
       console.log(err)
-      this.$toast.error('An rror occured while loading the data')
+      this.showSnackbar({
+        message: 'An error occured while loading the data',
+        color: 'red'
+      })
     }
   },
   created() {},
   methods: {
+    ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
     ...mapActions({ addToCart: 'cart/addHotel' })
   },
-  computed: {
-    roomsCarouselItems() {
-      let { breakpoint } = this.$vuetify
-
-      if (breakpoint.xs) return 1
-      if (breakpoint.sm) return 2
-      if (breakpoint.md) return 3
-
-      return 4
-    }
-  },
-  components: {MeetingRooms, OwlCarousel, HotelStars, Location, Rooms }
+  computed: {},
+  components: {
+    RestaurantTable,
+    MeetingRooms,
+    HotelStars,
+    Location,
+    Rooms,
+    RoomsCarousel
+  }
 }
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
 @import '@/assets/styles/pages/details.sass'
 
 </style>

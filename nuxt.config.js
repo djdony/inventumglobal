@@ -43,7 +43,6 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/toast',
     '@ax2/dayjs-module'
   ],
   /*
@@ -52,10 +51,6 @@ export default {
    */
   axios: {
     baseURL: 'http://inventum'
-  },
-
-  toast: {
-    duration: 3000
   },
 
   auth: {

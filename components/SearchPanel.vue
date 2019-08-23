@@ -30,14 +30,14 @@ div
               span(v-text='dateMessage[filters.dates.length]' v-if='filters.dates.length < 2').primary--text.caption.px-2.pb-1
               v-btn(text color="primary" @click="dateMenu = false" v-else) OK
       
-      v-menu(offset-y v-model="eventSizeMenu" transition="scale-transition"  :close-on-content-click="false")
+      v-menu(offset-y v-model="eventSizeMenu" content-class='white' transition="scale-transition"  :close-on-content-click="false")
         template(v-slot:activator="{ on }")
           v-btn.search-item.button(v-on='on')
             .text
               span.label Event size
               span(v-text='filters.pax').value
             v-icon mdi-human-male
-        v-card.search-menu.white.secondary--text
+        v-card(elevation='0').search-menu.white.secondary--text
           p.search-menu__title Event size
           .search-menu__field-group
             span.group__name Single rooms:
@@ -89,7 +89,7 @@ div
 import Location from '@/models/Location'
 import pick from 'lodash.pick'
 import compact from 'lodash.compact'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Vue from 'vue'
 
 export default {
@@ -209,6 +209,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
     incr(index) {
       this.filters[index]++
       this.recalc(index)
@@ -222,7 +223,7 @@ export default {
       let { dates } = this.filters
       let range = 3
 
-/*      if(dates.length == 0){
+      /*      if(dates.length == 0){
         return this.$dayjs(widgetDate).unix() >= this.$dayjs(this.filtersData.minDate).unix() && this.$dayjs(widgetDate).unix() <= this.$dayjs(this.filtersData.maxDate).unix()
       }*/
 
@@ -277,22 +278,24 @@ export default {
       }
     },
     validate() {
-      let errors = 0
-
       if (!this.filters.from) {
-        errors++
-        this.$toast.error('Departure location must be specified')
+        return this.showSnackbar({
+          message: 'Departure location must be specified',
+          color: 'red'
+        })
       }
       if (!this.filters.to) {
-        errors++
-        this.$toast.error('Arrival location must be specified')
+        return this.showSnackbar({
+          message: 'Arrival location must be specified',
+          color: 'red'
+        })
       }
       if (this.filters.dates.length < 2) {
-        errors++
-        this.$toast.error('Both departure and arrival dates must be specified')
+        return this.showSnackbar({
+          message: 'Both departure and arrival dates must be specified',
+          color: 'red'
+        })
       }
-
-      if (errors > 0) return false
 
       return true
     }

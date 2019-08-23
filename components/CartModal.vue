@@ -1,11 +1,16 @@
 <template lang='pug'>
   v-card(color='#F6F8FB').cart-page
     v-card(color='#fff').main-card
-      v-btn(icon @click="dialog = $emit('close')")
-        v-icon mdi-close
+      v-row.py-4
+        v-spacer
+        v-btn(icon @click="dialog = $emit('close')")
+          v-icon mdi-close
       v-expansion-panels(:value='[0]' multiple)
         v-expansion-panel
-          v-expansion-panel-header Order 1: Antalya
+          v-expansion-panel-header 
+            v-btn(icon @click="removeOrder")
+                v-icon mdi-close
+            span Order 1: Antalya
           v-expansion-panel-content
             v-row.mt-4
               v-col(md='7' lg="8" cols='12')
@@ -96,7 +101,7 @@
 
 <script>
 import HotelStars from '@/components/HotelStars'
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import pick from 'lodash.pick'
 
 export default {
@@ -142,6 +147,9 @@ export default {
   },
 
   computed: {
+    removeOrder() {
+      // remove order
+    },
     formattedDateIn() {
       return this.form.departure_date
         ? this.$dayjs(this.form.departure_date).format('DD/MM/YYYY')
@@ -155,35 +163,41 @@ export default {
   },
   methods: {
     ...mapActions({ removeHotelFromCart: 'cart/removeHotel' }),
-    ...mapMutations({ cleanCart: 'cart/CLEAN_CART' }),
+    ...mapMutations({
+      cleanCart: 'cart/CLEAN_CART',
+      showSnackbar: 'snackbar/showSnackbar'
+    }),
     send() {
       if (!this.validate()) return false
 
       this.cleanCart()
-      this.$toast.success('Order has been sent')
+      this.showSnackbar({
+        message: 'Order has been sent',
+        color: 'green'
+      })
       this.$emit('close')
     },
     validate() {
-      let errors = 0
-
       let datesDiff = this.$dayjs(this.form.arrival_date).diff(
         this.$dayjs(this.form.departure_date),
         'days'
       )
 
       if (datesDiff < 1) {
-        errors++
-        this.$toast.error(`Arrival date must be later than departure date`)
+        return this.showSnackbar({
+          message: `Arrival date must be later than departure date`,
+          color: 'red'
+        })
       }
 
       if (datesDiff > 3) {
-        errors++
-        this.$toast.error(
-          `Possible trip duration: 1-3 days (now: ${datesDiff})`
-        )
+        return this.showSnackbar({
+          message: `Possible trip duration: 1-3 days (now: ${datesDiff})`,
+          color: 'red'
+        })
       }
 
-      return !errors
+      return true
     },
     removeHotel(index, id) {
       this.removeHotelFromCart(id)

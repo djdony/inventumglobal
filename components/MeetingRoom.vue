@@ -1,51 +1,49 @@
 <template lang='pug'>
-
-
-    .meeting-space__table
-      v-simple-table
-        thead.icons
-          th
-          th: v-icon mdi-image-size-select-small
-          th: v-icon mdi-human-male-height-variant
-          th: v-icon mdi-tape-measure
-          th: v-icon mdi-alpha-u-circle
-          th: v-icon mdi-gamepad-circle-outline
-          th: v-icon mdi-glass-cocktail
-          th: v-icon mdi-theater
-          th: v-icon mdi-google-classroom
-          th: v-icon mdi-account-group
-          th: v-icon mdi-vector-circle
-          th: v-icon mdi-square-outline
-        thead
-          th Meeting Room
-          th Room size
-          th Ceiling  height
-          th Room dimensions
-          th U-shape
-          th Banquet rounds
-          th Cocktail rounds
-          th Theater
-          th Classroom
-          th Boardroom
-          th Crescent rounds (Cabaret)
-          th Hollow square
-        tbody
-          tr
-            td Rooms name
-            td 48 m²
-            td 2.9 m
-            td 24 m x 22.4 m
-            td 16
-            td 60
-            td 90
-            td 45
-            td 30
-            td 24
-            td 85
-            td 7
+  .meeting-space__table
+    v-simple-table
+      thead.icons
+        th
+        th: v-icon mdi-image-size-select-small
+        th: v-icon mdi-arrow-expand-vertical
+        th: v-icon mdi-arrow-expand-horizontal
+        th: v-icon mdi-human-male-height-variant
+        th: v-icon mdi-gamepad-circle-outline
+        th: v-icon mdi-glass-cocktail
+        th: v-icon mdi-theater
+        th: v-icon mdi-google-classroom
+        th: v-icon mdi-alpha-u-circle
+        th: v-icon mdi-vector-circle
+      thead
+        th Name
+        th.text-right Area, m2
+        th.text-right Length, m
+        th.text-right Width, m
+        th.text-right Height, m
+        th.text-right Gala, pax
+        th.text-right Cocktail, pax
+        th.text-right Theater, pax
+        th.text-right Classroom, pax
+        th.text-right U-shape, pax
+        th.text-right Boardroom, pax
+      tbody
+        tr(v-for="m in value" :key="m.id")
+          td.text-left(v-text="m.name")
+          td.text-right(v-text="m.area")
+          td.text-right(v-text="m.length")
+          td.text-right(v-text="m.width")
+          td.text-right(v-text="m.height")
+          td.text-right(v-text="m.banquet")
+          td.text-right(v-text="m.cocktail")
+          td.text-right(v-text="m.theater")
+          td.text-right(v-text="m.classroom")
+          td.text-right(v-text="m.ushape")
+          td.text-right(v-text="m.boardroom")
 </template>
-
+<script type="text/javascript">
+export default {
+  props: ['value']
+}
+</script>
 <style lang="sass" scoped>
   @import '@/assets/styles/pages/details.sass'
-
 </style>

@@ -5,7 +5,14 @@
         span.filter-item__title Search hotels
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.text-input
-        v-text-field(v-model='filters.search' prepend-inner-icon="mdi-magnify" placeholder='Hotel name, address' outlined hide-details)
+        v-text-field(
+          v-model='filters.search'
+          prepend-inner-icon="mdi-magnify"
+          placeholder='Hotel name, address'
+          outlined
+          hide-details
+          @keyup.enter="search"
+        )
 
     .filter-item
       .filter-item__row.mb-2
@@ -20,19 +27,6 @@
           v-model='filters.stars'
           hide-details
         )
-
-    //- .filter-item
-    //-   .filter-item__row.mb-2
-    //-     span.filter-item__title Product type
-    //-     v-icon(size='16').filter-item__more mdi-dots-horizontal
-    //-   .filter-item__row.radios
-    //-     v-radio-group(v-model="filters.product_id" hide-details)
-    //-       v-radio(
-    //-         v-for="p in filtersData.products"
-    //-         :key="p.id"
-    //-         :value="p.id"
-    //-         :label="p.name"
-    //-       )
 
     .filter-item
       .filter-item__row.mb-2
@@ -138,11 +132,6 @@
           v-model="filters.distance"
         )
 
-    //- .filter-item.pa-0
-    //-   v-btn(text color='secondary').custom.fluid
-    //-     span Distance from airport
-    //-     v-icon(size='24') mdi-chevron-right
-
     v-btn(color='primary' @click='search').custom.mt-5.full-width Apply filters
     v-btn(color='primary' text @click='reset').custom.mt-2.full-width Reset all filters
 
@@ -157,28 +146,25 @@ export default {
       filters: {
         search: '',
         stars: [],
-        //product_id: null,
         price: [100, 2000],
         room_type: 'DBL',
         amenities: [],
-        meetingRooms: [0, 1500],
-        ceilingHeight: [0, 10],
-        distance: [0, 200],
+        meetingRooms: [0, 18000],
+        ceilingHeight: [0, 20],
+        distance: [0, 300],
         searchFilters: true
       },
       rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance']
     }
   },
   async created() {
-    let query = qs.parse(location.search.slice(1))
-
+    let query = qs.parse(location.search.slice(1))   
     if (query.searchFilters) {
       this.watchRangesMaxValues('setGetValues', query)
     } else {
       this.watchRangesMaxValues('resetRangesMaxValues')
     }
   },
-  mounted() {},
   methods: {
     search() {
       let query = qs.parse(location.search.slice(1))
@@ -190,13 +176,8 @@ export default {
       this.filters = {
         search: '',
         stars: [],
-        //product_id: 1,
-        price: [100, 2000],
         room_type: 'DBL',
         amenities: [],
-        meetingRooms: [0, 1500],
-        ceilingHeight: [0, 10],
-        distance: [0, 200],
         searchFilters: true
       }
       this.resetRangesMaxValues()

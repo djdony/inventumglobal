@@ -16,8 +16,6 @@
 
               .info__regions(v-text='hotel.location.name')
 
-            v-btn(color='primary' x-large @click.stop='addToCart(hotel.id)').custom Select hotel
-
           .content__row
             .details
               .details__block
@@ -124,18 +122,9 @@
         .rooms__count
           .count__item
             b Number of rooms: 
-            span 543
-          .count__item
-            b Suites: 
-            span 80
-          .count__item
-            b Guest Rooms: 
-            span 463
-          .count__item
-            b Villas: 
-            span -
+            span {{ roomsQty }}
 
-        rooms
+        rooms(v-model="hotel.rooms")
               
         rooms-carousel(:items='[]')
 
@@ -143,7 +132,7 @@
 
       v-card.details__section.restaurants
         h3.section__title Restaurants
-        //- restaurant-table(:restaurants='hotel.restaurants')
+        restaurant-table(:restaurants='hotel.restaurants')
 
         //- MEETING SPACE PART
       v-card.details__section.meeting-space
@@ -161,13 +150,8 @@
           .count__item
             b Villas:
             span -
-        meeting-rooms
-
-        //- LOCATION PART
-
+        meeting-rooms(v-model="hotel.meeting_rooms")
       location
-
-      
 </template>
 
 <script>
@@ -182,17 +166,23 @@ import RoomsCarousel from '@/components/RoomsCarousel'
 
 export default {
   data() {
-    return {}
+    return {
+      
+    }
   },
-  async asyncData(context) {
+  async asyncData({ route }) {
     try {
-      let hotel = await Hotel.where('id', context.route.params.id)
-        .include('seasons', 'periods', 'rooms', 'location', 'types')
-        .get()
+      let hotel = await Hotel.include([
+        'rooms',
+        'rooms.room_type',
+        'location',
+        'types',
+        'meeting_rooms',
+        'restaurants'
+      ]).find(route.params.id)
 
-      return { hotel: hotel[0] }
+      return { hotel }
     } catch (err) {
-      console.log(err)
       this.showSnackbar({
         message: 'An error occured while loading the data',
         color: 'red'
@@ -204,7 +194,15 @@ export default {
     ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
     ...mapActions({ addToCart: 'cart/addHotel' })
   },
-  computed: {},
+  computed: {
+    roomsQty: function(){
+      if(this.hotel && this.hotel.hasOwnProperty('rooms')){
+        return this.hotel.rooms.reduce((a, b) => a+b.qty, 0)
+      }else{
+        return 'N/A'
+      }
+    }
+  },
   components: {
     RestaurantTable,
     MeetingRooms,

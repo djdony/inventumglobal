@@ -7,8 +7,8 @@ export default {
     price: 2000,
     roomTypes: [],
     hotelAmenities: [],
-    ceilingHeight: 10,
-    meetingRoomCap: 1000,
+    ceilingHeight: 20,
+    meetingRoomCap: 18000,
     distance: 300
   },
   mutations: {

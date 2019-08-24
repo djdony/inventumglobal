@@ -3,17 +3,19 @@
     v-simple-table
       thead
         th Room type
-        th Number
-        th Size
-        th Occupancy
+        th Area, m²
+        th Quantity
       tbody
-        tr
-          td Standart room
-          td 10
-          td 100 m²
-          td 200
+        tr(v-for="r in value" :key="r.id")
+          td.text-left(v-text="r.room_type.name")
+          td.text-right(v-text="r.min_area")
+          td.text-right(v-text="r.qty")
 </template>
-
+<script type="text/javascript">
+export default {
+  props: ['value']
+}
+</script>
 <style lang="sass" scoped>
   @import '@/assets/styles/pages/details.sass'
 

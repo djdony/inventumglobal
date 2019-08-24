@@ -1,5 +1,4 @@
 <template lang="pug">
-    
   v-simple-table(fixed-header dense)
     thead
       tr

@@ -1,18 +1,10 @@
 <template lang='pug'>
-
   v-app(align-start :class='appClassName')
     header-component
-
     nuxt
-
     footer-component
-
     snackbar-component
-
-
-
 </template>
-
 <script>
 import HeaderComponent from '@/components/Header'
 import FooterComponent from '@/components/Footer'
@@ -36,9 +28,9 @@ export default {
     initCart() {
       this.$store.commit('cart/INIT_CART')
     },
-    populateFilters() {
+    async populateFilters() {
       if (this.$auth.loggedIn === true) {
-        this.$store.dispatch('filters/populate')
+        await this.$store.dispatch('filters/populate')
       }
     }
   },

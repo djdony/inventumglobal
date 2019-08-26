@@ -53,6 +53,7 @@
           v-tab Meeting rooms
           v-tab Restaurants
           v-tab Amenities
+          v-tab Location
 
           //- General
           v-tab-item
@@ -70,53 +71,17 @@
           //- Rooms
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table(fixed-header dense)
-                thead
-                  tr
-                    th Type
-                    th.text-right Area, m²
-                    th.text-right Quantity
-                tbody
-                  tr(v-for="r in rooms" :key="r.id")
-                    td(v-text="r.room_type.name")
-                    td.text-right(v-text="r.min_area")
-                    td.text-right(v-text="r.qty")
+              rooms(v-model="hotel.rooms")
 
           //- Meeting rooms
           v-tab-item
             v-card(elevation='0').tab-item.table
-              v-simple-table(fixed-header dense)
-                thead
-                  tr
-                    th Name
-                    th.text-right Area, m2
-                    th.text-right Length, m
-                    th.text-right Width, m
-                    th.text-right Height, m
-                    th.text-right Gala, pax
-                    th.text-right Cocktail, pax
-                    th.text-right Theater, pax
-                    th.text-right Classroom, pax
-                    th.text-right U-shape, pax
-                    th.text-right Boardroom, pax
-                tbody
-                  tr(v-for="m in hotel.meeting_rooms" :key="m.id")
-                    td(v-text="m.name")
-                    td.text-right(v-text="m.area")
-                    td.text-right(v-text="m.length")
-                    td.text-right(v-text="m.width")
-                    td.text-right(v-text="m.height")
-                    td.text-right(v-text="m.banquet")
-                    td.text-right(v-text="m.cocktail")
-                    td.text-right(v-text="m.theater")
-                    td.text-right(v-text="m.classroom")
-                    td.text-right(v-text="m.ushape")
-                    td.text-right(v-text="m.boardroom")
+              meeting-room(v-model="hotel.meeting_rooms")
 
           //- Restaurants
           v-tab-item
             v-card(elevation='0').tab-item.table
-              restaurant-table(:restaurants='hotel.restaurants')
+              restaurant(:restaurants='hotel.restaurants')
 
           //- Amenities
           v-tab-item
@@ -130,6 +95,10 @@
                   tr(v-for="a in hotel.amenities" :key="a.id")
                     td(v-text="a.name")
                     td(v-text="a.type")
+            //- Location
+          v-tab-item
+            v-card(elevation='0').tab-item.table
+              location(v-model="hotel")
     v-dialog(v-model="showGallery")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close
@@ -140,7 +109,10 @@ import { mapActions } from 'vuex'
 import HotelStars from '@/components/HotelStars'
 import Gallery from '@/components/Gallery'
 import Hotel from '@/models/Hotel'
-import RestaurantTable from '@/components/Restaurant'
+import Restaurant from '@/components/Restaurant'
+import Rooms from '@/components/Rooms'
+import MeetingRoom from '@/components/MeetingRoom'
+import Location from '@/components/Location'
 
 export default {
   data() {
@@ -236,7 +208,7 @@ export default {
       default: false
     }
   },
-  components: { HotelStars, Gallery, RestaurantTable },
+  components: { HotelStars, Gallery, Restaurant, Rooms, MeetingRoom, Location },
   watch: {
     details: {
       handler: function(val){

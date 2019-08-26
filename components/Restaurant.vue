@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-simple-table(fixed-header dense)
+  v-simple-table(dense)
     thead
       tr
         th Name
@@ -21,7 +21,6 @@ export default {
       type: Array,
       default: []
     }
-  },
-  name: 'RestarauntTable'
+  }
 }
 </script>

@@ -126,7 +126,7 @@
         v-range-slider(
           hide-details
           :min="filters.distance[0]"
-          :max="filtersData.distance"
+          :max="filtersData.maxdistance"
           color='#0056b3'
           track-color='#DDDFE7'
           v-model="filters.distance"
@@ -187,7 +187,7 @@ export default {
       this.$set(this.filters.price, 1, this.filtersData.price)
       this.$set(this.filters.meetingRooms, 1, this.filtersData.meetingRoomCap)
       this.$set(this.filters.ceilingHeight, 1, this.filtersData.ceilingHeight)
-      this.$set(this.filters.distance, 1, this.filtersData.distance)
+      this.$set(this.filters.distance, 1, this.filtersData.maxdistance)
     },
     setGetValues(query) {
       this.rangeFields.forEach(item => {

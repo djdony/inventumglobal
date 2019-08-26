@@ -125,7 +125,7 @@
       .filter-item__row.slider
         v-range-slider(
           hide-details
-          :min="filters.distance[0]"
+          :min="0"
           :max="filtersData.maxdistance"
           color='#0056b3'
           track-color='#DDDFE7'
@@ -176,7 +176,11 @@ export default {
       this.filters = {
         search: '',
         stars: [],
+        price: [100,2000],
         room_type: 'DBL',
+        meetingRooms: [0,18000],
+        distance: [0,300],
+        ceilingHeight: [0,20],
         amenities: [],
         searchFilters: true
       }

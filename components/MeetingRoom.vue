@@ -1,8 +1,8 @@
 <template lang='pug'>
   .meeting-space__table
     v-simple-table(fixed-header).custom
-      thead.icons
-        tr
+      thead
+        tr.icons
           th
           th: v-icon mdi-image-size-select-small
           th: v-icon mdi-arrow-expand-vertical
@@ -14,7 +14,6 @@
           th: v-icon mdi-google-classroom
           th: v-icon mdi-alpha-u-circle
           th: v-icon mdi-vector-circle
-      thead
         tr
           th Name
           th.text-right Area, m2

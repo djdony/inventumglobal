@@ -31,3 +31,25 @@ body, html
 .v-dialog.cart-dialog
   margin: 12px
 
+.v-data-table.custom, .v-data-table.custom.v-data-table--fixed-header
+  text-align: center
+  table
+    thead
+      background-color: $secondary-color
+      tr
+        th
+          background: $secondary-color
+          text-align: center
+          font-size: 14px
+          font-weight: 500
+          color: #fff
+      &.icons
+        background-color: #fff
+        tr
+          th
+            background-color: #fff
+        .v-icon
+          color: #595F6F
+    tbody
+      background-color: #ECEDEF
+

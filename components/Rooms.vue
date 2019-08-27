@@ -1,10 +1,11 @@
 <template lang="pug">
   .rooms__table
-    v-simple-table(dense)
+    v-simple-table(dense fixed-header).custom
       thead
-        th Room type
-        th Area, m²
-        th Quantity
+        tr
+          th Room type
+          th Area, m²
+          th Quantity
       tbody
         tr(v-for="r in value" :key="r.id")
           td.text-left(v-text="r.room_type.name")
@@ -18,5 +19,8 @@ export default {
 </script>
 <style lang="sass" scoped>
   @import '@/assets/styles/pages/details.sass'
+
+  .rooms__table
+    width: 100%
 
 </style>

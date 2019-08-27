@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-simple-table(dense)
+  v-simple-table(dense).custom
     thead
       tr
         th Name

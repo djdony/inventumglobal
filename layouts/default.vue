@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      appClassName: 'styles/appClassName'
+      appClassName: 'styles/appClassName' 
     })
   },
   methods: {

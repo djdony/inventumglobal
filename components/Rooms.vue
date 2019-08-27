@@ -1,6 +1,6 @@
 <template lang="pug">
   .rooms__table
-    v-simple-table
+    v-simple-table(dense)
       thead
         th Room type
         th Area, m²

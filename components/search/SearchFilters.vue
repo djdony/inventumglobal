@@ -125,8 +125,8 @@
       .filter-item__row.slider
         v-range-slider(
           hide-details
-          :min="filters.distance[0]"
-          :max="filtersData.distance"
+          :min="0"
+          :max="filtersData.maxdistance"
           color='#0056b3'
           track-color='#DDDFE7'
           v-model="filters.distance"
@@ -178,6 +178,9 @@ export default {
         stars: [],
         price: [100, 2000],
         room_type: 'DBL',
+        meetingRooms: [0, 18000],
+        distance: [0, 300],
+        ceilingHeight: [0, 20],
         amenities: [],
         meetingRooms: [0, 18000],
         ceilingHeight: [0, 20],
@@ -193,7 +196,7 @@ export default {
       this.$set(this.filters.price, 1, this.filtersData.price)
       this.$set(this.filters.meetingRooms, 1, this.filtersData.meetingRoomCap)
       this.$set(this.filters.ceilingHeight, 1, this.filtersData.ceilingHeight)
-      this.$set(this.filters.distance, 1, this.filtersData.distance)
+      this.$set(this.filters.distance, 1, this.filtersData.maxdistance)
     },
     setGetValues(query) {
       this.rangeFields.forEach(item => {

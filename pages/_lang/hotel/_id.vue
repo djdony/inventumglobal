@@ -19,63 +19,47 @@
           .content__row
             .details
               .details__block
-                .block__title Chain Scales
-                .block__list
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                    
-              .details__block
                 .block__title Physical Features 
                 .block__list
                   .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                    span.item__param Built:
+                    span.item__value(v-text='hotel.built')
                   .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                    span.item__param Renovated:
+                    span.item__value(v-text='hotel.renovated')
                   .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                    span.item__param Total Area:
+                    span.item__value(v-text='hotel.area')
                     
               .details__block
-                .block__title Rooms &amp; Suites
+                .block__title Rooms &amp; Villas
                 .block__list
                   .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                    span.item__param Total Rooms:
+                    span.item__value {{ roomsQty }}
                   .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Chain Scale: 
+                    span.item__param Total Villas:
                     span.item__value Titanic
 
               .details__block
                 .block__title Meetings &amp; Events
                 .block__list
                   .block-list__item
-                    span.item__param Chain Scale: 
+                    span.item__param Total Meeting Rooms:
                     span.item__value Titanic
                   .block-list__item
-                    span.item__param Chain Scale: 
+                    span.item__param Total Meeting Space:
                     span.item__value Titanic
                   .block-list__item
-                    span.item__param Chain Scale: 
+                    span.item__param Largest Space:
                     span.item__value Titanic
 
               .details__block
                 .block__title Location 
                 .block__list
                   .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                    span.item__param Region:
+                    span.item__value(v-text='hotel.location.name')
                   .block-list__item
                     span.item__param Chain Scale: 
                     span.item__value Titanic
@@ -101,8 +85,8 @@
       v-card.details__section.overview
         h3.section__title Overview
         .overview__content
-          p Situated on the shores of the Turkish Riviera, Titanic Mardan Palace is one of the most luxurious all inclusive resorts in the Mediterranean. 
-          p A total of 543 rooms and suites has been designed and appointed to the most luxurious standards, each with spectacular views of nature and palatial architecture.A total of 543 rooms and suites has been designed and appointed to the most luxurious standards, each with spectacular views of nature and palatial architecture.
+          p(v-text='hotel.description')
+
 
       //- OVERVIEW PART
 
@@ -151,7 +135,7 @@
             b Villas:
             span -
         meeting-rooms(v-model="hotel.meeting_rooms")
-      location
+      location(v-model="hotel")
 </template>
 
 <script>

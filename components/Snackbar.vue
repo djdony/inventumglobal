@@ -1,14 +1,9 @@
 <template lang="pug">
-  
-    div 
-      v-snackbar(v-model='snackbar' right top :timeout='timeout' :color='color') 
-        span(v-html='message')
-
+  v-snackbar(v-model='snackbar' right top :timeout='timeout' :color='color') 
+    span(v-html='message')
 </template>
-
 <script>
 import { mapState, mapMutations } from 'vuex'
-
 export default {
   created() {},
   methods: {

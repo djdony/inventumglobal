@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     cartItems() {
-      return this.$store.state.cart.hotels.length
+      return this.$store.state.cart.orders.length
     },
     ...mapGetters({
       logoStyle: 'styles/headerLogoStyle',

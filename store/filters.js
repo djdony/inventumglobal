@@ -9,7 +9,7 @@ export default {
     hotelAmenities: [],
     ceilingHeight: 20,
     meetingRoomCap: 18000,
-    distance: 300
+    maxdistance: 300
   },
   mutations: {
     SET_FILTERS(state, data) {
@@ -22,7 +22,7 @@ export default {
       state.hotelAmenities = data.hotelAmenities
       state.ceilingHeight = data.ceilingHeight
       state.meetingRoomCap = data.meetingRoomCap
-      state.distance = data.distance
+      state.maxdistance = data.maxdistance
       state.minDate = data.minDate
       state.maxDate = data.maxDate
     },

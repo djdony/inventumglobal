@@ -130,7 +130,7 @@ export default {
     loaded: false
   }),
   async created() {
-    let cart = { ...this.$store.getters['cart/cart'] }
+    let cart = { ...this.$store.state.cart }
 
     this.form = pick(cart, [
       'from',

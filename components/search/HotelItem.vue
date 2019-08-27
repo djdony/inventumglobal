@@ -40,8 +40,8 @@
                 td: span(v-text='price.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
-          v-btn(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)").custom Details
-          v-btn(color='primary' small @click.stop='addToCart($props)').custom Select Hotel
+          v-btn.custom(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)") Details
+          v-btn.custom(color='primary' small @click.stop="addToCart") Select Hotel
 
         //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
 
@@ -105,7 +105,6 @@
       gallery(v-model="hotel.media")
 </template>
 <script>
-import { mapActions } from 'vuex'
 import HotelStars from '@/components/HotelStars'
 import Gallery from '@/components/Gallery'
 import Hotel from '@/models/Hotel'
@@ -129,7 +128,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions({ addToCart: 'cart/addHotel' }),
+    addToCart(){
+      this.$store.dispatch('cart/addHotel', {
+        hotel: { id: this.id, name: this.name },
+        ...this.$route.query
+      })
+    },
     async showDetails() {
       try {
         this.showMenu = !this.showMenu

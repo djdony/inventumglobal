@@ -25,7 +25,7 @@ div
               v-icon mdi-calendar-multiple
           v-card(color='white secondary--text').datepicker-menu
             //- v-date-picker(v-model="filters.departure_date" no-title width='256' first-day-of-week='1')
-            v-date-picker(v-model="filters.dates" no-title width='256' first-day-of-week='1' multiple :allowed-dates='allowedDates' :min="filtersData.minDate" :max="filtersData.maxDate" :show-current='false' :events='datesInRange' event-color='#3273C2' ).range
+            v-date-picker(v-model="filters.dates" no-title width='256' first-day-of-week='1' multiple :allowed-dates='allowedDates' :min="filtersData.minDate" :max="filtersData.maxDate" :show-current='false' :events='datesInRange' event-color='#3273C2').range
               v-spacer
               span(v-text='dateMessage[filters.dates.length]' v-if='filters.dates.length < 2').primary--text.caption.px-2.pb-1
               v-btn(text color="primary" @click="dateMenu = false" v-else) OK

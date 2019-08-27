@@ -158,7 +158,7 @@ export default {
     }
   },
   async created() {
-    let query = qs.parse(location.search.slice(1))   
+    let query = qs.parse(location.search.slice(1))
     if (query.searchFilters) {
       this.watchRangesMaxValues('setGetValues', query)
     } else {
@@ -176,14 +176,20 @@ export default {
       this.filters = {
         search: '',
         stars: [],
+        price: [100, 2000],
         room_type: 'DBL',
         amenities: [],
+        meetingRooms: [0, 18000],
+        ceilingHeight: [0, 20],
+        distance: [0, 300],
         searchFilters: true
       }
       this.resetRangesMaxValues()
       this.search()
     },
     resetRangesMaxValues() {
+      console.log(this.filtersData)
+
       this.$set(this.filters.price, 1, this.filtersData.price)
       this.$set(this.filters.meetingRooms, 1, this.filtersData.meetingRoomCap)
       this.$set(this.filters.ceilingHeight, 1, this.filtersData.ceilingHeight)

@@ -25,29 +25,29 @@
                     v-badge(overlap left)
                       template(v-slot:badge v-if='cartItems') {{ cartItems }}
                       v-icon() mdi-cart
-                v-card(color='white')
-                  v-list.header__cart-hotels-list
-                    v-list-item
-                      hotel-stars(id='9')
-                      .hotels__info
-                        .info__title Hotel lalala
-                        .info__regions Antalya
-                      v-spacer
-                      v-btn(icon): v-icon mdi-close
-                    v-list-item
-                      hotel-stars(id='9')
-                      .hotels__info
-                        .info__title Hotel lalala
-                        .info__regions Antalya
-                      v-spacer
-                      v-btn(icon): v-icon mdi-close
-                    v-list-item
-                      hotel-stars(id='9')
-                      .hotels__info
-                        .info__title Hotel lalalaasd asdas das
-                        .info__regions Antalya
-                      v-spacer
-                      v-btn(icon): v-icon mdi-close
+                //- v-card(color='white')
+                //-   v-list.header__cart-hotels-list
+                //-     v-list-item
+                //-       hotel-stars(id='9')
+                //-       .hotels__info
+                //-         .info__title Hotel lalala
+                //-         .info__regions Antalya
+                //-       v-spacer
+                //-       v-btn(icon): v-icon mdi-close
+                //-     v-list-item
+                //-       hotel-stars(id='9')
+                //-       .hotels__info
+                //-         .info__title Hotel lalala
+                //-         .info__regions Antalya
+                //-       v-spacer
+                //-       v-btn(icon): v-icon mdi-close
+                //-     v-list-item
+                //-       hotel-stars(id='9')
+                //-       .hotels__info
+                //-         .info__title Hotel lalalaasd asdas das
+                //-         .info__regions Antalya
+                //-       v-spacer
+                //-       v-btn(icon): v-icon mdi-close
 
 
               

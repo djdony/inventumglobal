@@ -51,7 +51,7 @@ import SearchPanel from '@/components/SearchPanel'
 import HotelItem from '@/components/search/HotelItem'
 import SearchFilters from '@/components/search/SearchFilters'
 import Hotel from '@/models/Hotel'
-import { mapActions, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 import pick from 'lodash.pick'
 
 export default {
@@ -86,30 +86,15 @@ export default {
   },
   methods: {
     ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
-    ...mapActions({ setCartData: 'cart/setSearchPanelData' }),
     async searchHotels() {
       // timeout is needed as URL changing takes some time
 
       await setTimeout(async () => {
         this.hotelsLoading = true
 
+        let { query } = this.$route
+
         try {
-          let { query } = this.$route
-
-          this.setCartData(
-            pick(query, [
-              'from',
-              'to',
-              'double',
-              'single',
-              'triple',
-              'pax',
-              'departure_date',
-              'arrival_date',
-              'product_id'
-            ])
-          )
-
           const res = await this.$axios.get('/searchpackage', { params: query })
           this.pagination.per_page = res.data.per_page
           this.pagination.total_pages = Math.ceil(
@@ -121,7 +106,6 @@ export default {
             this.hotelsMessage = 'No hotels found. Try changing the filters'
         } catch (err) {
           this.hotelsLoading = false
-          console.log(err)
           this.showSnackbar({
             message: 'An error occured while loading the data',
             color: 'red'

@@ -21,7 +21,7 @@
     "vue-fancybox": "^1.0.3"
   },
   "devDependencies": {
-    "@mdi/font": "^4.1.95",
+    "@mdi/font": "^4.2.95",
     "@nuxtjs/vuetify": "^1.4.0",
     "nodemon": "^1.19.1",
     "pug": "^2.0.4",

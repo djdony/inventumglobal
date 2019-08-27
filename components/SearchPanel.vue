@@ -88,7 +88,7 @@ div
 <script>
 import pick from 'lodash.pick'
 import compact from 'lodash.compact'
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -164,6 +164,10 @@ export default {
     ...mapState({
       filtersData: state => state.filters
     }),
+    ...mapGetters({
+      fromLocationsList: 'filters/fromLocationsList',
+      toLocationsList: 'filters/toLocationsList'
+    }),
     travelRange() {
       if (this.filters.dates.length < 1) return
       let departureDate = this.filters.dates[0]
@@ -176,34 +180,6 @@ export default {
         : '...'
 
       return departureDate + ' - ' + arrivalDate
-    },
-    fromLocationsList() {
-      let list = []
-
-      for (let location of this.filtersData.fromLocations) {
-        for (let descendant of location.descendants) {
-          list.push({
-            text: location.name + ', ' + descendant.name,
-            value: descendant.id
-          })
-        }
-      }
-
-      return list
-    },
-    toLocationsList() {
-      let list = []
-
-      for (let location of this.filtersData.toLocations) {
-        for (let descendant of location.descendants) {
-          list.push({
-            text: location.name + ', ' + descendant.name,
-            value: descendant.id
-          })
-        }
-      }
-
-      return list
     }
   },
   methods: {

@@ -10,6 +10,32 @@ export default {
     ceilingHeight: 20,
     meetingRoomCap: 18000,
     maxdistance: 300
+  }, 
+  getters: {
+    fromLocationsList(state) {
+      let list = []
+      for (let location of state.fromLocations) {
+        for (let descendant of location.descendants) {
+          list.push({
+            text: location.name + ', ' + descendant.name,
+            value: descendant.id
+          })
+        }
+      }
+      return list
+    },
+    toLocationsList(state) {
+      let list = []
+      for (let location of state.toLocations) {
+        for (let descendant of location.descendants) {
+          list.push({
+            text: location.name + ', ' + descendant.name,
+            value: descendant.id
+          })
+        }
+      }
+      return list
+    }
   },
   mutations: {
     SET_FILTERS(state, data) {
@@ -22,7 +48,7 @@ export default {
       state.hotelAmenities = data.hotelAmenities
       state.ceilingHeight = data.ceilingHeight
       state.meetingRoomCap = data.meetingRoomCap
-      state.maxdistance = data.maxdistance
+      //state.maxdistance = data.maxdistance
       state.minDate = data.minDate
       state.maxDate = data.maxDate
     },

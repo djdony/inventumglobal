@@ -98,7 +98,7 @@
             //- Location
           v-tab-item
             v-card(elevation='0').tab-item.table
-              location(v-model="hotel")
+              location(v-model="hotel" tab-mode)
     v-dialog(v-model="showGallery")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close
@@ -128,7 +128,7 @@ export default {
     }
   },
   methods: {
-    addToCart(){
+    addToCart() {
       this.$store.dispatch('cart/addHotel', {
         hotel: { id: this.id, name: this.name },
         ...this.$route.query
@@ -137,7 +137,7 @@ export default {
     async showDetails() {
       try {
         this.showMenu = !this.showMenu
-        if(this.showMenu) {
+        if (this.showMenu) {
           this.hotel = await Hotel.include(
             'media',
             'meeting_rooms',
@@ -215,7 +215,7 @@ export default {
   components: { HotelStars, Gallery, Restaurant, Rooms, MeetingRoom, Location },
   watch: {
     details: {
-      handler: function(val){
+      handler: function(val) {
         this.showDetails()
       }
     }

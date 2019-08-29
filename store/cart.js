@@ -35,6 +35,10 @@ export default {
       )
 
       if(idx === -1) {
+        data.sgl  = Number(data.sgl) || 0
+        data.dbl  = Number(data.dbl) || 0
+        data.trpl  = Number(data.trpl) || 0
+        data.pax     = Number(data.pax) || 0
         let newOrder = {
           hotels: [data.hotel],
           note: '',

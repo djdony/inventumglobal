@@ -49,31 +49,31 @@
                 .event-size
                   .event-size__field-group
                     span.group__name Single rooms:
-                    .control.plus(@click='decr("single")'): v-icon mdi-minus
-                    v-text-field(v-model='order.single' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-                    .control.plus(@click='incr("single")'): v-icon mdi-plus
+                    .control.minus(@click="decr(order, 'sgl')"): v-icon mdi-minus
+                    v-text-field(v-model='order.sgl' @input='recalc(order)' placeholder="0" solo hide-details flat).group__input
+                    .control.plus(@click="incr(order, 'sgl')"): v-icon mdi-plus
                   .event-size__field-group
                     span.group__name Double rooms:
-                    .control.plus(@click='decr("double")'): v-icon mdi-minus
-                    v-text-field(v-model='order.double' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-                    .control.plus(@click='incr("double")'): v-icon mdi-plus
+                    .control.plus(@click="decr(order, 'dbl')"): v-icon mdi-minus
+                    v-text-field(v-model='order.dbl' @input='recalc(order)' placeholder="0" solo hide-details flat).group__input
+                    .control.plus(@click="incr(order, 'dbl')"): v-icon mdi-plus
                   .event-size__field-group
                     span.group__name Triple rooms:
-                    .control.plus(@click='decr("triple")'): v-icon mdi-minus
-                    v-text-field(v-model='order.triple' @input='recalc()' placeholder="0" solo hide-details flat).group__input
-                    .control.plus(@click='incr("triple")'): v-icon mdi-plus
+                    .control.plus(@click="decr(order, 'trpl')"): v-icon mdi-minus
+                    v-text-field(v-model='order.trpl' @input='recalc(order)' placeholder="0" solo hide-details flat).group__input
+                    .control.plus(@click="incr(order, 'trpl')"): v-icon mdi-plus
                   .event-size__field-group
                     span.group__name Total Pax:
-                    .control.plus(@click='decr("pax")'): v-icon mdi-minus
-                    v-text-field(v-model='order.pax' @input='recalc(`pax`)' placeholder="0" solo hide-details flat).group__input
-                    .control.plus(@click='incr("pax")'): v-icon mdi-plus
+                    .control.plus(@click="decr(order, 'pax')"): v-icon mdi-minus
+                    v-text-field(v-model='order.pax' @input="recalc(order, 'pax')" placeholder="0" solo hide-details flat).group__input
+                    .control.plus(@click="incr(order, 'pax')"): v-icon mdi-plus
 
             v-row
               v-col(cols='12')
                 p.cart-page__title Note
                 v-textarea(v-model='order.note' outlined placeholder='Type your note here' hide-details)
 
-      v-row(wrap).align-center.justify-end.my-8
+      v-row(wrap v-if="orders.length > 0").align-center.justify-end.my-8
         v-checkbox(v-model='agree' label='I agree that...' hide-details).mr-2.mb-4
         .px-3
           v-btn(color='primary' x-large @click='send').custom Send all orders
@@ -116,14 +116,27 @@ export default {
       let product = this.$store.state.filters.products.find(p => p.id == id)
       return product ? product.name : 'N/A'
     },
-    send() {
-      if (!this.validate()) return false
-      this.cleanCart()
-      this.showSnackbar({
-        message: 'Order has been sent',
-        color: 'green'
-      })
-      this.$emit('close')
+    async send() {
+      //if (!this.validate()) return false
+      //this.cleanCart()
+      if(this.orders.length > 0){
+        let orders = this.orders.map(o => {
+          o.single = o.sgl
+          o.double = o.dbl
+          o.triple = o.trpl
+          o.hotels = o.hotels.map(h => h.id)
+          return o
+        })
+        let res = await this.$axios.post('/createorders', { orders })
+
+        console.log(res)
+
+        this.showSnackbar({
+          message: 'Order has been sent',
+          color: 'green'
+        })
+        this.$emit('close')
+      }
     },
     validate() {
       let datesDiff = this.$dayjs(this.form.arrival_date).diff(
@@ -150,25 +163,25 @@ export default {
     removeHotel(order, hotel) {
       this.removeHotel({ order, hotel })
     },
-    incr(index) {
-      this.form[index]++
-      this.recalc(index)
+    incr(order, index) {
+      order[index]++
+      this.recalc(order, index)
     },
-    decr(index) {
-      let value = this.form[index]
-      if (value > 0) this.form[index]--
-      this.recalc(index)
+    decr(order, index) {
+      let value = order[index]
+      if (value > 0) order[index]--
+      this.recalc(order, index)
     },
-    recalc(e) {
+    recalc(order, e) {
       if (e == 'pax') {
-        this.form.single = 0
-        this.form.double = this.form.pax > 0 ? Math.ceil(this.form.pax / 2) : 0
-        this.form.triple = 0
+        order.sgl = 0
+        order.dbl = order.pax > 0 ? Math.ceil(order.pax / 2) : 0
+        order.trpl = 0
       } else {
-        this.form.pax =
-          Number(this.form.single) +
-          Number(this.form.double * 2) +
-          Number(this.form.triple * 3)
+        order.pax =
+          Number(order.sgl) +
+          Number(order.dbl * 2) +
+          Number(order.trpl * 3)
       }
     }
   },

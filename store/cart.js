@@ -6,6 +6,9 @@ export default {
     ADD_ORDER(state, data){
       state.orders.push(data)
     },
+    REMOVE_ORDER(){
+
+    },
     ADD_HOTEL(state, data) {
       state.orders[data.order].hotels.push(data.hotel)
     },
@@ -86,6 +89,10 @@ export default {
     },
     updateStorage({ state }) {
       localStorage.setItem('cart', JSON.stringify(state.orders))
+    },
+    removeOrder({ state, dispatch }, i){
+      state.orders.splice(i, 1)
+      dispatch('updateStorage')
     },
     removeHotel({ state, dispatch }, data) {
       state.orders[data.order].hotels.splice(data.hotel, 1)

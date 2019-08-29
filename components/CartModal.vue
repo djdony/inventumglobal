@@ -5,17 +5,18 @@
         v-spacer
         v-btn(icon @click="dialog = $emit('close')")
           v-icon mdi-close
-      v-expansion-panels(:value='[0]' multiple)
+      v-expansion-panels(v-model="opened" multiple)
         v-expansion-panel(v-for="(order, i) in orders" :key="i")
           v-expansion-panel-header 
-            v-btn(icon @click="removeOrder")
-                v-icon mdi-close
+            
             span {{ getProductName(order.product_id) }}: 
               v-icon(dark) mdi-airplane-takeoff
               | &nbsp; {{ getLocationName(order.from) }}
               | &mdash;&nbsp;
               v-icon(dark) mdi-airplane-landing
               | &nbsp; {{ getLocationName(order.to) }}
+
+            v-btn.pl-10.pr-10.mr-5(@click="removeOrder(i)" small color="error") Remove
           v-expansion-panel-content
             v-row.mt-4
               v-col(md='7' lg="8" cols='12')
@@ -40,9 +41,9 @@
 
                       v-spacer
 
-                      v-btn(icon @click='removeHotel(i, index)' v-if='!$vuetify.breakpoint.xs')
+                      v-btn(icon @click='removeHotel({ order: i, hotel: index })' v-if='!$vuetify.breakpoint.xs')
                         v-icon mdi-close
-                      v-btn(@click='removeHotel(i, index)' v-else text color='error') Remove
+                      v-btn(@click='removeHotel({ order: i, hotel: index })' v-else text color='error') Remove
 
               v-col(lg='3' md='4' sm='6' cols='12' offset-md='1')
                 p.cart-page__title Event size
@@ -86,6 +87,7 @@ import pick from 'lodash.pick'
 
 export default {
   data: () => ({
+    opened: [0],
     orders: [],
     agree: false,
     menu1: false,
@@ -97,14 +99,14 @@ export default {
     this.loaded = true
   },
   methods: {
-    ...mapActions({ removeHotel: 'cart/removeHotel' }),
+    ...mapActions({ 
+      removeHotel: 'cart/removeHotel',
+      removeOrder: 'cart/removeOrder'
+    }),
     ...mapMutations({
       cleanCart: 'cart/CLEAN_CART',
       showSnackbar: 'snackbar/showSnackbar'
     }),
-    removeOrder(i) {
-      // remove order
-    },
     formattedDate(date) {
       return this.$dayjs(date).format('DD/MM/YYYY')
     },
@@ -127,9 +129,10 @@ export default {
           o.hotels = o.hotels.map(h => h.id)
           return o
         })
+
         let res = await this.$axios.post('/createorders', { orders })
 
-        console.log(res)
+        this.cleanCart()
 
         this.showSnackbar({
           message: 'Order has been sent',
@@ -159,9 +162,6 @@ export default {
       }
 
       return true
-    },
-    removeHotel(order, hotel) {
-      this.removeHotel({ order, hotel })
     },
     incr(order, index) {
       order[index]++

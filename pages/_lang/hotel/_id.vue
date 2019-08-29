@@ -119,9 +119,9 @@
         restaurant-table(:restaurants='hotel.restaurants')
 
         //- MEETING SPACE PART
-      v-card.details__section.meeting-space
+      v-card.details__section.rooms
         h3.section__title Meeting space
-        .meeting-space__count
+        .rooms__count
           .count__item
             b Number of rooms:
             span 543

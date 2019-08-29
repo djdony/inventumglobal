@@ -4,21 +4,19 @@
       thead
         tr
           th.text-left Name
-          th Food Included
-          th Drinks Included
+          th Included
           th Type
       tbody
-        tr(v-for="rst in restaurants" :key="rst.id")
-          td.text-left(v-text="rst.name")
-          td(v-text="rst.food ? 'Included' : 'Extra'")
-          td(v-text="rst.drinks  ? 'Included' : 'Extra'")
-          td(v-text="rst.type_id")
+        tr(v-for="a in amenities" :key="a.id")
+          td.text-left(v-text="a.name")
+          td(v-text="a.included ? 'Free' : 'Extra'")
+          td(v-text="а.type")
 </template>
 
 <script>
 export default {
   props: {
-    restaurants: {
+    amenities: {
       type: Array,
       default: []
     }

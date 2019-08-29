@@ -3,9 +3,9 @@
     v-simple-table(dense fixed-header).custom
       thead
         tr
-          th Room type
-          th Area, m²
-          th Quantity
+          th.text-left Room type
+          th.text-right Area, m²
+          th.text-right Quantity
       tbody
         tr(v-for="r in value" :key="r.id")
           td.text-left(v-text="r.room_type.name")

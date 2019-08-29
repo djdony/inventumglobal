@@ -70,31 +70,24 @@
 
           //- Rooms
           v-tab-item
-            v-card(elevation='0').tab-item.table
+            v-card(elevation='0').tab-item.general-tab
               rooms(v-model="hotel.rooms")
 
           //- Meeting rooms
           v-tab-item
-            v-card(elevation='0').tab-item.table
-              meeting-room(v-model="hotel.meeting_rooms")
+            v-card(elevation='0').tab-item.general-tab
+              meeting-room(v-model="hotel.meeting_rooms" :excludeColumns="['boardroom','length','width']")
 
           //- Restaurants
           v-tab-item
-            v-card(elevation='0').tab-item.table
+            v-card(elevation='0').tab-item.general-tab
               restaurant(:restaurants='hotel.restaurants')
 
           //- Amenities
           v-tab-item
-            v-card(elevation='0').tab-item.table
-              v-simple-table(fixed-header dense)
-                thead
-                  tr
-                    th Name
-                    th Type
-                tbody
-                  tr(v-for="a in hotel.amenities" :key="a.id")
-                    td(v-text="a.name")
-                    td(v-text="a.type")
+            v-card(elevation='0').tab-item.general-tab
+              amenities(v-model='hotel.amenities')
+
             //- Location
           v-tab-item
             v-card(elevation='0').tab-item.table
@@ -112,6 +105,7 @@ import Restaurant from '@/components/Restaurant'
 import Rooms from '@/components/Rooms'
 import MeetingRoom from '@/components/MeetingRoom'
 import Location from '@/components/Location'
+import Amenities from '@/components/Amenities'
 
 export default {
   data() {
@@ -123,7 +117,8 @@ export default {
         meeting_rooms: [],
         rooms: [],
         restaurants: [],
-        amenities: []
+        amenities: [],
+        excludeColumns: ['boardroom']
       })
     }
   },
@@ -212,7 +207,7 @@ export default {
       default: false
     }
   },
-  components: { HotelStars, Gallery, Restaurant, Rooms, MeetingRoom, Location },
+  components: { HotelStars, Gallery, Restaurant, Rooms, MeetingRoom, Location, Amenities },
   watch: {
     details: {
       handler: function(val) {

@@ -86,7 +86,7 @@
           //- Amenities
           v-tab-item
             v-card(elevation='0').tab-item.general-tab
-              amenities(v-model='hotel.amenities')
+              amenities(:amenities='hotel.amenities')
 
             //- Location
           v-tab-item

@@ -1,12 +1,7 @@
 <template lang="pug">
 .carousel-wrapper
   .rooms__carousel(ref='carouselWrapper')
-    img(src='/img/details/banner.png')
-    img(src='/img/details/banner.png')
-    img(src='/img/details/banner.png')
-    img(src='/img/details/banner.png')
-    img(src='/img/details/banner.png')
-    img(src='/img/details/banner.png')
+    img(:src='item' v-for='(item, index) in items' :key='index')
   .navigation
     span(ref='prev').btn.prev: v-icon mdi-chevron-left
     span(ref='next').btn.next: v-icon mdi-chevron-right

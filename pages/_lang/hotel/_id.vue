@@ -20,65 +20,65 @@
             .details
               .details__block
                 .block__title Physical Features 
-                .block__list
-                  .block-list__item
-                    span.item__param Built:
-                    span.item__value(v-text='hotel.built')
-                  .block-list__item
-                    span.item__param Renovated:
-                    span.item__value(v-text='hotel.renovated')
-                  .block-list__item
-                    span.item__param Total Area:
-                    span.item__value(v-text='hotel.area')
+                table.block__list
+                  tr.block-list__item
+                    td.item__param Built
+                      td.item__value : {{ hotel.built }}
+                  tr.block-list__item
+                    td.item__param Renovated
+                      td.item__value : {{ hotel.renovated }}
+                  tr.block-list__item
+                    td.item__param Total Area
+                      td.item__value : {{ hotel.area }}
                     
               .details__block
                 .block__title Rooms &amp; Villas
-                .block__list
-                  .block-list__item
-                    span.item__param Total Rooms:
-                    span.item__value {{ roomsQty }}
-                  .block-list__item
-                    span.item__param Total Villas:
-                    span.item__value Titanic
+                table.block__list
+                  tr.block-list__item
+                    td.item__param Total Rooms
+                    td.item__value : {{ roomsQty }}
+                  tr.block-list__item
+                    td.item__param Total Villas
+                    td.item__value : Titanic
 
               .details__block
                 .block__title Meetings &amp; Events
-                .block__list
-                  .block-list__item
-                    span.item__param Total Meeting Rooms:
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Total Meeting Space:
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Largest Space:
-                    span.item__value Titanic
+                table.block__list
+                  tr.block-list__item
+                    td.item__param Total Meeting Rooms
+                    td.item__value : Titanic
+                  tr.block-list__item
+                    td.item__param Total Meeting Space
+                    td.item__value : Titanic
+                  tr.block-list__item
+                    td.item__param Largest Space
+                    td.item__value : Titanic
 
               .details__block
                 .block__title Location 
-                .block__list
-                  .block-list__item
-                    span.item__param Region:
-                    span.item__value(v-text='hotel.location.name')
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                table.block__list
+                  tr.block-list__item
+                    td.item__param Region
+                    td.item__value : {{ hotel.location.name }}
+                  tr.block-list__item
+                    td.item__param Chain Scale 
+                    td.item__value : Titanic
+                  tr.block-list__item
+                    td.item__param Chain Scale 
+                    td.item__value : Titanic
 
               .details__block
                 .block__title Distance 
-                .block__list
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
-                  .block-list__item
-                    span.item__param Chain Scale: 
-                    span.item__value Titanic
+                table.block__list
+                  tr.block-list__item
+                    td.item__param Chain Scale 
+                    td.item__value : Titanic
+                  tr.block-list__item
+                    td.item__param Chain Scale 
+                    td.item__value : Titanic
+                  tr.block-list__item
+                    td.item__param Chain Scale 
+                    td.item__value : Titanic
 
       //- OVERVIEW PART
 
@@ -112,7 +112,7 @@
 
         rooms(v-model="hotel.rooms")
               
-        rooms-carousel(:items='[]')
+        rooms-carousel(:items="carouselImages" v-if='carouselImages.length > 0')
 
         //- MEETING SPACE PART
 
@@ -153,7 +153,12 @@ import RoomsCarousel from '@/components/RoomsCarousel'
 export default {
   data() {
     return {
-      
+      carouselImages: [
+        '/img/details/banner.png',
+        '/img/details/banner.png',
+        '/img/details/banner.png',
+        '/img/details/banner.png'
+      ]
     }
   },
   async asyncData({ route }) {
@@ -182,10 +187,10 @@ export default {
     ...mapActions({ addToCart: 'cart/addHotel' })
   },
   computed: {
-    roomsQty: function(){
-      if(this.hotel && this.hotel.hasOwnProperty('rooms')){
-        return this.hotel.rooms.reduce((a, b) => a+b.qty, 0)
-      }else{
+    roomsQty: function() {
+      if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
+        return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
+      } else {
         return 'N/A'
       }
     }

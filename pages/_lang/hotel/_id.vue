@@ -5,9 +5,9 @@
       //- GENERAL INFO PART
 
       v-card.details__section.general-info
-        .general-info__banner
+        //.general-info__banner
           v-img(src='/img/details/banner.png' height='250')
-        .general-info__content 
+        .general-info__content
           .content__row
             .basic-info
               h1.info__title
@@ -93,11 +93,13 @@
       v-card.details__section.gallery
         h3.section__title Photo Gallery
         .images-wrapper
-          v-img(src='/img/details/banner.png' aspect-ratio='1')
-          v-img(src='/img/details/banner.png' aspect-ratio='1')
-          v-img(src='/img/details/banner.png' aspect-ratio='1')
-          v-img(src='/img/details/banner.png' aspect-ratio='1')
-          v-img(src='/img/details/banner.png' aspect-ratio='1')
+          v-img(
+          v-for="m in hotel.media"
+          :src='m.url'
+          :key="m.id"
+          :aspect-ratio="1"
+          @click="showGallery = true"
+          )
 
       //- ROOMS PART
 
@@ -162,7 +164,8 @@ export default {
         'location',
         'types',
         'meeting_rooms',
-        'restaurants'
+        'restaurants',
+        'media'
       ]).find(route.params.id)
 
       return { hotel }

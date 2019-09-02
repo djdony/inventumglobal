@@ -10,13 +10,12 @@
             p.col__title Turkey Expert, Easier than ever!
             p.col__content Get instant access to the best prices and products via one platform. Compact and simply professional.
             .social-icons
-              a.circle: v-icon mdi-facebook
-              a.circle: v-icon mdi-instagram
-              a.circle: v-icon mdi-linkedin
-              a.circle: v-icon mdi-twitter
-              a.circle: v-icon mdi-youtube
-              a.circle: v-icon mdi-pinterest
-          
+              a(href="https://www.facebook.com/Inventumglobal.Turkey").circle: v-icon mdi-facebook
+              a(href="https://www.instagram.com/inventumglobalturkey").circle: v-icon mdi-instagram
+              a(href="https://www.linkedin.com/company/inventumglobal").circle: v-icon mdi-linkedin
+              a(href="https://twitter.com/inventumglobal").circle: v-icon mdi-twitter
+              a(href="https://www.youtube.com/channel/UCQKsS-48PgdplZIOPeL7KAw").circle: v-icon mdi-youtube
+
           v-flex.md1.offset-md2.sm2.col
             p.col__title Navigation
             ul.col__content
@@ -29,7 +28,7 @@
             p.col__title Get in Touch
             ul.col__content
               li: a(href='#') inventumglobal.in
-              li: a(href='#') hello@inventumglobal.in
+              li: a(href='#') info@inventumglobal.in
               li: a(href='#') +90 242 324 11 65
 
 

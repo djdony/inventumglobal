@@ -1,7 +1,7 @@
 <template lang="pug">
 .carousel-wrapper
   .rooms__carousel(ref='carouselWrapper')
-    img(:src='item' v-for='(item, index) in items' :key='index')
+    img(v-for="m in media" :key="m.id" :src='m.url')
   .navigation
     span(ref='prev').btn.prev: v-icon mdi-chevron-left
     span(ref='next').btn.next: v-icon mdi-chevron-right
@@ -12,7 +12,7 @@ import Glider from '@/plugins/glider'
 
 export default {
   props: {
-    items: {
+    media: {
       type: Array,
       default: []
     }

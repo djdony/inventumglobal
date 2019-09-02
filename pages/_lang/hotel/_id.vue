@@ -37,22 +37,15 @@
                   tr.block-list__item
                     td.item__param Total Rooms
                     td.item__value : {{ roomsQty }}
-                  tr.block-list__item
-                    td.item__param Total Villas
-                    td.item__value : Titanic
+
 
               .details__block
                 .block__title Meetings &amp; Events
                 table.block__list
                   tr.block-list__item
                     td.item__param Total Meeting Rooms
-                    td.item__value : Titanic
-                  tr.block-list__item
-                    td.item__param Total Meeting Space
-                    td.item__value : Titanic
-                  tr.block-list__item
-                    td.item__param Largest Space
-                    td.item__value : Titanic
+                    td.item__value :
+
 
               .details__block
                 .block__title Location 
@@ -60,25 +53,15 @@
                   tr.block-list__item
                     td.item__param Region
                     td.item__value : {{ hotel.location.name }}
-                  tr.block-list__item
-                    td.item__param Chain Scale 
-                    td.item__value : Titanic
-                  tr.block-list__item
-                    td.item__param Chain Scale 
-                    td.item__value : Titanic
+
 
               .details__block
                 .block__title Distance 
                 table.block__list
                   tr.block-list__item
-                    td.item__param Chain Scale 
-                    td.item__value : Titanic
-                  tr.block-list__item
-                    td.item__param Chain Scale 
-                    td.item__value : Titanic
-                  tr.block-list__item
-                    td.item__param Chain Scale 
-                    td.item__value : Titanic
+                    td.item__param Airport
+                    td.item__value :
+
 
       //- OVERVIEW PART
 
@@ -112,7 +95,7 @@
 
         rooms(v-model="hotel.rooms")
               
-        rooms-carousel(:items="carouselImages" v-if='carouselImages.length > 0')
+        rooms-carousel(:media="hotel.media" v-if='hotel.media.length > 0')
 
         //- MEETING SPACE PART
 
@@ -120,6 +103,7 @@
         h3.section__title Restaurants
         restaurant-table(:restaurants='hotel.restaurants')
 
+        rooms-carousel(:media="hotel.media" v-if='hotel.media.length > 0')
         //- MEETING SPACE PART
       v-card.details__section.rooms
         h3.section__title Meeting space
@@ -137,6 +121,7 @@
             b Villas:
             span -
         meeting-rooms(v-model="hotel.meeting_rooms")
+        rooms-carousel(:media="hotel.media" v-if='hotel.media.length > 0')
       location(v-model="hotel")
 </template>
 
@@ -151,16 +136,6 @@ import RestaurantTable from '@/components/Restaurant'
 import RoomsCarousel from '@/components/RoomsCarousel'
 
 export default {
-  data() {
-    return {
-      carouselImages: [
-        '/img/details/banner.png',
-        '/img/details/banner.png',
-        '/img/details/banner.png',
-        '/img/details/banner.png'
-      ]
-    }
-  },
   async asyncData({ route }) {
     try {
       let hotel = await Hotel.include([

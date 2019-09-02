@@ -7,17 +7,17 @@
           img.logo(:src='`/img/logo-${logoStyle}.png`')
       v-spacer
 
-      .menu(v-if='!smAndDown')
+      .menu(v-if="!smAndDown && $store.state.auth.loggedIn")
         v-btn(to='/' rounded text) Home  
-        v-btn(to='/search' rounded text) Discover  
+        //v-btn(to='/search' rounded text) Discover
 
       v-spacer
 
-      v-dialog(v-model="dialog" content-class='cart-dialog' max-width='1264')
+      v-dialog(v-model="dialog" v-if="$store.state.auth.loggedIn" content-class='cart-dialog' max-width='1264')
         template(v-slot:activator="cartModal")
           .icons  
             template(v-if='!xs')
-              v-btn(icon)
+              //v-btn(icon)
                 v-icon mdi-bell
               v-menu(offset-y open-on-hover max-width='600px')
                 template(v-slot:activator='cartHotelsList')
@@ -56,11 +56,11 @@
                   v-btn(icon v-on='userMenu.on').red
                     v-icon mdi-account
                 v-list(color='white')
-                  v-list-item(@click='')
+                  //v-list-item(@click='')
                     v-list-item-icon.mr-4
                       v-icon mdi-monitor-dashboard
                     v-list-item-title Cabinet
-                  v-list-item(@click='')
+                  //v-list-item(@click='')
                     v-list-item-icon.mr-4
                         v-icon mdi-account-details
                     v-list-item-title Profile

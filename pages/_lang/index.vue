@@ -14,7 +14,7 @@
 
       //- E-COMMERCE PART
 
-      v-layout(ecommerce-part wrap align-center)
+      //v-layout(ecommerce-part wrap align-center)
         v-flex(md5)
           .stars-wrapper
             v-icon mdi-star
@@ -39,7 +39,7 @@
 
       //- STEPS PART
     
-    .steps-part
+    //.steps-part
       v-container
         v-layout.part-icon
           v-icon(color='primary' size='70') mdi-lightbulb-on
@@ -71,7 +71,7 @@
 
     //- MOBILE APP PART
 
-    v-container 
+    //v-container
       v-layout(align-center wrap mobile-app-part)
         v-flex(sm5 md6 mobile-app__image order-xs3 order-sm1)
           img(src='/img/home/mobile-app.png' alt='Mobile App')

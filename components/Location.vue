@@ -1,18 +1,47 @@
 <template lang="pug">
   v-card(:elevation='tabMode ? 0 : 2').details__section.location
-    h3(v-if='!tabMode').section__title Location
-    p.location__name(v-text="value.address")
-    .location__map-wrapper
-      iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112996.20297449981!2d30.830003278360913!3d36.868956792332014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c382a28b7af6fb%3A0x49c233c8eeec9edb!2sTesisler+Cd+No%3A450!5e0!3m2!1sru!2sru!4v1565431337281!5m2!1sru!2sru" frameborder="0" style="border:0" allowfullscreen)
+    yandex-map(
+      ref="map"
+      :center="[value.lat-0.0016, value.lon]"
+      :height="400"
+      :width="1000"
+      :zoom="10"
+      @ready.once="handle"
+    )
+    //- GmapMap(
+    //-   :center="{lat: value.lat-0.0016, lng: value.lon}" 
+    //-   :zoom="16"
+    //-   map-type-id="satellite"
+    //-   style="width: 100%; height: 450px"
+    //- )
+    //-   GmapMarker(
+    //-     :position="{lat: value.lat, lng: value.lon}"
+    //-     :clickable="false"
+    //-     :draggable="false"
+    //-   )
 </template>
 
 <script>
+import YandexMap from './YandexMap'
 export default {
+  components: { YandexMap },
   props: {
     value: Object,
     tabMode: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    handle(){
+      this.$refs.map.removeAllObjects()
+      this.$refs.map.setObjects([{
+        coords: [this.value.lat, this.value.lon],
+        content: this.value.name,
+        hint: '',
+        color: 'black'
+      }])
+      this.$refs.map.map.panTo([this.value.lat, this.value.lon], { delay: 100 })
     }
   }
 }

@@ -1,11 +1,11 @@
-<template lang='pug'>
+ф<template lang='pug'>
   v-content.details-page
     v-container
 
       //- GENERAL INFO PART
 
       v-card.details__section.general-info
-        //.general-info__banner
+        .general-info__banner
           v-img(src='/img/details/banner.png' height='250')
         .general-info__content
           .content__row
@@ -77,11 +77,11 @@
         h3.section__title Photo Gallery
         .images-wrapper
           v-img(
-          v-for="m in hotel.media"
-          :src='m.url'
-          :key="m.id"
-          :aspect-ratio="1"
-          @click="showGallery = true"
+            v-for="m in hotel.media.slice(0, 6)"
+            :src='m.url'
+            :key="m.id"
+            :aspect-ratio="1"
+            @click="showGallery = true"
           )
 
       //- ROOMS PART
@@ -95,7 +95,7 @@
 
         rooms(v-model="hotel.rooms")
               
-        rooms-carousel(:media="hotel.media" v-if='hotel.media.length > 0')
+        carousel(:media="roomsMedia" v-if='roomsMedia.length > 0') 
 
         //- MEETING SPACE PART
 
@@ -103,7 +103,7 @@
         h3.section__title Restaurants
         restaurant-table(:restaurants='hotel.restaurants')
 
-        rooms-carousel(:media="hotel.media" v-if='hotel.media.length > 0')
+        carousel(:media="restaurantsMedia" v-if='restaurantsMedia.length > 0')
         //- MEETING SPACE PART
       v-card.details__section.rooms
         h3.section__title Meeting space
@@ -121,8 +121,12 @@
             b Villas:
             span -
         meeting-rooms(v-model="hotel.meeting_rooms")
-        rooms-carousel(:media="hotel.media" v-if='hotel.media.length > 0')
+        carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
       location(v-model="hotel")
+    v-dialog(v-model="showGallery")
+      v-btn(dark icon @click="showGallery = false")
+        v-icon mdi-close
+      gallery(v-model="hotel.media")
 </template>
 
 <script>
@@ -133,18 +137,27 @@ import MeetingRooms from '@/components/MeetingRoom'
 import Location from '@/components/Location'
 import Rooms from '@/components/Rooms'
 import RestaurantTable from '@/components/Restaurant'
-import RoomsCarousel from '@/components/RoomsCarousel'
+import Carousel from '@/components/Carousel'
+import Gallery from '@/components/Gallery'
 
 export default {
+  data() {
+    return {
+      showGallery: false
+    }
+  },
   async asyncData({ route }) {
     try {
       let hotel = await Hotel.include([
         'rooms',
+        'rooms.media',
         'rooms.room_type',
         'location',
         'types',
         'meeting_rooms',
+        'meeting_rooms.media',
         'restaurants',
+        'restaurants.media',
         'media'
       ]).find(route.params.id)
 
@@ -168,6 +181,24 @@ export default {
       } else {
         return 'N/A'
       }
+    },
+    roomsMedia: function(){
+      return this.hotel.rooms.reduce((a, b) => {
+        b.media.forEach(m => a.push({ ...m, name: b.room_type.name }))
+        return a
+      }, [])
+    },
+    restaurantsMedia: function(){
+      return this.hotel.restaurants.reduce((a, b) => {
+        b.media.forEach(m => a.push({ ...m, name: b.name }))
+        return a
+      }, [])
+    },
+    meetingRoomsMedia: function(){
+      return this.hotel.meeting_rooms.reduce((a, b) => {
+        b.media.forEach(m => a.push({ ...m, name: b.name }))
+        return a
+      }, [])
     }
   },
   components: {
@@ -176,7 +207,8 @@ export default {
     HotelStars,
     Location,
     Rooms,
-    RoomsCarousel
+    Carousel,
+    Gallery
   }
 }
 </script>

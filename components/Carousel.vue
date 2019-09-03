@@ -1,16 +1,28 @@
 <template lang="pug">
-.carousel-wrapper
-  .rooms__carousel(ref='carouselWrapper')
-    img(v-for="m in media" :key="m.id" :src='m.url')
-  .navigation
-    span(ref='prev').btn.prev: v-icon mdi-chevron-left
-    span(ref='next').btn.next: v-icon mdi-chevron-right
+ div
+  .carousel-wrapper
+    .rooms__carousel(ref='carouselWrapper' @click="showGallery = true")
+      v-img(v-for="m in media" :key="m.id" :src='m.url')
+        v-row(align="end" class="lightbox white--text pa-2 fill-height")
+          v-col
+            .subheading {{ m.name }}
+    .navigation
+      span(ref='prev').btn.prev: v-icon mdi-chevron-left
+      span(ref='next').btn.next: v-icon mdi-chevron-right
 </template>
 
 <script>
 import Glider from '@/plugins/glider'
-
+import Gallery from '@/components/Gallery'
 export default {
+  components: {
+    Gallery
+  },
+  data() {
+    return {
+      showGallery: false
+    }
+  },
   props: {
     media: {
       type: Array,
@@ -47,6 +59,11 @@ export default {
         }
       ]
     })
+  },
+  methods: {
+    showGal(){
+      console.log('test')
+    }
   },
   computed: {}
 }
@@ -110,4 +127,10 @@ export default {
         height: 40px
         width: 40px
 
+</style>
+<style scoped>
+  .lightbox {
+    box-shadow: 0 0 25px inset rgba(0, 0, 0, 0.4);
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100px);
+  }
 </style>

@@ -6,7 +6,12 @@
 
       v-card.details__section.general-info
         .general-info__banner
-          v-img(src='/img/details/banner.png' height='250')
+
+          v-img(
+          v-for="m in hotel.media.slice(0, 1)"
+          :src='m.url'
+          height='250'
+          )
         .general-info__content
           .content__row
             .basic-info
@@ -24,7 +29,7 @@
                   tr.block-list__item
                     td.item__param Built
                       td.item__value : {{ hotel.built }}
-                  tr.block-list__item
+                  tr(v-if='hotel.renovated.length > 0').block-list__item
                     td.item__param Renovated
                       td.item__value : {{ hotel.renovated }}
                   tr.block-list__item
@@ -53,14 +58,20 @@
                   tr.block-list__item
                     td.item__param Region
                     td.item__value : {{ hotel.location.name }}
+                  tr.block-list__item
+                    td.item__param Airport
+                    td.item__value : {{ hotel.distance.distance }} km
 
 
               .details__block
-                .block__title Distance 
+                .block__title Information
                 table.block__list
                   tr.block-list__item
-                    td.item__param Airport
-                    td.item__value :
+                    td.item__param Address
+                    td.item__value : {{ hotel.address }}
+                  tr.block-list__item
+                    td.item__param www
+                    td.item__value : {{ hotel.www }}
 
 
       //- OVERVIEW PART
@@ -106,20 +117,7 @@
         carousel(:media="restaurantsMedia" v-if='restaurantsMedia.length > 0')
         //- MEETING SPACE PART
       v-card.details__section.rooms
-        h3.section__title Meeting space
-        .rooms__count
-          .count__item
-            b Number of rooms:
-            span 543
-          .count__item
-            b Suites:
-            span 80
-          .count__item
-            b Guest Rooms:
-            span 463
-          .count__item
-            b Villas:
-            span -
+        h3.section__title Meeting Rooms
         meeting-rooms(v-model="hotel.meeting_rooms")
         carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
       location(v-model="hotel")

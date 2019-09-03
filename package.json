@@ -18,8 +18,7 @@
     "lodash.pick": "^4.4.0",
     "nuxt": "^2.9.2",
     "qs": "^6.8.0",
-    "vue-fancybox": "^1.0.3",
-    "vue2-google-maps": "^0.10.7"
+    "vue-fancybox": "^1.0.3"
   },
   "devDependencies": {
     "@mdi/font": "^4.2.95",

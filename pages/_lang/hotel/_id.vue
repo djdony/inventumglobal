@@ -1,4 +1,4 @@
-ф<template lang='pug'>
+<template lang='pug'>
   v-content.details-page
     v-container
 
@@ -8,9 +8,8 @@
         .general-info__banner
 
           v-img(
-          v-for="m in hotel.media.slice(0, 1)"
-          :src='m.url'
-          height='250'
+            :src='hotel.media[0].url'
+            height='250'
           )
         .general-info__content
           .content__row
@@ -120,7 +119,7 @@
         h3.section__title Meeting Rooms
         meeting-rooms(v-model="hotel.meeting_rooms")
         carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
-      location(v-model="hotel")
+      location(v-model="hotel" v-if="hotel.map")
     v-dialog(v-model="showGallery")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close

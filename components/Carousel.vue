@@ -2,7 +2,7 @@
  div
   .carousel-wrapper
     .rooms__carousel(ref='carouselWrapper' @click="showGallery = true")
-      v-img(v-for="m in media" :key="m.id" :src='m.url')
+      v-img.mr-1(v-for="m in media" :key="m.id" :src='m.url')
         v-row(align="end" class="lightbox white--text pa-2 fill-height")
           v-col
             .subheading {{ m.name }}

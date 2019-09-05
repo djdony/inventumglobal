@@ -8,6 +8,7 @@
         .general-info__banner
 
           v-img(
+            v-if='hotel.media.length > 0'
             :src='hotel.media[0].url'
             height='250'
           )
@@ -78,12 +79,12 @@
       v-card.details__section.overview
         h3.section__title Overview
         .overview__content
-          p(v-text='hotel.description')
+          p(v-html='hotel.description')
 
 
       //- OVERVIEW PART
 
-      v-card.details__section.gallery
+      v-card(v-if='hotel.media.length > 0').details__section.gallery
         h3.section__title Photo Gallery
         .images-wrapper
           v-img(
@@ -155,6 +156,8 @@ export default {
         'meeting_rooms.media',
         'restaurants',
         'restaurants.media',
+        'restaurants.cuisines',
+        'restaurants.type',
         'media'
       ]).find(route.params.id)
 

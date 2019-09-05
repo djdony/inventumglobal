@@ -9,7 +9,7 @@
       tbody
         tr(v-for="a in amenities" :key="a.id")
           td.text-left(v-text="a.name")
-          td(v-text="a.included ? 'Extra' : 'Free'")
+          td(v-text="a.included ? 'Free' : 'Extra'")
           td(v-text="a.type")
 </template>
 

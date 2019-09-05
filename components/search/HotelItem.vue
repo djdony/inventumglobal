@@ -18,13 +18,13 @@
                 td: span(v-text='total_rooms')
               tr.props__item
                 td: b Meeting rooms: 
-                td: span (empty)
+                td: span
               tr.props__item
                 td: b Total Space: 
-                td: span(v-text='meeting_space')
+                td: span(v-text='meeting_space + " m2"')
               tr.props__item
                 td: b Largest Space: 
-                td: span(v-text='largest_space')
+                td: span(v-text='largest_space + " m2"')
 
           .props__price(v-if='price')
             .props__title PP in DBL sharing room
@@ -57,15 +57,16 @@
 
           //- General
           v-tab-item
-            v-card(elevation='0').tab-item.general-tab 
-              .images-wrapper 
+            v-card(elevation='0').tab-item.general-tab
+              .images-wrapper(v-if='hotel.media.length > 0')
                 v-img(
-                  v-for="m in hotel.media"
+                  v-for="m in hotel.media.slice(0, 6)"
                   :src='m.url'
                   :key="m.id"
                   :aspect-ratio="1"
                   @click="showGallery = true"
                 )
+
               .general-info(v-html="hotel.description")
 
           //- Rooms
@@ -81,7 +82,7 @@
           //- Restaurants
           v-tab-item
             v-card(elevation='0').tab-item.general-tab
-              restaurant(:restaurants='hotel.restaurants')
+              //restaurant(:restaurants='hotel.restaurants')
 
           //- Amenities
           v-tab-item

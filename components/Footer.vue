@@ -7,14 +7,14 @@
             img(src='/img/logo-light.png').logo
         v-layout(row wrap)
           v-flex.md3.sm6.col
-            p.col__title Turkey Expert, Easier than ever!
+            p.col__title Destination Expert, Easier than ever!
             p.col__content Get instant access to the best prices and products via one platform. Compact and simply professional.
             .social-icons
-              a(href="https://www.facebook.com/Inventumglobal.Turkey").circle: v-icon mdi-facebook
-              a(href="https://www.instagram.com/inventumglobalturkey").circle: v-icon mdi-instagram
-              a(href="https://www.linkedin.com/company/inventumglobal").circle: v-icon mdi-linkedin
-              a(href="https://twitter.com/inventumglobal").circle: v-icon mdi-twitter
-              a(href="https://www.youtube.com/channel/UCQKsS-48PgdplZIOPeL7KAw").circle: v-icon mdi-youtube
+              a(href="https://www.facebook.com/Inventumglobal.Turkey" target="_blank").circle: v-icon mdi-facebook
+              a(href="https://www.instagram.com/inventumglobalturkey" target="_blank").circle: v-icon mdi-instagram
+              a(href="https://www.linkedin.com/company/inventumglobal" target="_blank").circle: v-icon mdi-linkedin
+              a(href="https://twitter.com/inventumglobal" target="_blank").circle: v-icon mdi-twitter
+              a(href="https://www.youtube.com/channel/UCQKsS-48PgdplZIOPeL7KAw" target="_blank").circle: v-icon mdi-youtube
 
           v-flex.md1.offset-md2.sm2.col
             p.col__title Navigation

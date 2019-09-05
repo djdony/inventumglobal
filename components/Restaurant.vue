@@ -13,8 +13,9 @@
           td.text-left(v-text="rst.name")
           td
             span(v-for='(c, index) in rst.cuisines' :key='index' v-text="rst.cuisines.length - 1 > index ? c.name + ', ' : c.name")
-          td(v-text="rst.food ? 'Included' : 'Extra'")
-          td(v-text="rst.drinks  ? 'Included' : 'Extra'")
+          td
+            span(v-if="rst.type_id !== 'Bar' " v-text="rst.food  ? 'Included' : 'Extra'")
+          td(v-text="rst.drinks ? 'Included' : 'Extra'")
           td(v-text="rst.type_id")
 </template>
 

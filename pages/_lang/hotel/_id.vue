@@ -70,7 +70,7 @@
                     td.item__param Address
                     td.item__value : {{ hotel.address }}
                   tr.block-list__item
-                    td.item__param www
+                    td.item__param Web
                     td.item__value : {{ hotel.www }}
 
 
@@ -112,7 +112,7 @@
 
       v-card.details__section.restaurants
         h3.section__title Restaurants
-        restaurant-table(:restaurants='hotel.restaurants')
+        //restaurant-table(:restaurants='hotel.restaurants')
 
         carousel(:media="restaurantsMedia" v-if='restaurantsMedia.length > 0')
         //- MEETING SPACE PART

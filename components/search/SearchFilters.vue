@@ -61,7 +61,7 @@
           hide-details
         )
 
-    .filter-item
+    //.filter-item
       .filter-item__row.mb-2
         span.filter-item__title Amenities
         v-icon(size='16').filter-item__more mdi-dots-horizontal
@@ -69,15 +69,15 @@
         v-checkbox(
           v-for="a in filtersData.hotelAmenities"
           v-model='filters.amenities'
-          :key="a.id"
-          :value="a.id"
-          :label="a.name"
+      //    :key="a.id"
+       //   :value="a.id"
+         // :label="a.name"
           hide-details
         )
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Meeting room capacity
+        span.filter-item__title Meeting room capacity (pax)
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.values
         .values__item

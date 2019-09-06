@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ax2/dayjs-module": "^0.1.2",
-    "@nuxtjs/auth": "^4.8.1",
+    "@nuxtjs/auth": "^4.8.2",
     "@nuxtjs/axios": "^5.6.0",
     "lodash.compact": "^3.0.1",
     "lodash.pick": "^4.4.0",
@@ -21,9 +21,9 @@
     "vue-fancybox": "^1.0.3"
   },
   "devDependencies": {
-    "@mdi/font": "^4.2.95",
-    "@nuxtjs/vuetify": "^1.6.1",
-    "nodemon": "^1.19.1",
+    "@mdi/font": "^4.3.95",
+    "@nuxtjs/vuetify": "^1.6.3",
+    "nodemon": "^1.19.2",
     "pug": "^2.0.4",
     "pug-plain-loader": "^1.0.0",
     "vue-api-query": "^1.5.1",

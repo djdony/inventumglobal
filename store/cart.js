@@ -13,18 +13,21 @@ export default {
       state.orders[data.order].hotels.push(data.hotel)
     },
     INIT_CART(state) {
-      let orders = localStorage.getItem('cart')
-      orders = JSON.parse(orders)
-      console.log(orders)
-      if (orders && orders.length) {
-        orders.forEach(order => {
-          state.orders.push(order)
-        })
+      if(!process.server){
+        let orders = localStorage.getItem('cart')
+        orders = JSON.parse(orders)
+        if (orders && orders.length) {
+          orders.forEach(order => {
+            state.orders.push(order)
+          })
+        }
       }
     },
     CLEAN_CART(state) {
-      localStorage.removeItem('cart')
-      state.orders = []
+      if(!process.server){
+        localStorage.removeItem('cart')
+        state.orders = []
+      }
     }
   },
   actions: {
@@ -88,7 +91,8 @@ export default {
       )
     },
     updateStorage({ state }) {
-      localStorage.setItem('cart', JSON.stringify(state.orders))
+      if(!process.server)
+        localStorage.setItem('cart', JSON.stringify(state.orders))
     },
     removeOrder({ state, dispatch }, i){
       state.orders.splice(i, 1)

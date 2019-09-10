@@ -29,7 +29,7 @@ export default {
       for (let location of state.toLocations) {
         for (let descendant of location.descendants) {
           list.push({
-            text: location.name + ', ' + descendant.name,
+            text: location.parent.name + ', ' + descendant.name,
             value: descendant.id
           })
         }

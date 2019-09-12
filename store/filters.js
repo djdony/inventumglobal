@@ -1,5 +1,5 @@
 export default {
-  state: {
+  state: () => ({
     fromLocations: [],
     toLocations: [],
     stars: [],
@@ -10,7 +10,7 @@ export default {
     ceilingHeight: 20,
     meetingRoomCap: 18000,
     maxdistance: 300
-  }, 
+  }),
   getters: {
     fromLocationsList(state) {
       let list = []
@@ -41,7 +41,6 @@ export default {
     SET_FILTERS(state, data) {
       state.fromLocations = data.fromLocations
       state.toLocations = data.toLocations
-      state.stars = data.stars
       state.products = data.products
       state.price = data.price
       state.roomTypes = data.roomTypes

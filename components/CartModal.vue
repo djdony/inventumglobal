@@ -81,7 +81,6 @@
 
 </template>
 <script>
-import HotelStars from '@/components/HotelStars'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import pick from 'lodash.pick'
 
@@ -192,7 +191,6 @@ export default {
     })
   },
   components: {
-    HotelStars
   }
 }
 </script>

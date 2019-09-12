@@ -9,7 +9,7 @@
 
       .menu(v-if="!smAndDown && $store.state.auth.loggedIn")
         v-btn(to='/' rounded text) Home  
-        //v-btn(to='/search' rounded text) Discover
+        v-btn(to='/discover' rounded text) Discover
 
       v-spacer
 
@@ -25,32 +25,7 @@
                     v-badge(overlap left)
                       template(v-slot:badge v-if='cartItems') {{ cartItems }}
                       v-icon() mdi-cart
-                //- v-card(color='white')
-                //-   v-list.header__cart-hotels-list
-                //-     v-list-item
-                //-       hotel-stars(id='9')
-                //-       .hotels__info
-                //-         .info__title Hotel lalala
-                //-         .info__regions Antalya
-                //-       v-spacer
-                //-       v-btn(icon): v-icon mdi-close
-                //-     v-list-item
-                //-       hotel-stars(id='9')
-                //-       .hotels__info
-                //-         .info__title Hotel lalala
-                //-         .info__regions Antalya
-                //-       v-spacer
-                //-       v-btn(icon): v-icon mdi-close
-                //-     v-list-item
-                //-       hotel-stars(id='9')
-                //-       .hotels__info
-                //-         .info__title Hotel lalalaasd asdas das
-                //-         .info__regions Antalya
-                //-       v-spacer
-                //-       v-btn(icon): v-icon mdi-close
 
-
-              
               v-menu(offset-y)
                 template(v-slot:activator='userMenu')
                   v-btn(icon v-on='userMenu.on').red
@@ -99,7 +74,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import CartModal from '@/components/CartModal'
-import HotelStars from '@/components/HotelStars'
 
 export default {
   data() {
@@ -130,7 +104,6 @@ export default {
   },
   components: {
     CartModal,
-    HotelStars
   }
 }
 </script>

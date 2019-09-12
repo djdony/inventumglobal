@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import Glider from '@/plugins/glider'
 import Gallery from '@/components/Gallery'
 export default {
   components: {
@@ -29,7 +28,9 @@ export default {
       default: []
     }
   },
-  mounted() {
+  async mounted() {
+    let mod = await import('@/plugins/glider')
+    const Glider = mod.default
     let carousel = new Glider(this.$refs.carouselWrapper, {
       arrows: {
         prev: this.$refs.prev,
@@ -62,7 +63,6 @@ export default {
   },
   methods: {
     showGal(){
-      console.log('test')
     }
   },
   computed: {}

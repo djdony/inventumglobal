@@ -5,7 +5,8 @@
         img(:src="photo" alt='Hotel Image')
       .hotel__info
         h3.info__title
-          hotel-stars(id='9')
+          .hotel-stars
+            span(v-text='stars').stars__value
           span(v-text='name') 
 
         .info__regions(v-text="region")
@@ -99,7 +100,6 @@
       gallery(v-model="hotel.media")
 </template>
 <script>
-import HotelStars from '@/components/HotelStars'
 import Gallery from '@/components/Gallery'
 import Hotel from '@/models/Hotel'
 import Restaurant from '@/components/Restaurant'
@@ -208,7 +208,7 @@ export default {
       default: false
     }
   },
-  components: { HotelStars, Gallery, Restaurant, Rooms, MeetingRoom, Location, Amenities },
+  components: {Gallery, Restaurant, Rooms, MeetingRoom, Location, Amenities },
   watch: {
     details: {
       handler: function(val) {
@@ -220,6 +220,6 @@ export default {
 </script>
 <style lang="sass">
 @import '@/assets/styles/components/hotel-item.sass'
-
+@import '@/assets/styles/components/hotel-stars.sass'
 </style>
 

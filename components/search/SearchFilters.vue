@@ -157,7 +157,7 @@ export default {
       rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance']
     }
   },
-  async created() {
+  async mounted() {
     let query = qs.parse(location.search.slice(1))
     if (query.searchFilters) {
       this.watchRangesMaxValues('setGetValues', query)

@@ -1,10 +1,10 @@
-export const state = {
+export const state = () => ({
   snackbar: false,
   color: undefined,
   timeout: 3000,
   message: 'Empty message',
   nullify: undefined
-}
+})
 
 export const mutations = {
   SET_SNACKBAR(state, value) {

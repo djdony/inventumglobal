@@ -1,7 +1,7 @@
 export default {
-  state: {
+  state: () => ({
     orders: []
-  },
+  }),
   mutations: {
     ADD_ORDER(state, data){
       state.orders.push(data)

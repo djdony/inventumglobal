@@ -41,7 +41,8 @@
 
 <script>
 export default {
-  created() {
+  created() {},
+  mounted() {
     this.$store.commit('styles/setHeaderDarkText', false)
     this.$store.commit('styles/setHeaderLogoStyle', 'light')
     this.$store.commit('styles/setFooterBg', false)

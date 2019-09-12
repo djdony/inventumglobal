@@ -16,7 +16,8 @@
           .content__row
             .basic-info
               h1.info__title
-                hotel-stars(id='9')
+                .hotel-stars
+                  span(v-text='hotel.star.name').stars__value
                 span(v-text='hotel.name')
 
               .info__regions(v-text='hotel.location.name')
@@ -129,7 +130,6 @@
 
 <script>
 import Hotel from '@/models/Hotel'
-import HotelStars from '@/components/HotelStars'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import MeetingRooms from '@/components/MeetingRoom'
 import Location from '@/components/Location'
@@ -204,7 +204,6 @@ export default {
   components: {
     RestaurantTable,
     MeetingRooms,
-    HotelStars,
     Location,
     Rooms,
     Carousel,
@@ -214,5 +213,5 @@ export default {
 </script>
 <style lang="sass">
 @import '@/assets/styles/pages/details.sass'
-
+@import '@/assets/styles/components/hotel-stars.sass'
 </style>

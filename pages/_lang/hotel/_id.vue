@@ -27,52 +27,57 @@
               .details__block
                 .block__title Physical Features 
                 table.block__list
-                  tr.block-list__item
-                    td.item__param Built
-                      td.item__value : {{ hotel.built }}
-                  tr(v-if='hotel.renovated.length > 0').block-list__item
-                    td.item__param Renovated
-                      td.item__value : {{ hotel.renovated }}
-                  tr.block-list__item
-                    td.item__param Total Area
-                      td.item__value : {{ hotel.area }}
+                  tbody
+                    tr.block-list__item
+                      td.item__param Built
+                        td.item__value : {{ hotel.built }}
+                    tr(v-if='hotel.renovated.length > 0').block-list__item
+                      td.item__param Renovated
+                        td.item__value : {{ hotel.renovated }}
+                    tr.block-list__item
+                      td.item__param Total Area
+                        td.item__value : {{ hotel.area }}
                     
               .details__block
                 .block__title Rooms &amp; Villas
                 table.block__list
-                  tr.block-list__item
-                    td.item__param Total Rooms
-                    td.item__value : {{ roomsQty }}
+                  tbody
+                    tr.block-list__item
+                      td.item__param Total Rooms
+                      td.item__value : {{ roomsQty }}
 
 
               .details__block
                 .block__title Meetings &amp; Events
                 table.block__list
-                  tr.block-list__item
-                    td.item__param Total Meeting Rooms
-                    td.item__value :
+                  tbody
+                    tr.block-list__item
+                      td.item__param Total Meeting Rooms
+                      td.item__value :
 
 
               .details__block
                 .block__title Location 
                 table.block__list
-                  tr.block-list__item
-                    td.item__param Region
-                    td.item__value : {{ hotel.location.name }}
-                  tr.block-list__item
-                    td.item__param Airport
-                    td.item__value : {{ hotel.distance.distance }} km
+                  tbody
+                    tr.block-list__item
+                      td.item__param Region
+                      td.item__value : {{ hotel.location.name }}
+                    tr.block-list__item
+                      td.item__param Airport
+                      td.item__value : {{ hotel.distance.distance }} km
 
 
               .details__block
                 .block__title Information
                 table.block__list
-                  tr.block-list__item
-                    td.item__param Address
-                    td.item__value : {{ hotel.address }}
-                  tr.block-list__item
-                    td.item__param Web
-                    td.item__value : {{ hotel.www }}
+                  tbody
+                    tr.block-list__item
+                      td.item__param Address
+                      td.item__value : {{ hotel.address }}
+                    tr.block-list__item
+                      td.item__param Web
+                      td.item__value : {{ hotel.www }}
 
 
       //- OVERVIEW PART

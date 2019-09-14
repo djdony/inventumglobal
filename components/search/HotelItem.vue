@@ -14,31 +14,33 @@
         .info__props
           .props__room-chars
             table
-              tr.props__item
-                td: b Rooms: 
-                td: span(v-text='total_rooms')
-              tr.props__item
-                td: b Meeting rooms: 
-                td: span
-              tr.props__item
-                td: b Total Space: 
-                td: span(v-text='meeting_space + " m2"')
-              tr.props__item
-                td: b Largest Space: 
-                td: span(v-text='largest_space + " m2"')
+              tbody
+                tr.props__item
+                  td: b Rooms:
+                  td: span(v-text='total_rooms')
+                tr.props__item
+                  td: b Meeting rooms:
+                  td: span
+                tr.props__item
+                  td: b Total Space:
+                  td: span(v-text='meeting_space + " m2"')
+                tr.props__item
+                  td: b Largest Space:
+                  td: span(v-text='largest_space + " m2"')
 
           .props__price(v-if='price')
             .props__title PP in DBL sharing room
             table
-              tr.props__item
-                td: b Landing: 
-                td: span(v-text='price.landing + " " + curSymb')
-              tr.props__item
-                td: b Package: 
-                td: span(v-text='price.package + " " + curSymb')
-              tr.props__item
-                td: b Pre Post: 
-                td: span(v-text='price.prepost + " " + curSymb')
+              tbody
+                tr.props__item
+                  td: b Landing:
+                  td: span(v-text='price.landing + " " + curSymb')
+                tr.props__item
+                  td: b Package:
+                  td: span(v-text='price.package + " " + curSymb')
+                tr.props__item
+                  td: b Pre Post:
+                  td: span(v-text='price.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
           v-btn.custom(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)") Details
@@ -126,7 +128,7 @@ export default {
   methods: {
     addToCart() {
       this.$store.dispatch('cart/addHotel', {
-        hotel: { id: this.id, name: this.name },
+        hotel: { id: this.id, name: this.name, photo: this.photo, region: this.region   },
         ...this.$route.query
       })
     },

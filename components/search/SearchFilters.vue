@@ -61,7 +61,7 @@
           hide-details
         )
 
-    //.filter-item
+    .filter-item
       .filter-item__row.mb-2
         span.filter-item__title Amenities
         v-icon(size='16').filter-item__more mdi-dots-horizontal
@@ -69,31 +69,25 @@
         v-checkbox(
           v-for="a in filtersData.hotelAmenities"
           v-model='filters.amenities'
-      //    :key="a.id"
-       //   :value="a.id"
-         // :label="a.name"
+          :key="a.id"
+          :value="a.id"
+          :label="a.name"
           hide-details
         )
-
     .filter-item
       .filter-item__row.mb-2
         span.filter-item__title Meeting room capacity (pax)
-        v-icon(size='16').filter-item__more mdi-dots-horizontal
-      .filter-item__row.values
-        .values__item
-          span(v-text='filters.meetingRooms[0]')
-        .values__item
-          span(v-text='filters.meetingRooms[1]')
-      .filter-item__row.slider
-        v-range-slider(
-          hide-details
-          :min="0"
-          :max="filtersData.meetingRoomCap"
-          color='#0056b3'
-          track-color='#DDDFE7'
-          v-model="filters.meetingRooms"
-        )
-    
+      .filter-item__row.text-input
+        v-text-field(
+          v-model='filters.meetingRooms[0]'
+          outlined
+          ).mr-2
+        h1 -
+        v-text-field(
+          v-model='filters.meetingRooms[1]'
+          outlined
+        ).ml-2
+
     .filter-item
       .filter-item__row.mb-2
         span.filter-item__title Ceiling height

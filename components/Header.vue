@@ -23,7 +23,7 @@
                 template(v-slot:activator='cartHotelsList')
                   v-btn(icon v-on='{...cartHotelsList.on, ...cartModal.on}')
                     v-badge(overlap left)
-                      template(v-slot:badge v-if='cartItems') {{ cartItems }}
+                      template(v-slot:badge v-if='$store.state.cart.orders.length') {{ $store.state.cart.orders.length }}
                       v-icon() mdi-cart
 
               v-menu(offset-y)
@@ -52,7 +52,7 @@
                 v-list-item(v-on='cartModal.on')
                   v-list-item-icon.mr-4
                     v-badge(overlap)
-                      template(v-slot:badge v-if='cartItems') {{ cartItems }}
+                      template(v-slot:badge v-if='$store.state.cart.orders.length') {{ $store.state.cart.orders.length }}
                       v-icon mdi-cart
                   v-list-item-title Cart
                 v-list-item(@click='')
@@ -88,9 +88,6 @@ export default {
     }
   },
   computed: {
-    cartItems() {
-      return this.$store.state.cart.orders.length
-    },
     ...mapGetters({
       logoStyle: 'styles/headerLogoStyle',
       darkText: 'styles/headerDarkText'

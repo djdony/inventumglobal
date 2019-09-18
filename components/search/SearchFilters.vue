@@ -87,7 +87,7 @@
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.checkboxes
         v-checkbox(
-          v-for="c in filtersData.chains"
+          v-for="c in filtersData.hotelChains"
           v-model='filters.chains'
           :key="c.id"
           :value="c.id"
@@ -183,6 +183,7 @@ export default {
         room_type: 'DBL',
         amenities: [],
         chains: [],
+        categories: [],
         meetingRooms: [0, 18000],
         ceilingHeight: [0, 20],
         distance: [0, 300],

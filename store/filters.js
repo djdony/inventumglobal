@@ -7,6 +7,8 @@ export default {
     price: 2000,
     roomTypes: [],
     hotelAmenities: [],
+    hotelCategories: [],
+    hotelChains: [],
     ceilingHeight: 20,
     meetingRoomCap: 18000,
     maxdistance: 300
@@ -39,17 +41,18 @@ export default {
   },
   mutations: {
     SET_FILTERS(state, data) {
-      state.fromLocations = data.fromLocations
-      state.toLocations = data.toLocations
-      state.products = data.products
-      state.price = data.price
-      state.roomTypes = data.roomTypes
-      state.hotelAmenities = data.hotelAmenities
-      state.ceilingHeight = data.ceilingHeight
-      state.meetingRoomCap = data.meetingRoomCap
-      //state.maxdistance = data.maxdistance
-      state.minDate = data.minDate
-      state.maxDate = data.maxDate
+      state.fromLocations   = data.fromLocations
+      state.toLocations     = data.toLocations
+      state.products        = data.products
+      state.price           = data.price
+      state.roomTypes       = data.roomTypes
+      state.hotelAmenities  = data.hotelAmenities
+      state.hotelCategories = data.hotelCategories
+      state.hotelChains     = data.hotelChains
+      state.ceilingHeight   = data.ceilingHeight
+      state.meetingRoomCap  = data.meetingRoomCap
+      state.minDate         = data.minDate
+      state.maxDate         = data.maxDate
     },
     SET_MAX_PRICE(state, data){
       state.price = data

@@ -6,8 +6,11 @@
       .hotel__info
         h3.info__title
           .hotel-stars
-            span(v-text='stars').stars__value
-          span(v-text='name') 
+            span(v-text='stars')
+          span(v-text='name')
+          v-spacer
+          .hotel-package
+            span(v-text='price.package + " " + curSymb')
 
         .info__regions(v-text="region")
 
@@ -29,15 +32,16 @@
                   td: span(v-text='largest_space + " m2"')
 
           .props__price(v-if='price')
-            .props__title PP in DBL sharing room
+
             table
               tbody
                 tr.props__item
+                  td: b Only Ticket:
+                  td: span(v-text='price.flight + " " + curSymb')
+                .props__title PP in DBL sharing room
+                tr.props__item
                   td: b Landing:
                   td: span(v-text='price.landing + " " + curSymb')
-                tr.props__item
-                  td: b Package:
-                  td: span(v-text='price.package + " " + curSymb')
                 tr.props__item
                   td: b Pre Post:
                   td: span(v-text='price.prepost + " " + curSymb')

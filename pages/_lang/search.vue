@@ -34,7 +34,7 @@
         //- SIDE HOTELS
 
         v-flex(main-part__side-hotels)
-          hotel-item(
+          side-hotel(
             v-for='(hotel, index) in sideHotels'
             :key='index'
             v-bind='hotel'
@@ -49,6 +49,7 @@
 <script>
 import SearchPanel from '@/components/SearchPanel'
 import HotelItem from '@/components/search/HotelItem'
+import SideHotel from '@/components/search/SideHotel'
 import SearchFilters from '@/components/search/SearchFilters'
 import Hotel from '@/models/Hotel'
 import { mapMutations } from 'vuex'
@@ -63,7 +64,9 @@ export default {
         total_pages: 1
       },
       hotels: [],
-      sideHotels: [],
+      sideHotels: [
+
+          ],
       menu: null,
       date: null,
       hotelsMessage: 'Hotels will appear here',
@@ -143,7 +146,8 @@ export default {
   components: {
     SearchPanel,
     HotelItem,
-    SearchFilters
+    SearchFilters,
+    SideHotel
   }
 }
 </script>

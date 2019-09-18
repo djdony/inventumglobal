@@ -14,8 +14,8 @@
 
       //- E-COMMERCE PART
 
-      //v-layout(ecommerce-part wrap align-center)
-        v-flex(md5)
+      v-layout(ecommerce-part wrap align-center)
+        v-flex(md5 v-model="hotel")
           .stars-wrapper
             v-icon mdi-star
             v-icon mdi-star
@@ -23,13 +23,12 @@
             v-icon mdi-star
             v-icon mdi-star
 
-          h2.display-2.font-weight-bold Titanic
-          h2.display-2.font-weight-light Mardan Palace
-          p.mt-4 Situated on the shores of the Turkish Riviera, Titanic Mardan Palace is one of the most luxurious all inclusive resorts in the Turkey. 
+          h2.display-2.font-weight-light {{hotel.name}}
+          p.mt-4 {{hotel.description}}
           .buttons-wrapper
             v-btn(color='primary' elevation='24').custom.mr-2
-              span.price.font-weight-medium €1,295 
-              span.font-weight-light.ml-1 Buy now
+              span.price.font-weight-medium From
+              span.font-weight-light.ml-1 €1,295
             v-btn(text color='secondary').custom
               v-icon mdi-cart
               span.font-weight-medium Add to Cart
@@ -39,7 +38,7 @@
 
       //- STEPS PART
     
-    //.steps-part
+    .steps-part
       v-container
         v-layout.part-icon
           v-icon(color='primary' size='70') mdi-lightbulb-on
@@ -71,7 +70,7 @@
 
     //- MOBILE APP PART
 
-    //v-container
+    v-container
       v-layout(align-center wrap mobile-app-part)
         v-flex(sm5 md6 mobile-app__image order-xs3 order-sm1)
           img(src='/img/home/mobile-app.png' alt='Mobile App')
@@ -79,7 +78,7 @@
           v-icon(color='primary' size='70').desc__icon mdi-cellphone-iphone
           h3.desc__title A new horizon in destination expertise, now it’s a heart-beat away from you.  
           p.desc__text Whether you are at the office, travelling or in a meeting with clients, you have the full and easy access to all the best rates and products.
-          .desc__buttons-wrapper
+          //.desc__buttons-wrapper
             v-btn(color='primary' elevation='24').custom.mr-3.mb-3
               span.mr-2 Download App
               v-icon(size='18') mdi-apple
@@ -92,11 +91,24 @@
 <script>
 import EcommerceCarousel from '@/components/EcommerceCarousel'
 import SearchPanel from '@/components/SearchPanel'
+import Hotel from '@/models/Hotel'
 
 export default {
   data() {
     return {}
   },
+    async asyncData() {
+        try {
+            let hotel = await Hotel.where('id','15').include('media').first()
+            console.log(hotel)
+            return { hotel }
+        } catch (err) {
+            this.showSnackbar({
+                message: 'An error occured while loading the data',
+                color: 'red'
+            })
+        }
+    },
   created() {
     this.$store.commit('styles/setHeaderDarkText', false)
     this.$store.commit('styles/setAppClassName', 'home-page')

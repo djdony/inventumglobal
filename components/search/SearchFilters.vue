@@ -49,6 +49,26 @@
 
     .filter-item
       .filter-item__row.mb-2
+        span.filter-item__title Price
+      .filter-item__row.text-input
+        v-text-field(
+          v-model='filters.price[0]'
+          outlined
+          hide-details
+          label="Min"
+          prefix="€"
+        ).mr-2
+        span &mdash;
+        v-text-field(
+          v-model='filters.price[1]'
+          outlined
+          hide-details
+          label="Max"
+          prefix="€"
+        ).ml-2
+
+    .filter-item
+      .filter-item__row.mb-2
         span.filter-item__title Room type
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.select
@@ -58,6 +78,20 @@
           item-text="name"
           item-value="id"
           outlined
+          hide-details
+        )
+
+    .filter-item
+      .filter-item__row.mb-2
+        span.filter-item__title Chain Scale
+        v-icon(size='16').filter-item__more mdi-dots-horizontal
+      .filter-item__row.checkboxes
+        v-checkbox(
+          v-for="c in filtersData.chains"
+          v-model='filters.chains'
+          :key="c.id"
+          :value="c.id"
+          :label="c.name"
           hide-details
         )
 
@@ -74,6 +108,7 @@
           :label="a.name"
           hide-details
         )
+
     .filter-item
       .filter-item__row.mb-2
         span.filter-item__title Meeting room capacity (pax)
@@ -81,11 +116,15 @@
         v-text-field(
           v-model='filters.meetingRooms[0]'
           outlined
+          label="Min"
+          hide-details
           ).mr-2
-        h1 -
+        span &mdash;
         v-text-field(
           v-model='filters.meetingRooms[1]'
           outlined
+          label="Max"
+          hide-details
         ).ml-2
 
     .filter-item
@@ -143,6 +182,7 @@ export default {
         price: [100, 2000],
         room_type: 'DBL',
         amenities: [],
+        chains: [],
         meetingRooms: [0, 18000],
         ceilingHeight: [0, 20],
         distance: [0, 300],
@@ -172,10 +212,8 @@ export default {
         stars: [],
         price: [100, 2000],
         room_type: 'DBL',
-        meetingRooms: [0, 18000],
-        distance: [0, 300],
-        ceilingHeight: [0, 20],
         amenities: [],
+        chains: [],
         meetingRooms: [0, 18000],
         ceilingHeight: [0, 20],
         distance: [0, 300],

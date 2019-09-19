@@ -8,8 +8,8 @@
       v-spacer
 
       .menu(v-if="!smAndDown && $store.state.auth.loggedIn")
-        v-btn(to='/' rounded text) Home  
-        v-btn(to='/discover' rounded text) Discover
+        v-btn(to='/' rounded text) Home
+        v-btn(to='/pdf/antalya/' rounded text) Discover
 
       v-spacer
 

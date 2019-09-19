@@ -2,9 +2,9 @@
   div.ecommerce-carousel
     v-carousel(continuous ref='carousel' cycle hide-delimiters width='100%' height='100%').ecommerce
       v-carousel-item
-        v-img(src='/img/home/ecommerce.png' alt='ecommerce')
+        v-img(src='https://api.inventum.app/media/hotels/15/296/Pool.jpg' alt='ecommerce')
       v-carousel-item
-        v-img(src='/img/home/ecommerce.png' alt='ecommerce')
+        v-img(src='https://api.inventum.app/media/hotels/15/295/Overview.jpg' alt='ecommerce')
     .navigation
       v-btn(@click='prev()' icon elevation='24').prev: v-icon mdi-chevron-left 
       v-btn(@click='next()' icon elevation='24').next: v-icon mdi-chevron-right 

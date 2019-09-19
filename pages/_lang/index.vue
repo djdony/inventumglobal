@@ -23,7 +23,8 @@
             v-icon mdi-star
             v-icon mdi-star
 
-          h2.display-2.font-weight-light {{hotel.name}}
+          h2.display-2.font-weight-bold(v-text='hotel.name.split(" ")[0]')
+          h2.display-2.font-weight-light(v-text='hotel.name.substring(hotel.name.indexOf(" ")+1)')
           p.mt-4 {{hotel.description}}
           .buttons-wrapper
             v-btn(color='primary' elevation='24').custom.mr-2

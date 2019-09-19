@@ -4,13 +4,13 @@
       thead
         tr
           th.text-left Room type
-          th.text-right Rooms
+          //th.text-right Units
           th.text-right Area, m²
           th.text-right Quantity
       tbody
         tr(v-for="r in value" :key="r.id")
           td.text-left(v-text="r.room_type.name")
-          td.text-right(v-text="r.room")
+          //td.text-right(v-text="r.room")
           td.text-right(v-text="r.min_area")
           td.text-right(v-text="r.qty")
 </template>

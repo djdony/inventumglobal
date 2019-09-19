@@ -16,10 +16,10 @@
           th(v-if="!excludeColumns.includes('boardroom')"): v-icon mdi-vector-circle
         tr
           th.text-left Name
-          th.text-right(v-if="!excludeColumns.includes('area')") Area, m2
+          th.text-right(v-if="!excludeColumns.includes('area')") Room Size, m2
           th(v-if="!excludeColumns.includes('length')").text-right Length, m
           th(v-if="!excludeColumns.includes('width')").text-right Width, m
-          th.text-right Height, m
+          th.text-right Ceiling Height, m
           th.text-right Gala, pax
           th.text-right Cocktail, pax
           th.text-right Theater, pax

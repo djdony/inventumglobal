@@ -59,7 +59,7 @@
           v-tab Rooms
           v-tab Meeting rooms
           v-tab Restaurants
-          v-tab Amenities
+          //v-tab Amenities
           v-tab Location
 
           //- General
@@ -74,7 +74,9 @@
                   @click="showGallery = true"
                 )
 
-              .general-info(v-html="hotel.description")
+              .general-info
+                .general-name(v-text="hotel.name")
+                .general-info(v-html="hotel.description")
 
           //- Rooms
           v-tab-item
@@ -100,7 +102,7 @@
           v-tab-item
             v-card(elevation='0').tab-item.table
               location(v-model="hotel" tab-mode)
-    v-dialog(v-model="showGallery")
+    v-dialog(v-model="showGallery" width="50%")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close
       gallery(v-model="hotel.media")

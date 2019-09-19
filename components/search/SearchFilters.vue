@@ -30,22 +30,15 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Price
-        v-icon(size='16').filter-item__more mdi-dots-horizontal
-      .filter-item__row.values
-        .values__item
-          span(v-text='`€${filters.price[0]}`')
-        .values__item
-          span(v-text='`€${filters.price[1]}`')
-      .filter-item__row.slider
-        v-range-slider(
-          hide-details
-          :min="100"
-          :max="filtersData.price"
-          color='#0056b3'
-          track-color='#DDDFE7'
-          v-model="filters.price"
+        span.filter-item__title Price Category
+      v-radio-group(
+        v-model="filters.b2b"
+        row
+        outlined
+        hide-details
         )
+        v-radio(label="B2B" value="b2b").mr-2
+        v-radio(label="B2C" value="b2c").ml-2
 
     .filter-item
       .filter-item__row.mb-2
@@ -111,7 +104,7 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Meeting room capacity (pax)
+        span.filter-item__title Seating capacity (pax)
       .filter-item__row.text-input
         v-text-field(
           v-model='filters.meetingRooms[0]'
@@ -178,6 +171,7 @@ export default {
     return {
       filters: {
         search: '',
+        b2b: 'b2b',
         stars: [],
         price: [100, 2000],
         room_type: 'DBL',
@@ -211,6 +205,7 @@ export default {
       this.filters = {
         search: '',
         stars: [],
+        b2b: 'b2b',
         price: [100, 2000],
         room_type: 'DBL',
         amenities: [],

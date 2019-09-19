@@ -3,6 +3,7 @@ export default {
     fromLocations: [],
     toLocations: [],
     stars: [],
+    b2b: 'b2b',
     products: [],
     price: 2000,
     roomTypes: [],
@@ -45,6 +46,7 @@ export default {
       state.toLocations     = data.toLocations
       state.products        = data.products
       state.price           = data.price
+      state.b2b             = data.b2b
       state.roomTypes       = data.roomTypes
       state.hotelAmenities  = data.hotelAmenities
       state.hotelCategories = data.hotelCategories

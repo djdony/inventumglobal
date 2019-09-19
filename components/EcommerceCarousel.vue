@@ -1,10 +1,8 @@
 <template lang="pug">
   div.ecommerce-carousel
-    v-carousel(continuous ref='carousel' cycle hide-delimiters width='100%' height='100%').ecommerce
-      v-carousel-item
-        v-img(src='https://api.inventum.app/media/hotels/15/296/Pool.jpg' alt='ecommerce')
-      v-carousel-item
-        v-img(src='https://api.inventum.app/media/hotels/15/295/Overview.jpg' alt='ecommerce')
+    v-carousel(continuous cycle hide-delimiters ref='carousel' width='100%' height='100%').ecommerce
+      v-carousel-item(v-for="img in images" :key="img.id")
+        v-img(:src='img.url' alt='img.name')
     .navigation
       v-btn(@click='prev()' icon elevation='24').prev: v-icon mdi-chevron-left 
       v-btn(@click='next()' icon elevation='24').next: v-icon mdi-chevron-right 
@@ -18,13 +16,14 @@ export default {
   methods: {
     next() {
       const carousel = this.$refs.carousel.$el
-      const nextButton = carousel.children[0].children[3].children[0]
-      nextButton.click()
+      
+      const nextButton = carousel.children[0].children[this.images.length+1].children[0]
+      if(nextButton !== undefined) nextButton.click()
     },
     prev() {
       const carousel = this.$refs.carousel.$el
-      const prevButton = carousel.children[0].children[2].children[0]
-      prevButton.click()
+      const prevButton = carousel.children[0].children[this.images.length+1].children[0]
+      if(prevButton !== undefined) prevButton.click()
     }
   }
 }

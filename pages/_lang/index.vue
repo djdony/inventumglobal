@@ -14,8 +14,16 @@
 
       //- E-COMMERCE PART
 
-      v-layout(ecommerce-part wrap align-center)
-        v-flex(md5 v-model="hotel")
+      v-layout(
+        ecommerce-part
+        wrap
+        align-center
+        v-for="(hotel, i) in hotels.filter(h => h.media.length > 0)"
+        :key="hotel.id"
+      )
+        v-flex(md5 v-if="i % 2 !== 0")
+          ecommerce-carousel
+        v-flex(md5 :class="{ 'offset-md2': i % 2 !== 0 }")
           .stars-wrapper
             v-icon mdi-star
             v-icon mdi-star
@@ -34,8 +42,8 @@
               v-icon mdi-cart
               span.font-weight-medium Add to Cart
               
-        v-flex(md5 offset-md2)
-          ecommerce-carousel
+        v-flex(md5 offset-md2 v-if="i % 2 === 0")
+          ecommerce-carousel(:images="hotel.media.slice(0, 3)")
 
       //- STEPS PART
     
@@ -100,9 +108,8 @@ export default {
   },
     async asyncData() {
         try {
-            let hotel = await Hotel.where('id','15').include('media').first()
-            console.log(hotel)
-            return { hotel }
+            let hotels = await Hotel.where('category_id','exc').include('media').limit(3).get()
+            return { hotels }
         } catch (err) {
             this.showSnackbar({
                 message: 'An error occured while loading the data',

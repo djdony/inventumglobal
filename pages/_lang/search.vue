@@ -6,7 +6,7 @@
 
       v-layout(search-form-part wrap)
         v-flex(xs12)
-          search-panel(@search='searchHotels' @hotelsAmount='hotelsAmount' search-params)
+          search-panel(@search='searchHotels' :hotelsAmount='hotelsAmount' search-params)
 
       v-layout(main-part)
 
@@ -44,7 +44,7 @@
       v-layout(pagination justify-center v-if='pagination.total_pages > 1').mb-10
         v-pagination(v-model="pagination.current_page" :length="pagination.total_pages").custom
   
-</template>
+</template> 
 
 <script>
 import SearchPanel from '@/components/SearchPanel'
@@ -61,12 +61,11 @@ export default {
       pagination: {
         per_page: 50,
         current_page: 1,
-        total_pages: 1
+        total_pages: 1,
+        total: 0
       },
       hotels: [],
-      sideHotels: [
-
-          ],
+      sideHotels: [],
       menu: null,
       date: null,
       hotelsMessage: 'Hotels will appear here',
@@ -84,7 +83,7 @@ export default {
       let to = from + this.hotels.length - 1
       let total = pag.total
 
-      return `${from} to ${to} of ${total} Hotels`
+      return `${from} to ${to} of ${total} hotels`
     }
   },
   methods: {
@@ -103,8 +102,15 @@ export default {
           this.pagination.total_pages = Math.ceil(
             res.data.total / this.pagination.per_page 
           )
+          this.pagination.total = res.data.total
 
           this.hotels = res.data.hotels
+
+          this.sideHotels = await Hotel.include('chain', 'location', 'location.parent', 'media')
+            .where('category_id', 'exc')
+            .limit(4)
+            .get()
+
           if (this.hotels.length === 0)
             this.hotelsMessage = 'No hotels found. Try changing the filters'
         } catch (err) {

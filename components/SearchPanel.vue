@@ -71,7 +71,7 @@ div
 
   .search-params(v-if='searchParams')
     v-spacer
-    span(v-text='hotelsAmount').search-params__amount
+    span.search-params__amount {{ hotelsAmount }}
     span.search-params__sort.ml-3 
       span.mr-1 Sort by:
       v-menu(offset-y)

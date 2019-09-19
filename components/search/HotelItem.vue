@@ -12,7 +12,7 @@
           .hotel-package
             span(v-text='price.package + " " + curSymb')
 
-        .info__regions(v-text="region")
+        .info__regions(v-text="`${city} / ${region}`")
 
         .info__props
           .props__room-chars
@@ -209,6 +209,7 @@ export default {
     meeting_space: Number,
     largest_space: Number,
     region: String,
+    city: String,
     props: Array,
     photo: String,
     details: {

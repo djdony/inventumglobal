@@ -32,7 +32,7 @@
       .filter-item__row.mb-2
         span.filter-item__title Price Category
       v-radio-group(
-        v-model="filters.b2b"
+        v-model="filters.price_category"
         row
         outlined
         hide-details
@@ -171,7 +171,7 @@ export default {
     return {
       filters: {
         search: '',
-        b2b: 'b2b',
+        price_category: 'b2b',
         stars: [],
         price: [100, 2000],
         room_type: 'DBL',
@@ -205,7 +205,7 @@ export default {
       this.filters = {
         search: '',
         stars: [],
-        b2b: 'b2b',
+        price_category: 'b2b',
         price: [100, 2000],
         room_type: 'DBL',
         amenities: [],

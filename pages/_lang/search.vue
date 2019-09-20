@@ -106,7 +106,7 @@ export default {
 
           this.hotels = res.data.hotels
 
-          this.sideHotels = await Hotel.include('chain', 'location', 'location.parent', 'media')
+          this.sideHotels = await Hotel.include('chain', 'location', 'location.parent', 'media', 'star')
             .where('category_id', 'exc')
             .limit(4)
             .get()
@@ -129,6 +129,7 @@ export default {
       this.filters = newFilters
     },
     showDetails(id, show){
+        console.log(this.hotels)
       this.hotels.map(h => {
         if(h.id === id)
           h.details = show

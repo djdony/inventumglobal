@@ -6,7 +6,7 @@
       .hotel__info
         h3.info__title
           .hotel-stars
-            span(v-text='star')
+            span(v-text='star.name')
           span(v-text='name')
 
         .info__regions(v-text="`${location.parent.name} / ${location.name}`")
@@ -42,7 +42,7 @@
         props: {
           id: Number,
           name: String,
-          star: String,
+          star: Object,
           chain: Object,
           formatted_area: String,
           location: Object,

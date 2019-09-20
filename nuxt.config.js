@@ -43,8 +43,12 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@ax2/dayjs-module'
+    '@ax2/dayjs-module',
+    'nuxt-purgecss'
   ],
+  purgeCSS: {
+    mode: 'postcss'
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -89,7 +93,8 @@ export default {
    ** Build configuration
    */
   build: {
-    sourceMap: false,
+
+
     /*
      ** You can extend webpack config here
      */

@@ -163,7 +163,8 @@ export default {
         'restaurants.media',
         'restaurants.cuisines',
         'restaurants.type',
-        'media'
+        'media',
+        'star'
       ]).find(route.params.id)
 
       return { hotel }

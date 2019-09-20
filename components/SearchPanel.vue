@@ -105,12 +105,11 @@ export default {
         pax: null,
         sortby: 'price',
         product_id: 1,
-
         // signals that there's a query from search-panel
         searchPanel: true
       },
       dateMessage: ['Choose departure day', 'Choose arrival day', ''],
-      sortItems: ['price', 'stars'],
+      sortItems: ['price', 'region', 'chain', 'name'],
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,
@@ -279,6 +278,9 @@ export default {
       this.filters.arrival_date = this.$dayjs(this.filters.departure_date)
         .add(this.filters.nights, 'day')
         .format('YYYY-MM-DD')
+    },
+    'filters.sortby'(){
+      this.search()
     }
   },
   props: {

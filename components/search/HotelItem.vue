@@ -10,7 +10,7 @@
           span(v-text='name')
           v-spacer
           .hotel-package
-            span(v-text='price.package + " " + curSymb')
+            span(v-html='price.package + "&nbsp;" + curSymb')
 
         .info__regions(v-text="`${city} / ${region}`")
 

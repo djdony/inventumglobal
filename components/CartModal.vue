@@ -74,10 +74,16 @@
                 p.cart-page__title Note
                 v-textarea(v-model='order.note' outlined placeholder='Type your note here' hide-details)
 
-      v-row(wrap v-if="orders.length > 0").align-center.justify-end.my-8
-        v-checkbox(v-model='agree' label='I agree that...' hide-details).mr-2.mb-4
+      v-row(wrap v-if="orders.length > 0").align-center.my-8
+        v-checkbox(v-model='agree' hide-details).mr-2.mb-4
+          template(v-slot:label)
+            div
+              | I agree The information contained in this site is provided for informational purposes only,
+              br/
+              | and should not be construed as legal advice on any subject matter.!
+        v-spacer
         .px-3
-          v-btn(color='primary' x-large @click='send').custom Send all orders
+          v-btn(:disabled='!agree' color='primary' x-large @click='send').custom Send all orders
 
 </template>
 <script>

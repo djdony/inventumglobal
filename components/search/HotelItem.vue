@@ -8,8 +8,8 @@
           .hotel-stars
             span(v-text='stars')
           span(v-text='name')
-          v-spacer
-          .hotel-package
+          //v-spacer
+          //.hotel-package
             span(v-html='price.package + "&nbsp;" + curSymb')
 
         .info__regions(v-text="`${city} / ${region}`")
@@ -35,12 +35,13 @@
 
             table
               tbody
-                tr.props__item
-                  td: b Only Ticket:
-                  td: span(v-text='price.flight + " " + curSymb')
                 .props__title PP in DBL sharing room
                 tr.props__item
-                  td: b Landing:
+                  td: b Package Price:
+                  td: span(v-text='price.package + " " + curSymb')
+
+                tr.props__item
+                  td: b Land Package:
                   td: span(v-text='price.landing + " " + curSymb')
                 tr.props__item
                   td: b Pre Post:

@@ -48,7 +48,7 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Price
+        span.filter-item__title Package Price
       .filter-item__row.text-input
         v-text-field(
           v-model='filters.price[0]'

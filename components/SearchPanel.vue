@@ -77,11 +77,17 @@ div
       v-menu(offset-y)
         template(v-slot:activator="{ on }")
           span(v-on="on").select 
-            span.name {{ filters.sortby }}
+            span.name
+              span(v-if="filters.sortby == 'price_asc'") Price 
+              v-icon(v-if="filters.sortby == 'price_asc'" size='20') mdi-sort-ascending
+              span(v-if="filters.sortby == 'price_desc'") Price 
+              v-icon(v-if="filters.sortby == 'price_desc'" size='20') mdi-sort-descending
               v-icon(size='20') mdi-chevron-down
         v-list(color='white')
-          v-list-item(@click='filters.sortby = item' v-for='item in sortItems' :key='item')
-            v-list-item-title(v-text='item').text-capitalize
+          v-list-item(v-for='item in sortItems' :key='item.id' @click='filters.sortby = item.id')
+            v-list-item-title.text-capitalize
+              | {{ item.name }} &nbsp;
+              v-icon(size='20') {{ item.icon }}
 
 </template>
 
@@ -103,13 +109,16 @@ export default {
         dbl: null,
         trpl: null,
         pax: null,
-        sortby: 'price',
+        sortby: 'price_asc',
         product_id: 1,
         // signals that there's a query from search-panel
         searchPanel: true
       },
       dateMessage: ['Choose departure day', 'Choose arrival day', ''],
-      sortItems: ['price', 'region', 'chain', 'name'],
+      sortItems: [
+        { id: 'price_asc', dir: 'asc', name: 'Price', icon: 'mdi-sort-ascending' },
+        { id: 'price_desc', dir: 'desc', name: 'Price', icon: 'mdi-sort-descending' }
+      ],
       dateMenu: null,
       eventSizeMenu: null,
       fromMenu: null,

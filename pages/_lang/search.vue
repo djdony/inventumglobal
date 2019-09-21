@@ -22,13 +22,23 @@
           //- HOTELS
 
           hotel-item(
-            v-else
+            v-if="excHotels.length > 0"
+            v-for='h in excHotels'
+            :key='`h-${h.id}`'
+            v-bind='h'
+            :details="h.details || false"
+            @show-details="showDetails"
+          )
+
+          hotel-item(
+            v-if="hotels.length > 0"
             v-for='(hotel, index) in hotels'
             :key='index'
             v-bind='hotel'
             :details="hotel.details || false"
             @show-details="showDetails"
           )
+
           v-spacer
 
         //- SIDE HOTELS
@@ -65,6 +75,7 @@ export default {
         total: 0
       },
       hotels: [],
+      excHotels: [],
       sideHotels: [],
       menu: null,
       date: null,
@@ -104,7 +115,8 @@ export default {
           )
           this.pagination.total = res.data.total
 
-          this.hotels = res.data.hotels
+          this.hotels = res.data.hotels.filter(h => h.category_id != 'exc')
+          this.excHotels = res.data.hotels.filter(h => h.category_id == 'exc')
 
           this.sideHotels = await Hotel.include('chain', 'location', 'location.parent', 'media', 'star')
             .where('category_id', 'exc')

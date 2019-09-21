@@ -6,10 +6,10 @@
       .hotel__info
         h3.info__title
           .hotel-stars
-            span(v-text='stars')
+            span(v-html='stars')
           span(v-text='name')
           //v-spacer
-          //.hotel-package
+          .hotel-package
             span(v-html='price.package + "&nbsp;" + curSymb')
 
         .info__regions(v-text="`${city} / ${region}`")

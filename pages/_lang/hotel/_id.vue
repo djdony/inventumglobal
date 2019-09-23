@@ -45,15 +45,15 @@
                     tr.block-list__item
                       td.item__param Total Rooms
                       td.item__value : {{ roomsQty }}
-                    //tr.block-list__item
+                    tr.block-list__item
                       td.item__param Guest Rooms
-                      td.item__value : {{ guestsQty }}
-                    //tr.block-list__item
+                      td.item__value : {{ roomTypes.guests }}
+                    tr.block-list__item
                       td.item__param Suites
-                      td.item__value : {{ suitesQty }}
-                    //tr.block-list__item
+                      td.item__value : {{ roomTypes.suites }}
+                    tr.block-list__item
                       td.item__param Villas
-                      td.item__value : {{ villasQty }}
+                      td.item__value : {{ roomTypes.villas }}
 
 
               .details__block
@@ -62,7 +62,10 @@
                   tbody
                     tr.block-list__item
                       td.item__param Total Meeting Rooms
-                      td.item__value :
+                      td.item__value : {{ hotel.meeting_rooms.length }}
+                    tr.block-list__item
+                      td.item__param Largest space
+                      td.item__value(v-html="` : ${largestSpace}`")
 
 
               .details__block
@@ -74,7 +77,8 @@
                       td.item__value : {{ hotel.location.name }}
                     tr.block-list__item
                       td.item__param Airport
-                      td.item__value : {{ hotel.distance.distance }} km
+                      td.item__value(v-if="hotel.hasOwnProperty('distance')")
+                        | : {{ hotel.distance.pivot.distance }} km
 
 
               .details__block
@@ -173,7 +177,8 @@ export default {
         'restaurants.cuisines',
         'restaurants.type',
         'media',
-        'star'
+        'star',
+        'distances'
       ]).find(route.params.id)
 
       return { hotel }
@@ -197,26 +202,12 @@ export default {
         return 'N/A'
       }
     },
-    guestsQty: function() {
-        if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
-            return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
-        } else {
-            return 'N/A'
-        }
-    },
-    suitesQty: function() {
-        if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
-            return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
-        } else {
-            return 'N/A'
-        }
-    },
-    villasQty: function() {
-        if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
-            return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
-        } else {
-            return 'N/A'
-        }
+    roomTypes: function(){
+      return {
+        guests: this.hotel.rooms.filter(r => r.type === 0).reduce((a, b) => a+b.qty, 0),
+        suites: this.hotel.rooms.filter(r => r.type === 1).reduce((a, b) => a+b.qty, 0),
+        villas: this.hotel.rooms.filter(r => r.type === 2).reduce((a, b) => a+b.qty, 0)
+      }
     },
     roomsMedia: function(){
       return this.hotel.rooms.reduce((a, b) => {
@@ -235,6 +226,10 @@ export default {
         b.media.forEach(m => a.push({ ...m, name: b.name }))
         return a
       }, [])
+    },
+    largestSpace: function(){
+      let areas = this.hotel.meeting_rooms.map(m => Number(m.area))
+      return areas.length ? Math.max(...areas) + ' m<sup>2</sup>' : 'N/A'
     }
   },
   components: {

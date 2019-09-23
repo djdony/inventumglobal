@@ -92,10 +92,10 @@
           //- Restaurants
           v-tab-item
             v-card(elevation='0').tab-item.general-tab
-              //restaurant(:restaurants='hotel.restaurants')
+              restaurant(:restaurants='hotel.restaurants')
 
           //- Amenities
-          v-tab-item
+          //v-tab-item
             v-card(elevation='0').tab-item.general-tab
               amenities(:amenities='hotel.amenities')
 

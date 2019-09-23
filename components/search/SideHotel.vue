@@ -19,6 +19,9 @@
                   td: b Total Area:
                   td: span(v-text='formatted_area + " m2"')
                 tr.props__item
+                  td: b Total Rooms:
+                  td: span(v-text='formatted_area')
+                tr.props__item
                   td: b Chain Scale:
                   td: span(v-if="chain" v-text='chain.name')
 

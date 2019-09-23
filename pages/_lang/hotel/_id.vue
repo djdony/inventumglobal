@@ -45,6 +45,15 @@
                     tr.block-list__item
                       td.item__param Total Rooms
                       td.item__value : {{ roomsQty }}
+                    //tr.block-list__item
+                      td.item__param Guest Rooms
+                      td.item__value : {{ guestsQty }}
+                    //tr.block-list__item
+                      td.item__param Suites
+                      td.item__value : {{ suitesQty }}
+                    //tr.block-list__item
+                      td.item__param Villas
+                      td.item__value : {{ villasQty }}
 
 
               .details__block
@@ -187,6 +196,27 @@ export default {
       } else {
         return 'N/A'
       }
+    },
+    guestsQty: function() {
+        if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
+            return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
+        } else {
+            return 'N/A'
+        }
+    },
+    suitesQty: function() {
+        if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
+            return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
+        } else {
+            return 'N/A'
+        }
+    },
+    villasQty: function() {
+        if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
+            return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
+        } else {
+            return 'N/A'
+        }
     },
     roomsMedia: function(){
       return this.hotel.rooms.reduce((a, b) => {

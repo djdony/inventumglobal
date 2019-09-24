@@ -37,14 +37,14 @@
         outlined
         hide-details
         )
-        v-tooltip(bottom)
-          template(v-slot:activator="{ on }")
-            v-radio(label="B2B" value="b2b" v-on="on").mr-2
-          span Price for agencies
-        v-tooltip(bottom)
-          template(v-slot:activator="{ on }")
-            v-radio(label="B2C" value="b2c" v-on="on").ml-2
-          span Price for clients
+          //v-tooltip(bottom)
+            template(v-slot:activator="{ on }")
+          v-radio(label="B2B" value="b2b").mr-2
+          //span Price for agencies
+            //v-tooltip(bottom)
+              template(v-slot:activator="{ on }")
+          v-radio(label="B2C" value="b2c").ml-2
+          //span Price for clients
 
     .filter-item
       .filter-item__row.mb-2
@@ -177,7 +177,7 @@ export default {
     return {
       filters: {
         search: '',
-        price_category: 'b2b',
+        price_category: 'b2c',
         stars: [],
         price: [100, 2000],
         room_type: 'DBL',

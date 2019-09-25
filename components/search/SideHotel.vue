@@ -18,7 +18,7 @@
                   td: span(v-text='formatted_area + " m2"')
                 tr.props__item
                   td: b Total Rooms:
-                  td: span(v-text='formatted_area')
+                  td: span(v-text='roomTypes.total')
                 tr.props__item
                   td: b Chain Scale:
                   td: span(v-if="chain" v-text='chain.name')
@@ -28,7 +28,7 @@
                 tr.props__item
                   td: b Suites:
                   td: span {{ roomTypes.suites }}
-                tr.props__item
+                tr(v-if="`{{roomTypes.villas}} =1`").props__item
                   td: b Villas:
                   td: span {{ roomTypes.villas }}
         .info__actions.compact
@@ -59,6 +59,7 @@ export default {
   computed: {
     roomTypes: function(){
       return {
+        total: this.rooms.reduce((a, b) => a+b.qty, 0),
         guests: this.rooms.filter(r => r.type === 0).reduce((a, b) => a+b.qty, 0),
         suites: this.rooms.filter(r => r.type === 1).reduce((a, b) => a+b.qty, 0),
         villas: this.rooms.filter(r => r.type === 2).reduce((a, b) => a+b.qty, 0)

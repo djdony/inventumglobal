@@ -78,9 +78,9 @@ div
         template(v-slot:activator="{ on }")
           span(v-on="on").select 
             span.name
-              span(v-if="filters.sortby == 'price_asc'") Price 
+              span(v-if="filters.sortby == 'price_asc'") Price low
               v-icon(v-if="filters.sortby == 'price_asc'" size='20') mdi-sort-ascending
-              span(v-if="filters.sortby == 'price_desc'") Price 
+              span(v-if="filters.sortby == 'price_desc'") Price high
               v-icon(v-if="filters.sortby == 'price_desc'" size='20') mdi-sort-descending
               v-icon(size='20') mdi-chevron-down
         v-list(color='white')
@@ -116,8 +116,8 @@ export default {
       },
       dateMessage: ['Choose departure day', 'Choose arrival day', ''],
       sortItems: [
-        { id: 'price_asc', dir: 'asc', name: 'Price', icon: 'mdi-sort-ascending' },
-        { id: 'price_desc', dir: 'desc', name: 'Price', icon: 'mdi-sort-descending' }
+        { id: 'price_asc', dir: 'asc', name: 'Price Low', icon: 'mdi-sort-ascending' },
+        { id: 'price_desc', dir: 'desc', name: 'Price High', icon: 'mdi-sort-descending' }
       ],
       dateMenu: null,
       eventSizeMenu: null,

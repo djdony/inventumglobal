@@ -20,7 +20,9 @@
                   span(v-text='hotel.star.name').stars__value
                 span(v-text='hotel.name')
 
-              .info__regions(v-text='hotel.location.name')
+              //.info__regions(v-text='hotel.location.name')
+              .info__regions(v-text="`${city} / ${region}`")
+
 
           .content__row
             .details
@@ -92,17 +94,27 @@
                       td.item__param Web
                       td.item__value : {{ hotel.www }}
 
+          // Tabs
+        v-tabs
+          v-tab Overview
+          v-tab Gallery
+          v-tab Rooms
+          v-tab Meeting rooms
+          v-tab Restaurants
+          //v-tab Amenities
+          v-tab Location
 
-      //- OVERVIEW PART
-
+            //- OVERVIEW PART
+          v-tab-item
+            v-card
       v-card.details__section.overview
         h3.section__title Overview
         .overview__content
           p(v-html='hotel.description')
 
 
-      //- OVERVIEW PART
-
+      //- Photo Gallery
+      v-tab-item
       v-card(v-if='hotel.media.length > 0').details__section.gallery
         h3.section__title Photo Gallery
         .images-wrapper
@@ -115,31 +127,39 @@
           )
 
       //- ROOMS PART
-
+      v-tab-item
       v-card.details__section.rooms
         h3.section__title Rooms &amp; Suites
         .rooms__count
           .count__item
-            b Number of rooms: 
+            b Number of rooms:
             span {{ roomsQty }}
 
         rooms(v-model="hotel.rooms")
-              
-        carousel(:media="roomsMedia" v-if='roomsMedia.length > 0') 
 
-        //- MEETING SPACE PART
+        carousel(:media="roomsMedia" v-if='roomsMedia.length > 0')
 
+      //- Restaurants
+      v-tab-item
       v-card.details__section.restaurants
         h3.section__title Restaurants
         //restaurant-table(:restaurants='hotel.restaurants')
 
         carousel(:media="restaurantsMedia" v-if='restaurantsMedia.length > 0')
+
+
         //- MEETING SPACE PART
+      v-tab-item
       v-card.details__section.rooms
         h3.section__title Meeting Rooms
         meeting-rooms(v-model="hotel.meeting_rooms")
         carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
+
+        //- Location PART
+      v-tab-item
       location(v-model="hotel" v-if="hotel.map")
+
+      //- Galery PART
     v-dialog(v-model="showGallery")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close

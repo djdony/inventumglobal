@@ -21,13 +21,26 @@
                 span(v-text='hotel.name')
 
               //.info__regions(v-text='hotel.location.name')
-              .info__regions(v-text="`${city} / ${region}`")
-
+              .info__regions(v-text="`${hotel.city} / ${hotel.location.name}`")
 
           .content__row
             .details
               .details__block
-                .block__title Physical Features 
+                .block__title Chain Scales
+                table.block__list
+                  tbody
+                    tr.block-list__item
+                      td.item__param Chain Scale
+                        td.item__value : {{ hotel.name }}
+                    tr.block-list__item
+                      td.item__param Brand
+                        td.item__value : {{ hotel.group_id }}
+                    tr(v-if="hotel.chain").block-list__item
+                      td.item__param Scale
+                        td.item__value : {{ hotel.chain.name }}
+
+              .details__block
+                .block__title Physical Features
                 table.block__list
                   tbody
                     tr.block-list__item
@@ -39,21 +52,21 @@
                     tr.block-list__item
                       td.item__param Total Area
                         td.item__value : {{ hotel.area }}
-                    
+
               .details__block
                 .block__title Rooms &amp; Villas
                 table.block__list
                   tbody
                     tr.block-list__item
-                      td.item__param Total Rooms
+                      td.item__param Number of Rooms
                       td.item__value : {{ roomsQty }}
                     tr.block-list__item
                       td.item__param Guest Rooms
                       td.item__value : {{ roomTypes.guests }}
-                    tr.block-list__item
+                    tr(v-if="roomTypes.suites").block-list__item
                       td.item__param Suites
                       td.item__value : {{ roomTypes.suites }}
-                    tr.block-list__item
+                    tr(v-if="roomTypes.villas").block-list__item
                       td.item__param Villas
                       td.item__value : {{ roomTypes.villas }}
 
@@ -63,27 +76,37 @@
                 table.block__list
                   tbody
                     tr.block-list__item
-                      td.item__param Total Meeting Rooms
+                      td.item__param Meeting Rooms
                       td.item__value : {{ hotel.meeting_rooms.length }}
+                    tr.block-list__item
+                      td.item__param Total Meeting space
+                      td.item__value(v-html="` : ${totalSpace}` + ' m<sup>2</sup>'")
                     tr.block-list__item
                       td.item__param Largest space
                       td.item__value(v-html="` : ${largestSpace}`")
+                    tr.block-list__item
+                      td.item__param Space (Outdoor)
+                      td.item__value : Yes
+
 
 
               .details__block
-                .block__title Location 
+                .block__title Location
                 table.block__list
                   tbody
                     tr.block-list__item
-                      td.item__param Region
-                      td.item__value : {{ hotel.location.name }}
+                      td.item__param From {{ hotel.location.name }} Airport
                     tr.block-list__item
-                      td.item__param Airport
+                      td.item__param Distance
                       td.item__value(v-if="hotel.hasOwnProperty('distance')")
                         | : {{ hotel.distance.pivot.distance }} km
+                    tr.block-list__item
+                      td.item__param Transfer time
+                      td.item__value(v-if="hotel.hasOwnProperty('distance')")
+                        | : {{ byCar}} minute by car
 
 
-              .details__block
+              //.details__block
                 .block__title Information
                 table.block__list
                   tbody
@@ -95,10 +118,9 @@
                       td.item__value : {{ hotel.www }}
 
           // Tabs
-        v-tabs
-          v-tab Overview
+        v-tabs(centered)
           v-tab Gallery
-          v-tab Rooms
+          v-tab(key="rooms") Rooms
           v-tab Meeting rooms
           v-tab Restaurants
           //v-tab Amenities
@@ -126,14 +148,29 @@
             @click="showGallery = true"
           )
 
-      //- ROOMS PART
-      v-tab-item
+              //- ROOMS PART
+          v-tab-item(:key="rooms")
       v-card.details__section.rooms
         h3.section__title Rooms &amp; Suites
         .rooms__count
-          .count__item
-            b Number of rooms:
-            span {{ roomsQty }}
+          tr.count__item
+            td
+              b Total Rooms
+            td : {{ roomsQty }}
+          tr.count__item
+            td
+              b Guest Rooms
+            td : {{ roomTypes.guests }}
+          tr(v-if="roomTypes.suites").count__item
+            td
+              b Suite Rooms
+            td : {{ roomTypes.suites }}
+          tr(v-if="roomTypes.villas").count__item
+            td
+              b Villas
+            td : {{ roomTypes.villas }}
+
+
 
         rooms(v-model="hotel.rooms")
 
@@ -142,8 +179,8 @@
       //- Restaurants
       v-tab-item
       v-card.details__section.restaurants
-        h3.section__title Restaurants
-        //restaurant-table(:restaurants='hotel.restaurants')
+        h3.section__title Restaurant & Bars
+        restaurant-table(:restaurants='hotel.restaurants')
 
         carousel(:media="restaurantsMedia" v-if='restaurantsMedia.length > 0')
 
@@ -160,7 +197,7 @@
       location(v-model="hotel" v-if="hotel.map")
 
       //- Galery PART
-    v-dialog(v-model="showGallery")
+    v-dialog(v-model="showGallery" width="60%")
       v-btn(dark icon @click="showGallery = false")
         v-icon mdi-close
       gallery(v-model="hotel.media")
@@ -198,6 +235,8 @@ export default {
         'restaurants.type',
         'media',
         'star',
+        'chain',
+        'hotelgroup',
         'distances'
       ]).find(route.params.id)
 
@@ -222,6 +261,9 @@ export default {
         return 'N/A'
       }
     },
+    byCar: function() {
+         return Math.ceil(this.hotel.distance.pivot.distance*1.23)
+    } ,
     roomTypes: function(){
       return {
         guests: this.hotel.rooms.filter(r => r.type === 0).reduce((a, b) => a+b.qty, 0),
@@ -250,7 +292,13 @@ export default {
     largestSpace: function(){
       let areas = this.hotel.meeting_rooms.map(m => Number(m.area))
       return areas.length ? Math.max(...areas) + ' m<sup>2</sup>' : 'N/A'
-    }
+    },
+      totalSpace: function(){
+          let areas = this.hotel.meeting_rooms.filter(m => m.parent_id === null).map(m => Number(m.area))
+          return areas.reduce(function (a, b) {
+              return a + b
+          }, 0);
+      }
   },
   components: {
     RestaurantTable,

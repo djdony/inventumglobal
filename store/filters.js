@@ -11,6 +11,9 @@ export default {
     hotelCategories: [],
     hotelChains: [],
     ceilingHeight: 20,
+    room: 20,
+    mroom: 20,
+    area: 20,
     meetingRoomCap: 18000,
     maxdistance: 300
   }),
@@ -46,6 +49,9 @@ export default {
       state.toLocations     = data.toLocations
       state.products        = data.products
       state.price           = data.price
+      state.room           = data.room
+      state.mroom           = data.mroom
+      state.area           = data.area
       state.b2b             = data.b2b
       state.roomTypes       = data.roomTypes
       state.hotelAmenities  = data.hotelAmenities

@@ -128,6 +128,62 @@
 
     .filter-item
       .filter-item__row.mb-2
+        span.filter-item__title Total Rooms
+      .filter-item__row.text-input
+        v-text-field(
+          v-model='filters.room[0]'
+          outlined
+          hide-details
+          label="Min"
+        ).mr-2
+        span &mdash;
+        v-text-field(
+          v-model='filters.room[1]'
+          outlined
+          hide-details
+          label="Max"
+        ).ml-2
+
+    .filter-item
+      .filter-item__row.mb-2
+        span.filter-item__title Total Meeting Rooms
+      .filter-item__row.text-input
+        v-text-field(
+          v-model='filters.mroom[0]'
+          outlined
+          hide-details
+          label="Min"
+        ).mr-2
+        span &mdash;
+        v-text-field(
+          v-model='filters.mroom[1]'
+          outlined
+          hide-details
+          label="Max"
+        ).ml-2
+
+    .filter-item
+      .filter-item__row.mb-2
+        span.filter-item__title Meeting Space
+      .filter-item__row.text-input
+        v-text-field(
+          v-model='filters.space[0]'
+          outlined
+          hide-details
+          label="Min"
+          prefix="m2"
+        ).mr-2
+        span &mdash;
+        v-text-field(
+          v-model='filters.space[1]'
+          outlined
+          hide-details
+          label="Max"
+          prefix="m2"
+        ).ml-2
+
+    .filter-item
+      .filter-item__row.mb-2
         span.filter-item__title Ceiling height
         v-icon(size='16').filter-item__more mdi-dots-horizontal
       .filter-item__row.values
@@ -179,7 +235,10 @@ export default {
         search: '',
         price_category: 'b2c',
         stars: [],
+        space: [0, 50000],
         price: [100, 2000],
+        room: [0, 1000],
+        mroom: [0, 50],
         room_type: 'DBL',
         amenities: [],
         chains: [],

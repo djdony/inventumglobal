@@ -13,9 +13,12 @@ export default {
     ceilingHeight: 20,
     room: 20,
     mroom: 20,
-    area: 20,
+    area: 20, 
     meetingRoomCap: 18000,
-    maxdistance: 300
+    largestMeetinRoomArea: 10000,
+    maxDistance: 300,
+    maxRooms: 1200,
+    maxMeetingRooms: 50
   }),
   getters: {
     fromLocationsList(state) {
@@ -45,22 +48,24 @@ export default {
   },
   mutations: {
     SET_FILTERS(state, data) {
-      state.fromLocations   = data.fromLocations
-      state.toLocations     = data.toLocations
-      state.products        = data.products
-      state.price           = data.price
-      state.room           = data.room
-      state.mroom           = data.mroom
-      state.area           = data.area
-      state.b2b             = data.b2b
-      state.roomTypes       = data.roomTypes
-      state.hotelAmenities  = data.hotelAmenities
-      state.hotelCategories = data.hotelCategories
-      state.hotelChains     = data.hotelChains
-      state.ceilingHeight   = data.ceilingHeight
-      state.meetingRoomCap  = data.meetingRoomCap
-      state.minDate         = data.minDate
-      state.maxDate         = data.maxDate
+      state.fromLocations         = data.fromLocations
+      state.toLocations           = data.toLocations
+      state.products              = data.products
+      state.price                 = data.price
+      state.room                  = data.room
+      state.mroom                 = data.mroom
+      state.largestMeetinRoomArea = data.mroomArea
+      state.b2b                   = data.b2b
+      state.roomTypes             = data.roomTypes
+      state.hotelAmenities        = data.hotelAmenities
+      state.hotelCategories       = data.hotelCategories
+      state.hotelChains           = data.hotelChains
+      state.ceilingHeight         = data.ceilingHeight
+      state.meetingRoomCap        = data.meetingRoomCap
+      state.minDate               = data.minDate
+      state.maxDate               = data.maxDate
+      state.maxRooms              = data.maxRooms
+      state.maxMeetingRooms       = data.maxMeetingRooms
     },
     SET_MAX_PRICE(state, data){
       state.price = data

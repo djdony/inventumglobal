@@ -110,24 +110,6 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Seating capacity (pax)
-      .filter-item__row.text-input
-        v-text-field(
-          v-model='filters.meetingRooms[0]'
-          outlined
-          label="Min"
-          hide-details
-          ).mr-2
-        span &mdash;
-        v-text-field(
-          v-model='filters.meetingRooms[1]'
-          outlined
-          label="Max"
-          hide-details
-        ).ml-2
-
-    .filter-item
-      .filter-item__row.mb-2
         span.filter-item__title Total Rooms
       .filter-item__row.text-input
         v-text-field(
@@ -164,22 +146,20 @@
 
     .filter-item
       .filter-item__row.mb-2
-        span.filter-item__title Meeting Space
+        span.filter-item__title Largest meeting space, m2
       .filter-item__row.text-input
         v-text-field(
-          v-model='filters.space[0]'
+          v-model='filters.mroom_area[0]'
           outlined
           hide-details
           label="Min"
-          prefix="m2"
         ).mr-2
         span &mdash;
         v-text-field(
-          v-model='filters.space[1]'
+          v-model='filters.mroom_area[1]'
           outlined
           hide-details
           label="Max"
-          prefix="m2"
         ).ml-2
 
     .filter-item
@@ -235,24 +215,27 @@ export default {
         search: '',
         price_category: 'b2c',
         stars: [],
-        space: [0, 50000],
         price: [100, 2000],
-        room: [0, 1000],
+        room: [0, 1200],
         mroom: [0, 50],
         room_type: 'DBL',
         amenities: [],
         chains: [],
         categories: [],
-        meetingRooms: [0, 18000],
+        mroom_area: [0, 18000],
         ceilingHeight: [0, 20],
         distance: [0, 300],
         searchFilters: true
       },
-      rangeFields: ['price', 'meetingRooms', 'ceilingHeight', 'distance']
+      rangeFields: ['price', 'mroom_area', 'ceilingHeight', 'distance']
     }
   },
   async mounted() {
     let query = qs.parse(location.search.slice(1))
+    this.filters.room[1] = !query.hasOwnProperty('room') ? this.filtersData.maxRooms : query.room[1]
+    this.filters.mroom[1] = !query.hasOwnProperty('mroom') ? this.filtersData.maxMeetingRooms : query.mroom[1]
+    this.filters.mroom_area[1] = !query.hasOwnProperty('mroom_area') ? this.filtersData.largestMeetinRoomArea : query.mroom_area[1]
+
     if (query.searchFilters) {
       this.watchRangesMaxValues('setGetValues', query)
     } else {
@@ -275,7 +258,7 @@ export default {
         room_type: 'DBL',
         amenities: [],
         chains: [],
-        meetingRooms: [0, 18000],
+        mroom_area: [0, 18000],
         ceilingHeight: [0, 20],
         distance: [0, 300],
         searchFilters: true
@@ -284,10 +267,8 @@ export default {
       this.search()
     },
     resetRangesMaxValues() {
-      console.log(this.filtersData)
-
       this.$set(this.filters.price, 1, this.filtersData.price)
-      this.$set(this.filters.meetingRooms, 1, this.filtersData.meetingRoomCap)
+      this.$set(this.filters.mroom_area, 1, this.filtersData.meetingRoomCap)
       this.$set(this.filters.ceilingHeight, 1, this.filtersData.ceilingHeight)
       this.$set(this.filters.distance, 1, this.filtersData.maxdistance)
     },

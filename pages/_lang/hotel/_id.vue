@@ -34,7 +34,7 @@
                         td.item__value : {{ hotel.name }}
                     tr.block-list__item
                       td.item__param Brand
-                        td.item__value : {{ hotel.group_id }}
+                        td.item__value : {{ hotel.hotelgroup.name }}
                     tr(v-if="hotel.chain").block-list__item
                       td.item__param Scale
                         td.item__value : {{ hotel.chain.name }}
@@ -118,17 +118,15 @@
                       td.item__value : {{ hotel.www }}
 
           // Tabs
-        v-tabs(centered)
-          v-tab Gallery
-          v-tab(key="rooms") Rooms
-          v-tab Meeting rooms
-          v-tab Restaurants
-          //v-tab Amenities
-          v-tab Location
+        v-tabs(centered @change="scrollTo($event)")
+          v-tab(value="gallery") Gallery
+          v-tab(value="rooms") Rooms
+          v-tab(value="meeting") Meeting rooms
+          v-tab(value="restaurants") Restaurants
+          //v-tab(value="amenities") Amenities
+          v-tab(value="location") Location
 
             //- OVERVIEW PART
-          v-tab-item
-            v-card
       v-card.details__section.overview
         h3.section__title Overview
         .overview__content
@@ -136,8 +134,8 @@
 
 
       //- Photo Gallery
-      v-tab-item
-      v-card(v-if='hotel.media.length > 0').details__section.gallery
+
+      v-card(v-if='hotel.media.length > 0' ref="0").details__section.gallery
         h3.section__title Photo Gallery
         .images-wrapper
           v-img(
@@ -149,8 +147,7 @@
           )
 
               //- ROOMS PART
-          v-tab-item(:key="rooms")
-      v-card.details__section.rooms
+      v-card.details__section.rooms(ref="1")
         h3.section__title Rooms &amp; Suites
         .rooms__count
           tr.count__item
@@ -176,25 +173,24 @@
 
         carousel(:media="roomsMedia" v-if='roomsMedia.length > 0')
 
+
+
+
+        //- MEETING SPACE PART
+      v-card.details__section.rooms(ref="2")
+        h3.section__title Meeting Rooms
+        meeting-rooms(v-model="hotel.meeting_rooms")
+        carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
+
       //- Restaurants
-      v-tab-item
-      v-card.details__section.restaurants
+      v-card.details__section.restaurants(ref="3")
         h3.section__title Restaurant & Bars
         restaurant-table(:restaurants='hotel.restaurants')
 
         carousel(:media="restaurantsMedia" v-if='restaurantsMedia.length > 0')
 
-
-        //- MEETING SPACE PART
-      v-tab-item
-      v-card.details__section.rooms
-        h3.section__title Meeting Rooms
-        meeting-rooms(v-model="hotel.meeting_rooms")
-        carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
-
         //- Location PART
-      v-tab-item
-      location(v-model="hotel" v-if="hotel.map")
+      location(v-model="hotel" v-if="hotel.map" ref="4")
 
       //- Galery PART
     v-dialog(v-model="showGallery" width="60%")
@@ -251,7 +247,13 @@ export default {
   created() {},
   methods: {
     ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
-    ...mapActions({ addToCart: 'cart/addHotel' })
+    ...mapActions({ addToCart: 'cart/addHotel' }),
+    scrollTo(ref) {
+      let el  = this.$refs[ref]
+      let top = null
+      if(el) top = el.$el.offsetTop+80
+      if(top) window.scrollTo(0, top)
+    }
   },
   computed: {
     roomsQty: function() {
@@ -293,12 +295,12 @@ export default {
       let areas = this.hotel.meeting_rooms.map(m => Number(m.area))
       return areas.length ? Math.max(...areas) + ' m<sup>2</sup>' : 'N/A'
     },
-      totalSpace: function(){
-          let areas = this.hotel.meeting_rooms.filter(m => m.parent_id === null).map(m => Number(m.area))
-          return areas.reduce(function (a, b) {
-              return a + b
-          }, 0);
-      }
+    totalSpace: function(){
+        let areas = this.hotel.meeting_rooms.filter(m => m.parent_id === null).map(m => Number(m.area))
+        return areas.reduce(function (a, b) {
+            return a + b
+        }, 0);
+    }
   },
   components: {
     RestaurantTable,

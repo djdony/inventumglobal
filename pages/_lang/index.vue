@@ -37,7 +37,7 @@
           .buttons-wrapper
             v-btn(color='primary' elevation='24').custom.mr-2
               span.price.font-weight-medium From
-              span.font-weight-light.ml-1 €1,295
+              span.font-weight-light.ml-1 €1,058
             v-btn(text color='secondary').custom
               v-icon mdi-cart
               span.font-weight-medium Add to Cart

@@ -14,23 +14,23 @@
             table
               tbody
                 tr.props__item
-                  td: b Total Area:
-                  td: span(v-text='formatted_area + " m2"')
+                  td: b Total Area
+                  td: span(v-text='": "+ formatted_area + " m2"')
                 tr.props__item
-                  td: b Total Rooms:
-                  td: span(v-text='roomTypes.total')
+                  td: b Total Rooms
+                  td: span(v-text='": "+ roomTypes.total')
                 tr.props__item
-                  td: b Chain Scale:
-                  td: span(v-if="chain" v-text='chain.name')
+                  td: b Chain Scale
+                  td: span(v-if="chain" v-text='": "+ chain.name')
                 tr.props__item
-                  td: b Guest rooms:
-                  td: span {{ roomTypes.guests }}
+                  td: b Guest rooms
+                  td: span : {{ roomTypes.guests }}
                 tr.props__item
-                  td: b Suites:
-                  td: span {{ roomTypes.suites }}
-                tr(v-if="`{{roomTypes.villas}} =1`").props__item
-                  td: b Villas:
-                  td: span {{ roomTypes.villas }}
+                  td: b Suites
+                  td: span : {{ roomTypes.suites }}
+                tr(v-if="roomTypes.villas").props__item
+                  td: b Villas
+                  td: span : {{ roomTypes.villas }}
         .info__actions.compact
           v-btn.custom(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)") Details
           v-btn.custom(color='primary' small @click.stop="addToCart") Select Hotel

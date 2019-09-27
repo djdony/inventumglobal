@@ -44,7 +44,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@ax2/dayjs-module',
-    'nuxt-purgecss'
+    //'nuxt-purgecss'
   ],
   purgeCSS: {
     mode: 'postcss'

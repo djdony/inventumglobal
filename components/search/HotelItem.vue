@@ -19,17 +19,16 @@
             table
               tbody
                 tr.props__item
-                  td: b Rooms:
-                  td: span(v-text='total_rooms')
+                  td: b Rooms
+                  td: span(v-text='": "+ total_rooms')
                 tr.props__item
-                  td: b Meeting rooms:
-                  td: span
+                  td: b Meeting rooms
                 tr.props__item
-                  td: b Total Space:
-                  td: span(v-text='meeting_space + " m2"')
+                  td: b Total Meeting Space
+                  td: span(v-text='": "+ meeting_space + " m2"')
                 tr.props__item
-                  td: b Largest Space:
-                  td: span(v-text='largest_space + " m2"')
+                  td: b Largest Space
+                  td: span(v-text='": "+ largest_space + " m2"')
 
           .props__price(v-if='price')
 
@@ -37,21 +36,19 @@
               tbody
                 .props__title PP in DBL sharing room
                 tr.props__item
-                  td: b Package Price:
-                  td: span(v-text='price.package + " " + curSymb')
+                  td: b Package Price
+                  td: span(v-text='": "+ price.package + " " + curSymb')
 
                 tr.props__item
-                  td: b Land Package:
-                  td: span(v-text='price.landing + " " + curSymb')
+                  td: b Land Package
+                  td: span(v-text='": "+ price.landing + " " + curSymb')
                 tr.props__item
-                  td: b Pre Post:
-                  td: span(v-text='price.prepost + " " + curSymb')
+                  td: b Pre Post
+                  td: span(v-text='": "+ price.prepost + " " + curSymb')
 
         .info__actions(:class='{compact}')
           v-btn.custom(color='secondary' small @click.stop="$router.push(`/hotel/${id}`)") Details
           v-btn.custom(color='primary' small @click.stop="addToCart") Select Hotel
-
-        //- v-btn(v-else color='secondary').custom.full-width.mt-3 Select hotel
 
     transition(name='hotelInfoFade')
       .hotel__more-info(v-if='!compact && showMenu')

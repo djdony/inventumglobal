@@ -19,9 +19,8 @@
                 .hotel-stars
                   span(v-text='hotel.star.name').stars__value
                 span(v-text='hotel.name')
-
-              //.info__regions(v-text='hotel.location.name')
               .info__regions(v-text="`${hotel.city} / ${hotel.location.name}`")
+            v-btn.custom(color='primary' x-large) Select Hotel
 
           .content__row
             .details
@@ -32,7 +31,7 @@
                     tr.block-list__item
                       td.item__param Chain Scale
                         td.item__value : {{ hotel.name }}
-                    tr.block-list__item
+                    tr(v-if="hotel.hotelgroup").block-list__item
                       td.item__param Brand
                         td.item__value : {{ hotel.hotelgroup.name }}
                     tr(v-if="hotel.chain").block-list__item
@@ -79,10 +78,10 @@
                       td.item__param Meeting Rooms
                       td.item__value : {{ hotel.meeting_rooms.length }}
                     tr.block-list__item
-                      td.item__param Total Meeting space
+                      td.item__param Meeting space
                       td.item__value(v-html="` : ${totalSpace}` + ' m<sup>2</sup>'")
                     tr.block-list__item
-                      td.item__param Largest space
+                      td.item__param Largest room
                       td.item__value(v-html="` : ${largestSpace}`")
                     tr.block-list__item
                       td.item__param Space (Outdoor)
@@ -95,7 +94,7 @@
                 table.block__list
                   tbody
                     tr.block-list__item
-                      td.item__param From {{ hotel.location.name }} Airport
+                      td.item__param From {{ hotel.distance.name }}
                     tr.block-list__item
                       td.item__param Distance
                       td.item__value(v-if="hotel.hasOwnProperty('distance')")
@@ -119,10 +118,10 @@
 
           // Tabs
         v-tabs(centered @change="scrollTo($event)")
-          v-tab(value="gallery") Gallery
-          v-tab(value="rooms") Rooms
-          v-tab(value="meeting") Meeting rooms
-          v-tab(value="restaurants") Restaurants
+          v-tab(value="gallery" style="margin-right:20px") Gallery
+          v-tab(value="rooms" style="margin-right:20px") Rooms
+          v-tab(value="meeting" style="margin-right:20px") Meeting rooms
+          v-tab(value="restaurants" style="margin-right:20px") Restaurants
           //v-tab(value="amenities") Amenities
           v-tab(value="location") Location
 
@@ -179,6 +178,23 @@
         //- MEETING SPACE PART
       v-card.details__section.rooms(ref="2")
         h3.section__title Meeting Rooms
+        .rooms__count
+          tr.count__item
+            td
+              b Total Meeting Rooms
+            td : {{ hotel.meeting_rooms.length }}
+          tr.count__item
+            td
+              b Total Meeting space
+            td(v-html="` : ${totalSpace}` + ' m<sup>2</sup>'")
+          tr(v-if="roomTypes.suites").count__item
+            td
+              b Largest Room
+            td(v-html="` : ${largestSpace}`")
+          tr.count__item
+            td
+              b Space (Outdoor)
+            td : Yes
         meeting-rooms(v-model="hotel.meeting_rooms")
         carousel(:media="meetingRoomsMedia" v-if='meetingRoomsMedia.length > 0')
 
@@ -253,7 +269,13 @@ export default {
       let top = null
       if(el) top = el.$el.offsetTop+80
       if(top) window.scrollTo(0, top)
-    }
+    },
+    addToCart() {
+        this.$store.dispatch('cart/addHotel', {
+            hotel: {id: this.id, name: this.name, photo: this.photo, region: this.region},
+            ...this.$route.query
+        })
+    },
   },
   computed: {
     roomsQty: function() {

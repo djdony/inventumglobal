@@ -4,12 +4,12 @@ div
     .search-group
       .search-item.text 
         v-icon mdi-airplane-takeoff
-        v-autocomplete(v-model='filters.from' :items="fromLocationsList" placeholder='From' solo flat hide-details)
+        v-autocomplete(v-model='filters.from' :items="fromLocationsList" placeholder='From' solo flat hide-details dense)
         //- v-icon mdi-chevron-right
 
       .search-item.text 
         v-icon mdi-airplane-landing
-        v-autocomplete(v-model='filters.to' :items="toLocationsList" placeholder='To' solo flat hide-details)
+        v-autocomplete(v-model='filters.to' :items="toLocationsList" placeholder='To' solo flat hide-details dense)
         //- v-icon mdi-chevron-right
         
       v-select(outlined :items='filtersData.products' item-value='id' item-text='name' v-model='filters.product_id' hide-details placeholder='Category' :menu-props='{offsetY:true}' color='secondary').select-category

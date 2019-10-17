@@ -6,10 +6,13 @@
         nuxt-link(to='/')
           img.logo(:src='`/img/logo-${logoStyle}.png`')
       v-spacer
+      v-spacer
 
       .menu(v-if="!smAndDown && $store.state.auth.loggedIn")
         v-btn(to='/' rounded text) Home
-        v-btn(to='/pdf/antalya/' rounded text) Discover
+        v-btn(to='/discover/antalya' rounded text) Discover
+        v-btn(to='/about' rounded text) About Us
+        v-btn(to='/contact' rounded text) Contact
 
       v-spacer
 

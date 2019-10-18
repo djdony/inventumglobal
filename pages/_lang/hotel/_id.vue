@@ -30,13 +30,13 @@
                   tbody
                     tr.block-list__item
                       td.item__param Chain Scale
-                        td.item__value : {{ hotel.name }}
-                    tr(v-if="hotel.hotelgroup").block-list__item
-                      td.item__param Brand
-                        td.item__value : {{ hotel.hotelgroup.name }}
-                    tr(v-if="hotel.chain").block-list__item
-                      td.item__param Scale
                         td.item__value : {{ hotel.chain.name }}
+                    tr(v-if="hotel.hotelgroup").block-list__item
+                      td.item__param Chain
+                        td.item__value : {{ capitalize(hotel.hotelgroup.name) }}
+                    tr(v-if="hotel.chain").block-list__item
+                      td.item__param Brand
+                        td.item__value : {{ capitalize(hotel.name) }}
 
               .details__block
                 .block__title Physical Features
@@ -145,7 +145,7 @@
             @click="showGallery = true"
           )
 
-              //- ROOMS PART
+            //- ROOMS PART
       v-card.details__section.rooms(ref="1")
         h3.section__title Rooms &amp; Suites
         .rooms__count
@@ -216,125 +216,132 @@
 </template>
 
 <script>
-import Hotel from '@/models/Hotel'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-import MeetingRooms from '@/components/MeetingRoom'
-import Location from '@/components/Location'
-import Rooms from '@/components/Rooms'
-import RestaurantTable from '@/components/Restaurant'
-import Carousel from '@/components/Carousel'
-import Gallery from '@/components/Gallery'
+    import Hotel from '@/models/Hotel'
+    import { mapGetters, mapActions, mapMutations } from 'vuex'
+    import MeetingRooms from '@/components/MeetingRoom'
+    import Location from '@/components/Location'
+    import Rooms from '@/components/Rooms'
+    import RestaurantTable from '@/components/Restaurant'
+    import Carousel from '@/components/Carousel'
+    import Gallery from '@/components/Gallery'
 
-export default {
-  data() {
-    return {
-      showGallery: false
-    }
-  },
-  async asyncData({ route }) {
-    try {
-      let hotel = await Hotel.include([
-        'rooms',
-        'rooms.media',
-        'rooms.room_type',
-        'location',
-        'types',
-        'meeting_rooms',
-        'meeting_rooms.media',
-        'restaurants',
-        'restaurants.media',
-        'restaurants.cuisines',
-        'restaurants.type',
-        'media',
-        'star',
-        'chain',
-        'hotelgroup',
-        'distances'
-      ]).find(route.params.id)
+    export default {
+        data() {
+            return {
+                showGallery: false
+            }
+        },
+        async asyncData({ route }) {
+            try {
+                let hotel = await Hotel.include([
+                    'rooms',
+                    'rooms.media',
+                    'rooms.room_type',
+                    'location',
+                    'types',
+                    'meeting_rooms',
+                    'meeting_rooms.media',
+                    'restaurants',
+                    'restaurants.media',
+                    'restaurants.cuisines',
+                    'restaurants.type',
+                    'media',
+                    'star',
+                    'chain',
+                    'hotelgroup',
+                    'distances'
+                ]).find(route.params.id)
 
-      return { hotel }
-    } catch (err) {
-      this.showSnackbar({
-        message: 'An error occured while loading the data',
-        color: 'red'
-      })
+                return { hotel }
+            } catch (err) {
+                this.showSnackbar({
+                    message: 'An error occured while loading the data',
+                    color: 'red'
+                })
+            }
+        },
+        created() {},
+        methods: {
+            ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
+            ...mapActions({ addToCart: 'cart/addHotel' }),
+            scrollTo(ref) {
+                let el  = this.$refs[ref]
+                let top = null
+                if(el) top = el.$el.offsetTop+80
+                if(top) window.scrollTo(0, top)
+            },
+            addToCart() {
+                this.$store.dispatch('cart/addHotel', {
+                    hotel: {id: this.id, name: this.name, photo: this.photo, region: this.region},
+                    ...this.$route.query
+                })
+            },
+            capitalize: function(s) {
+                return s.split(" ").reduce((reducer, el, index) => {
+                    return reducer + " " + el.charAt(0).toUpperCase() + el.slice(1).toLowerCase()
+                }, '')
+            },
+
+        },
+        computed: {
+            roomsQty: function() {
+                if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
+                    return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
+                } else {
+                    return 'N/A'
+                }
+            },
+
+            byCar: function() {
+                return Math.ceil(this.hotel.distance.pivot.distance*1.23)
+            } ,
+            roomTypes: function(){
+                return {
+                    guests: this.hotel.rooms.filter(r => r.type === 0).reduce((a, b) => a+b.qty, 0),
+                    suites: this.hotel.rooms.filter(r => r.type === 1).reduce((a, b) => a+b.qty, 0),
+                    villas: this.hotel.rooms.filter(r => r.type === 2).reduce((a, b) => a+b.qty, 0)
+                }
+            },
+            roomsMedia: function(){
+                return this.hotel.rooms.reduce((a, b) => {
+                    b.media.forEach(m => a.push({ ...m, name: b.room_type.name }))
+                    return a
+                }, [])
+            },
+            restaurantsMedia: function(){
+                return this.hotel.restaurants.reduce((a, b) => {
+                    b.media.forEach(m => a.push({ ...m, name: b.name }))
+                    return a
+                }, [])
+            },
+            meetingRoomsMedia: function(){
+                return this.hotel.meeting_rooms.reduce((a, b) => {
+                    b.media.forEach(m => a.push({ ...m, name: b.name }))
+                    return a
+                }, [])
+            },
+            largestSpace: function(){
+                let areas = this.hotel.meeting_rooms.map(m => Number(m.area))
+                return areas.length ? Math.max(...areas) + ' m<sup>2</sup>' : 'N/A'
+            },
+            totalSpace: function(){
+                let areas = this.hotel.meeting_rooms.filter(m => m.parent_id === null).map(m => Number(m.area))
+                return areas.reduce(function (a, b) {
+                    return a + b
+                }, 0);
+            }
+        },
+        components: {
+            RestaurantTable,
+            MeetingRooms,
+            Location,
+            Rooms,
+            Carousel,
+            Gallery
+        }
     }
-  },
-  created() {},
-  methods: {
-    ...mapMutations({ showSnackbar: 'snackbar/showSnackbar' }),
-    ...mapActions({ addToCart: 'cart/addHotel' }),
-    scrollTo(ref) {
-      let el  = this.$refs[ref]
-      let top = null
-      if(el) top = el.$el.offsetTop+80
-      if(top) window.scrollTo(0, top)
-    },
-    addToCart() {
-        this.$store.dispatch('cart/addHotel', {
-            hotel: {id: this.id, name: this.name, photo: this.photo, region: this.region},
-            ...this.$route.query
-        })
-    },
-  },
-  computed: {
-    roomsQty: function() {
-      if (this.hotel && this.hotel.hasOwnProperty('rooms')) {
-        return this.hotel.rooms.reduce((a, b) => a + b.qty, 0)
-      } else {
-        return 'N/A'
-      }
-    },
-    byCar: function() {
-         return Math.ceil(this.hotel.distance.pivot.distance*1.23)
-    } ,
-    roomTypes: function(){
-      return {
-        guests: this.hotel.rooms.filter(r => r.type === 0).reduce((a, b) => a+b.qty, 0),
-        suites: this.hotel.rooms.filter(r => r.type === 1).reduce((a, b) => a+b.qty, 0),
-        villas: this.hotel.rooms.filter(r => r.type === 2).reduce((a, b) => a+b.qty, 0)
-      }
-    },
-    roomsMedia: function(){
-      return this.hotel.rooms.reduce((a, b) => {
-        b.media.forEach(m => a.push({ ...m, name: b.room_type.name }))
-        return a
-      }, [])
-    },
-    restaurantsMedia: function(){
-      return this.hotel.restaurants.reduce((a, b) => {
-        b.media.forEach(m => a.push({ ...m, name: b.name }))
-        return a
-      }, [])
-    },
-    meetingRoomsMedia: function(){
-      return this.hotel.meeting_rooms.reduce((a, b) => {
-        b.media.forEach(m => a.push({ ...m, name: b.name }))
-        return a
-      }, [])
-    },
-    largestSpace: function(){
-      let areas = this.hotel.meeting_rooms.map(m => Number(m.area))
-      return areas.length ? Math.max(...areas) + ' m<sup>2</sup>' : 'N/A'
-    },
-    totalSpace: function(){
-        let areas = this.hotel.meeting_rooms.filter(m => m.parent_id === null).map(m => Number(m.area))
-        return areas.reduce(function (a, b) {
-            return a + b
-        }, 0);
-    }
-  },
-  components: {
-    RestaurantTable,
-    MeetingRooms,
-    Location,
-    Rooms,
-    Carousel,
-    Gallery
-  }
-}
 </script>
 <style lang="sass">
-@import '@/assets/styles/pages/details.sass'
-@import '@/assets/styles/components/hotel-stars.sass'
+  @import '@/assets/styles/pages/details.sass'
+  @import '@/assets/styles/components/hotel-stars.sass'
 </style>

@@ -37,7 +37,7 @@
         @blur="$v.checkbox.$touch()"
     )
 
-    v-btn(class="mr-4" @click="submit") submit
+    v-btn(class="mr-4" :disabled="!isComplete" @click="submit") submit
     v-btn(@click="clear") clear
 </template>
 <script>
@@ -56,6 +56,7 @@
                     return val
                 },
             },
+
         },
 
         data: () => ({
@@ -63,6 +64,7 @@
             email: '',
             text: null,
             checkbox: false,
+            errors: true
         }),
 
         computed: {
@@ -92,12 +94,28 @@
                 !this.$v.email.required && errors.push('E-mail is required')
                 return errors
             },
+            isComplete () {
+                if (this.name.length > 0 && this.email.length > 8 && this.text.length > 10)
+                    return true;
+            },
+            else() {
+                return false;
+            }
         },
 
         methods: {
-            submit () {
-                this.$v.$touch()
-            },
+            async submit () {
+                this.$v.data.$touch();
+                if(this.name.length > 0 && this.email.length > 8 && this.text.length > 10){
+                    let mail = {
+                        name: this.name,
+                        mail: this.email,
+                        text: this.text
+                    }
+                        console.log(mail)
+
+                }
+          },
             clear () {
                 this.$v.$reset()
                 this.name = ''

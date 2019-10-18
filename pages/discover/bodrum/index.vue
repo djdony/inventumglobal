@@ -2,7 +2,7 @@
   v-content
     v-container
       p
-      h1(align="center") Antalya
+      h1(align="center") Bodrum
         v-tabs(centered grow)
           v-tab(@click="productShow('mice')") M.I.C.E
           v-tab(@click="productShow('wedding')") Wedding
@@ -12,7 +12,7 @@
           h4(style="color:orange;text-align:left" v-if="product == 'wedding'") Wedding
         hr(style="border:2px solid grey;margin-bottom:20px")
 
-          //-MICE ITINERARY
+        //-MICE ITINERARY
       v-simple-table(dense v-if="product == 'mice'")
         tbody
           tr
@@ -20,7 +20,7 @@
               h2(align="center") ITINERARY
             tr
               td(
-                rowspan="9"
+                rowspan="8"
                 bgcolor="lightgrey"
               ) Day 1
               td Arrival at Airport
@@ -47,13 +47,9 @@
               td Including Indian Food
               td(style="text-align:center") 12:30-14:30
             tr
-              td Antalya City Tour
+              td Bodrum City Tour
               td Half Day
-              td(style="text-align:center") 14:30-18:30
-            tr
-              td Free Time
-              td
-              td(style="text-align:center") 18:30-19:30
+              td(style="text-align:center") 14:30-19:30
             tr
               td Dinner - Main Restaurant
               td Including Indian Food
@@ -75,7 +71,7 @@
               td Including Indian Food
               td(style="text-align:center") 12:30-13:30
             tr
-              td Aspendos Tour
+              td Jeep Safari
               td Half Day
               td(style="text-align:center") 13:30-17:30
             tr
@@ -103,11 +99,11 @@
               td Including Indian Food
               td(style="text-align:center") 12:30-13:30
             tr
-              td Conference or Shopping Tour or Optional Activities
+              td Jeep Safari
               td Half Day
               td(style="text-align:center") 13:30-17:30
             tr
-              td Free Time
+              td Conference or Shopping Tour or Optional Activities
               td
               td(style="text-align:center") 17:30-19:30
             tr
@@ -131,9 +127,9 @@
               td
               td(style="text-align:center") 12:00
 
-          //-MICE INCLUDES
       p
-      v-simple-table(dense v-if="product == 'mice'")
+          //-MICE INCLUDE
+      v-simple-table(dense border="1" v-if="product == 'mice'")
         tbody
           tr
             td(colspan="4" bgcolor="orange")
@@ -169,6 +165,7 @@
           tr
             td Wi-Fi Internet
             td(style="text-align:center") Free
+
 
             //-WEDDING ITINERARY
       v-simple-table(dense v-if="product == 'wedding'")
@@ -300,7 +297,7 @@
 
       p
 
-          //-WEDDING INCLUDES
+        //-WEDDING INCLUDES
       v-simple-table(dense v-if="product == 'wedding'")
         tbody
           tr
@@ -330,24 +327,22 @@
           tr
             td 2-4 Buggy for Baraat Ceremony
             td(style="text-align:center") Free
-
       p
-
 </template>
 
 <script>
-  export default {
-      data() {
-          return{
-              product: 'mice',
-          }
-      },
-      methods: {
-          productShow(ref){
-              return this.product=ref;
-          }
-      }
-  }
+    export default {
+        data() {
+            return{
+                product: 'mice',
+            }
+        },
+        methods: {
+            productShow(ref){
+                return this.product=ref;
+            }
+        }
+    }
 </script>
 
 <style scoped>

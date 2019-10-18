@@ -10,7 +10,17 @@
 
       .menu(v-if="!smAndDown && $store.state.auth.loggedIn")
         v-btn(to='/' rounded text) Home
-        v-btn(to='/discover/antalya' rounded text) Discover
+        v-menu(offset-y)
+          template(v-slot:activator="{ on }")
+            v-btn(v-on="on"  rounded text) Discover
+          v-list
+            v-list-item(
+              v-for="(item, index) in items"
+              :key="index"
+              @click="go(item.url)"
+              )
+              v-list-item-title {{ item.title }}
+
         v-btn(to='/about' rounded text) About Us
         v-btn(to='/contact' rounded text) Contact
 
@@ -81,13 +91,22 @@ import CartModal from '@/components/CartModal'
 export default {
   data() {
     return {
-      dialog: false
+      dialog: false,
+        items: [
+            { title: 'Antalya', url: 'antalya' },
+            { title: 'Bodrum', url: 'bodrum' },
+            { title: 'North Cyprus', url: 'cyprus' },
+
+        ],
     }
   },
   methods: {
     async logout() {
       await this.$auth.logout()
       this.$router.push('/login')
+    },
+    go: function(url) {
+        location.href = '/discover/' +url;
     }
   },
   computed: {

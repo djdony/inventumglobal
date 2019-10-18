@@ -28,19 +28,19 @@
         v-layout(wrap align-center)
           .steps-wrapper
             v-flex(md3 sm6 step)
-              .step__number 1
+              .step__number M
               h4.step__title M.I.C.E
               p.step__desc The Inventum Global teams use the energy, productivity, and unique consultancy approaches in order to produce a real Inventum Global experience for your meetings, conference, congresses.
             v-flex(md3 sm6 step)
-              .step__number 2
+              .step__number W
               h4.step__title Wedding
               p.step__desc A luxury wedding? Or a beach wedding? Or a small and intimate wedding? Maybe a unique wedding ... Our private wedding team works to organize everything for you.
             v-flex(md3 sm6 step)
-              .step__number 3
+              .step__number V
               h4.step__title VIP
               p.step__desc We are here to provide the perfect VIP service you need. From stylish, boutique hotels to iconic or luxurious holidays and to incredible tours, Inventum VIP offers the experiences you need.
             v-flex(md3 sm6 step)
-              .step__number 4
+              .step__number S
               h4.step__title Special Events
               p.step__desc Our personalized service offers hotels, flights, authentic experiences to provide the most unique vacation possible.
 

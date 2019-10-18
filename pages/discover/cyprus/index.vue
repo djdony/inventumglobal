@@ -2,7 +2,7 @@
   v-content
     v-container
       p
-      h1(align="center") Antalya
+      h1(align="center") Northern Cyprus
         v-tabs(centered grow)
           v-tab(@click="productShow('mice')") M.I.C.E
           v-tab(@click="productShow('wedding')") Wedding
@@ -20,7 +20,7 @@
               h2(align="center") ITINERARY
             tr
               td(
-                rowspan="9"
+                rowspan="7"
                 bgcolor="lightgrey"
               ) Day 1
               td Arrival at Airport
@@ -47,14 +47,6 @@
               td Including Indian Food
               td(style="text-align:center") 12:30-14:30
             tr
-              td Antalya City Tour
-              td Half Day
-              td(style="text-align:center") 14:30-18:30
-            tr
-              td Free Time
-              td
-              td(style="text-align:center") 18:30-19:30
-            tr
               td Dinner - Main Restaurant
               td Including Indian Food
               td(style="text-align:center") 19:30-21:30
@@ -75,7 +67,7 @@
               td Including Indian Food
               td(style="text-align:center") 12:30-13:30
             tr
-              td Aspendos Tour
+              td Kyrenia Tour
               td Half Day
               td(style="text-align:center") 13:30-17:30
             tr
@@ -103,7 +95,7 @@
               td Including Indian Food
               td(style="text-align:center") 12:30-13:30
             tr
-              td Conference or Shopping Tour or Optional Activities
+              td Nikosia Tour
               td Half Day
               td(style="text-align:center") 13:30-17:30
             tr
@@ -232,11 +224,11 @@
             tr
               td Hi-tea
               td
-              td(style="text-align:center") 15:00-16:00
+              td(style="text-align:center") 15:00-17:00
             tr
               td Free Time
               td
-              td(style="text-align:center") 17:30-19:30
+              td(style="text-align:center") 17:00-19:30
             tr
               td Dinner - Sangeet
               td Exclusive Area
@@ -283,20 +275,16 @@
               td(style="text-align:center") 22:30-23:00
             tr
               td(
-                rowspan="3"
+                rowspan="2"
                 bgcolor="lightgrey"
               ) Day 4
               td Breakfast - Main Restaurant
               td Non-Exclusive, Designated Area
               td(style="text-align:center") 07:30-10:00
             tr
-              td Free Time
-              td
-              td(style="text-align:center") 10:00-12:00
-            tr
               td Departure to Airport
               td
-              td(style="text-align:center") 12:00
+              td(style="text-align:center")
 
       p
 

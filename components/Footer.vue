@@ -19,17 +19,25 @@
           v-flex.md1.offset-md2.sm2.col
             p.col__title Navigation
             ul.col__content
-              li: a(href='#') Homepage
+              li: a(href='/') Homepage
               li: a(href='#') Membership
-              li: a(href='#') About
-              li: a(href='#') Contact
+              li: a(href='/about') About
+              li: a(href='/contact') Contact
 
-          v-flex(:class='{"pl-8": !smAndDown}').md4.sm4.col
+          v-flex(:class='{"pl-8": !smAndDown}').md2.sm4.col
             p.col__title Get in Touch
             ul.col__content
               li: a(href='#') inventumglobal.in
               li: a(href='#') info@inventumglobal.in
               li: a(href='#') +90 242 324 11 65
+
+          v-flex(:class='{"pl-8": !smAndDown}').md4.sm4.col
+            p.col__title Copyright © 2019
+            ul.col__content
+              li All Rights Reserved
+              li &nbsp;
+              li Design by Inventum Global
+
 
 
 

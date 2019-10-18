@@ -10,16 +10,14 @@
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
-  "dependencies": {
-    "vue-meta": "^2.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ax2/dayjs-module": "^0.1.2",
     "@fullhuman/postcss-purgecss": "^1.3.0",
     "@mdi/font": "^4.5.95",
     "@nuxtjs/auth": "^4.8.4",
     "@nuxtjs/axios": "^5.6.0",
-    "@nuxtjs/vuetify": "^1.9.0",
+    "@nuxtjs/vuetify": "^1.8.5",
     "lodash.compact": "^3.0.1",
     "lodash.pick": "^4.4.0",
     "nodemon": "^1.19.3",
@@ -30,6 +28,8 @@
     "qs": "^6.9.0",
     "vue-api-query": "^1.5.1",
     "vue-fancybox": "^1.0.3",
-    "vue-i18n": "^8.14.1"
+    "vue-i18n": "^8.14.1",
+    "vue-meta": "^2.3.1",
+    "vuelidate": "^0.7.4"
   }
 }

@@ -74,7 +74,6 @@ export default {
         }
       } catch ({ response }) {
         this.fetching = false
-        console.log(response.data.message)
         this.showSnackbar({
           message: 'An error occured while loading the data',
           color: 'red'

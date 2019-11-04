@@ -28,13 +28,13 @@
                 .block__title Chain Scales
                 table.block__list
                   tbody
-                    tr.block-list__item
+                    tr(v-if="hotel.chain").block-list__item
                       td.item__param Chain Scale
                         td.item__value : {{ hotel.chain.name }}
                     tr(v-if="hotel.hotelgroup").block-list__item
                       td.item__param Chain
                         td.item__value : {{ capitalize(hotel.hotelgroup.name) }}
-                    tr(v-if="hotel.chain").block-list__item
+                    tr.block-list__item
                       td.item__param Brand
                         td.item__value : {{ capitalize(hotel.name) }}
 

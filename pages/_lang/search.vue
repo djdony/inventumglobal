@@ -137,7 +137,6 @@ export default {
       }, 1)
     },
     updateFilters(newFilters) {
-      console.log(newFilters)
       this.filters = newFilters
     },
     showDetails(id, show){

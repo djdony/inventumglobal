@@ -31,7 +31,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/i18n', '~/plugins/vue-api-query'],
+  plugins: [
+    '~/plugins/i18n',
+    '~/plugins/vue-api-query',
+    //{ src: '~plugins/ga.js' }
+    ],
+
   /*
    ** Nuxt.js dev-modules
    */

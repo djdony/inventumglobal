@@ -112,8 +112,6 @@
                         mail: this.email,
                         text: this.text
                     }
-                        console.log(mail)
-
                 }
           },
             clear () {

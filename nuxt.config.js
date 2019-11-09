@@ -1,3 +1,4 @@
+require('dotenv').config()
 export default {
   mode: 'spa',
   /*
@@ -34,13 +35,13 @@ export default {
   plugins: [
     '~/plugins/i18n',
     '~/plugins/vue-api-query',
-    //{ src: '~plugins/ga.js' }
+    { src: '~plugins/ga.js' }
     ],
 
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxtjs/vuetify'],
+  buildModules: ['@nuxtjs/vuetify','@nuxtjs/dotenv'],
   /*
    ** Nuxt.js modules
    */
@@ -59,7 +60,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://inventum'
+    baseURL: process.env.API_URL
   },
 
   auth: {

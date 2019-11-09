@@ -1,8 +1,7 @@
 <template lang='pug'>
-  v-content
     v-container
       p
-      h1(align="center") Antalya
+      h1(align="center") {{region.name}}
         v-tabs(centered grow)
           v-tab(@click="productShow(1)") M.I.C.E
           v-tab(@click="productShow(2)") Wedding
@@ -39,8 +38,9 @@
 </template>
 
 <script>
-import Product from '@/models/Product'
+  import Product from '@/models/Product'
   export default {
+    props:['region'],
     data() {
       return{
         product: new Product({
@@ -62,8 +62,7 @@ import Product from '@/models/Product'
 
     },
     async created(){
-      //location Antalya =2
-      this.product = await Product.include('itineraries','inclusions','inclusions.type','itineraries.location').params({'location_id': 2}).find(1)
+      this.product = await Product.include('itineraries','inclusions','inclusions.type','itineraries.location').params({'location_id': this.region.id}).find(1)
     },
     methods: {
       productDays: function(day){
@@ -76,7 +75,7 @@ import Product from '@/models/Product'
         return days[day]
       },
       async productShow(ref){
-        this.product = await Product.include('itineraries','inclusions','inclusions.type','itineraries.location').where('itineraries.location_id',2).find(ref)
+        this.product = await Product.include('itineraries','inclusions','inclusions.type','itineraries.location').params({'location_id': this.region.id}).find(ref)
       }
     }
   }

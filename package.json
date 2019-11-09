@@ -17,6 +17,7 @@
     "@mdi/font": "^4.5.95",
     "@nuxtjs/auth": "^4.8.4",
     "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/vuetify": "^1.9.0",
     "lodash.compact": "^3.0.1",
     "lodash.pick": "^4.4.0",

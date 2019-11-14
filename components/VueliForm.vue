@@ -1,6 +1,15 @@
 <template lang="pug">
   form
     v-text-field(
+      v-model="subject"
+      :error-messages="subjectErrors"
+      counter
+      label="Subject"
+      required
+      @input="$v.subject.$touch()"
+      @blur="$v.subject.$touch()"
+    )
+    v-text-field(
         v-model="name"
         :error-messages="nameErrors"
         counter
@@ -43,14 +52,16 @@
 <script>
     import { validationMixin } from 'vuelidate'
     import { required, minLength, email } from 'vuelidate/lib/validators'
+    import { mapMutations } from 'vuex'
 
     export default {
         mixins: [validationMixin],
 
         validations: {
+            subject: { required },
             name: { required },
             email: { required, email },
-            text: { required, minLength: minLength(100) },
+            text: { required, minLength: minLength(50) },
             checkbox: {
                 checked (val) {
                     return val
@@ -60,9 +71,10 @@
         },
 
         data: () => ({
+            subject: '',
             name: '',
             email: '',
-            text: null,
+            text: '',
             checkbox: false,
             errors: true
         }),
@@ -74,6 +86,12 @@
                 !this.$v.checkbox.checked && errors.push('You must check to continue!')
                 return errors
             },
+          subjectErrors () {
+            const errors = []
+            if (!this.$v.subject.$dirty) return errors
+            !this.$v.subject.required && errors.push('Subject is required.')
+            return errors
+          },
             nameErrors () {
                 const errors = []
                 if (!this.$v.name.$dirty) return errors
@@ -95,7 +113,7 @@
                 return errors
             },
             isComplete () {
-                if (this.name.length > 0 && this.email.length > 8 && this.text.length > 10)
+                if (this.name.length > 0 && this.subject.length > 0 && this.email.length > 8 && this.text.length > 10 && this.checkbox == true )
                     return true;
             },
             else() {
@@ -104,18 +122,40 @@
         },
 
         methods: {
+          ...mapMutations({
+            showSnackbar: 'snackbar/showSnackbar'
+          }),
             async submit () {
-                this.$v.data.$touch();
-                if(this.name.length > 0 && this.email.length > 8 && this.text.length > 10){
+                this.$v.$touch();
+                if(this.subject.length > 0 && this.name.length > 0 && this.email.length > 8 && this.text.length > 10){
                     let mail = {
+                        subject: this.subject,
                         name: this.name,
-                        mail: this.email,
+                        email: this.email,
                         text: this.text
                     }
+                  await this.$axios.post('/contact', mail).then( response => {
+                    this.success = true;
+                  } )
+                    .catch((error) => {
+                    this.mail = error.response.data.errors;
+                    this.success = false;
+                  })
+                  this.clear()
+
+                  this.showSnackbar({
+                    message: 'Mail has been sent',
+                    color: 'green'
+                  })
+
+
                 }
+
+
           },
             clear () {
                 this.$v.$reset()
+                this.subject = ''
                 this.name = ''
                 this.email = ''
                 this.text = ''

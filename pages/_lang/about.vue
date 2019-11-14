@@ -63,27 +63,15 @@
 
 <script>
 
+import {applyAsyncData} from "../../.nuxt/utils";
+
 export default {
     auth: false,
     data: () => ({
-        cards: [
-            { title: 'Adopen', src: 'https://www.inventumglobal.com/uploads/referanslar/Adopen2_op.webp', flex: 3 },
-            { title: 'Akumentis', src: 'https://www.inventumglobal.com/uploads/referanslar/Akumentis2_op.webp', flex: 3 },
-            { title: 'Demirbank', src: 'https://www.inventumglobal.com/uploads/referanslar/Demirbank-Logo_op.webp', flex: 3 },
-            { title: 'GSK', src: 'https://www.inventumglobal.com/uploads/referanslar/gsk_op.webp', flex: 3 },
-            { title: 'DR-Reddys', src: 'https://www.inventumglobal.com/uploads/referanslar/Dr-Reddys-Logo_op.webp', flex: 3 },
-            { title: 'Health Hub', src: 'https://www.inventumglobal.com/uploads/referanslar/Health-Hub_op.webp', flex: 3 },
-            { title: 'Indus Health', src: 'https://www.inventumglobal.com/uploads/referanslar/Indus-Health_op.webp', flex: 3 },
-            { title: 'Leader', src: 'https://www.inventumglobal.com/uploads/referanslar/Leader_op.webp', flex: 3 },
-            { title: 'Lupin', src: 'https://www.inventumglobal.com/uploads/kasr/Lupin-Logo_op.webp', flex: 3 },
-            { title: 'Solpro', src: 'https://www.inventumglobal.com/uploads/kasr/Solpro_op.webp', flex: 3 },
-            { title: 'Sanghi', src: 'https://www.inventumglobal.com/uploads/Sanghi-Cement_op.webp', flex: 3 },
-            { title: 'Polysan', src: 'https://www.inventumglobal.com/uploads/referanslar/Polysan_op.webp', flex: 3 },
-            { title: 'Mercedes', src: 'https://www.inventumglobal.com/uploads/referanslar/benz_op.webp', flex: 6 },
-            { title: 'Quickheal', src: 'https://www.inventumglobal.com/uploads/referanslar/Quickheal_op.webp', flex: 6 },
-        ],
+        cards: [],
     }),
-  created() {
+  async created() {
+      this.cards = await this.$axios.$get(`/references`)
   },
 }
 </script>

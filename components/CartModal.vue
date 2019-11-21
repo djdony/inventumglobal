@@ -33,11 +33,12 @@
                   v-card(:loading='!loaded' elevation='0')
                     v-list-item(v-for='(hotel, index) in order.hotels' :key='index' )
                       span.hotel-numering(v-text='index+1')
-                      img(:src='hotel.photo').hotel-image
+                      //img(:src='hotel.photo').hotel-image
                       .middle-part
                         v-list-item-title
                           a(:href='`/hotel/${hotel.id}`' target='_blank' v-text='hotel.name').hotel-title
-                        span(v-text='hotel.region').hotel-region
+                        span(v-text='hotel.region + " "').hotel-region
+                        span.hotel-region / Package {{hotel.package}} EUR
 
                       v-spacer
 

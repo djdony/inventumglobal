@@ -10,6 +10,7 @@ export default {
 
     },
     ADD_HOTEL(state, data) {
+      console.log(data.hotel)
       state.orders[data.order].hotels.push(data.hotel)
     },
     INIT_CART(state) {

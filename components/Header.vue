@@ -26,7 +26,7 @@
 
       v-spacer
 
-      v-dialog(v-model="dialog" v-if="$store.state.auth.loggedIn" content-class='cart-dialog' max-width='1264')
+      v-dialog(v-model="dialog" v-if="$store.state.auth.loggedIn" content-class='cart-dialog' max-width='800')
         template(v-slot:activator="cartModal")
           .icons  
             template(v-if='!xs')

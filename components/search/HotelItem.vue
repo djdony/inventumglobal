@@ -132,7 +132,7 @@ export default {
   methods: {
     addToCart() {
       this.$store.dispatch('cart/addHotel', {
-        hotel: { id: this.id, name: this.name, photo: this.photo, region: this.region   },
+        hotel: { id: this.id, name: this.name, package:this.price.package, region: this.region},
         ...this.$route.query
       })
     },

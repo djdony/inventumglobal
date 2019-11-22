@@ -23,6 +23,7 @@
                   td: span(v-text='": "+ total_rooms')
                 tr.props__item
                   td: b Meeting rooms
+                  td: span(v-text='": "+ total_mrooms')
                 tr.props__item
                   td: b Total Meeting Space
                   td: span(v-text='": "+ meeting_space + " m2"')
@@ -203,6 +204,7 @@ export default {
     stars: String,
     amenities: Array,
     total_rooms: Number,
+    total_mrooms: Number,
     restaurants: Array,
     meeting_space: Number,
     largest_space: Number,

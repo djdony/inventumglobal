@@ -13,7 +13,6 @@ div
         //- v-icon mdi-chevron-right
         
       v-select(outlined :items='filtersData.products' item-value='id' item-text='name' v-model='filters.product_id' hide-details placeholder='Category' :menu-props='{offsetY:true}' color='secondary').select-category
-     
 
     .search-group
       v-menu(offset-y v-model="dateMenu" transition="scale-transition"  :close-on-content-click="false")
@@ -25,7 +24,18 @@ div
               v-icon mdi-calendar-multiple
           v-card(color='white secondary--text').datepicker-menu
             //- v-date-picker(v-model="filters.departure_date" no-title width='256' first-day-of-week='1')
-            v-date-picker(v-model="filters.dates" no-title width='256' first-day-of-week='1' multiple :allowed-dates='allowedDates' :min="filtersData.minDate" :max="filtersData.maxDate" :show-current='false' :events='datesInRange' event-color='#3273C2').range
+            v-date-picker(
+              v-model="filters.dates"
+              no-title width='256'
+              first-day-of-week='1'
+              multiple
+              :allowed-dates='allowedDates'
+              :min="filters.now"
+              :max="filtersData.maxDate"
+              :show-current='false'
+              :events='datesInRange'
+              event-color='#3273C2'
+              ).range
               v-spacer
               span(v-text='dateMessage[filters.dates.length]' v-if='filters.dates.length < 2').primary--text.caption.px-2.pb-1
               v-btn(text color="primary" @click="dateMenu = false" v-else) OK
@@ -100,6 +110,7 @@ export default {
   data() {
     return {
       filters: {
+        now: this.$dayjs().format("YYYY-MM-DD"),
         from: null,
         to: null,
         dates: [],
@@ -225,7 +236,7 @@ export default {
 
       if (dates.length < 2) return false
 
-      let minDate = new Date(dates[0])
+      //let minDate = new Date(dates[0])
       let maxDate = new Date(dates[1])
       let toCompareDate = new Date(widgetDate)
 

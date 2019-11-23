@@ -125,7 +125,7 @@ export default {
           )
           this.pagination.total = res.data.total
 
-          this.hotels = res.data.hotels.filter(h => h.category_id !== 'top' | h.category_id !== 'exc')
+          this.hotels = res.data.hotels.filter(h => h.category_id !== 'top' & h.category_id !== 'exc')
           this.excHotels = res.data.hotels.filter(h => h.category_id == 'exc')
           this.topHotels = res.data.hotels.filter(h => h.category_id == 'top')
 

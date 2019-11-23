@@ -32,10 +32,10 @@
 
           hotel-item(
               v-if="topHotels.length > 0"
-              v-for='t in topHotels'
-              :key='`t-${t.id}`'
-              v-bind='t'
-              :details="t.details || false"
+              v-for='h in topHotels'
+              :key='`h-${h.id}`'
+              v-bind='h'
+              :details="h.details || false"
               @show-details="showDetails"
             )
 
@@ -152,6 +152,13 @@ export default {
     },
     showDetails(id, show){
       this.excHotels.map(h => {
+        if(h.id === id)
+          h.details = show
+        else
+          h.details = false
+        return h
+      })
+      this.topHotels.map(h => {
         if(h.id === id)
           h.details = show
         else

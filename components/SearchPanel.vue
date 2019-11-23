@@ -236,7 +236,7 @@ export default {
 
       if (dates.length < 2) return false
 
-      //let minDate = new Date(dates[0])
+      let minDate = new Date(dates[0])
       let maxDate = new Date(dates[1])
       let toCompareDate = new Date(widgetDate)
 
